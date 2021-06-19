@@ -38,6 +38,7 @@ const actions = {
           context.commit('setCurrentUser', response.data)
           localStorage.setItem('currentUser', JSON.stringify(response.data))
           resolve(response.data)
+          router.push('/')
         })
         .catch(error => {
           reject(error)
