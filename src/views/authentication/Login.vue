@@ -220,9 +220,9 @@ import {
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
-// import { getHomeRouteForLoggedInUser } from '@/auth/utils'
+import { getHomeRouteForLoggedInUser } from '@/auth/utils'
 import { $themeConfig } from '@themeConfig'
-// import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
   setup() {
@@ -285,8 +285,22 @@ export default {
       this.$refs.loginForm.validate().then(success => {
         if (success) {
           this.signIn({ email: this.userEmail, password: this.password })
-            .then(() => {
+            .then(response => {
               debugger
+              const userData = response
+              this.$router.replace(getHomeRouteForLoggedInUser(userData.role_name))
+                .then(() => {
+                  this.$toast({
+                    component: ToastificationContent,
+                    position: 'top-right',
+                    props: {
+                      title: `Welcome ${userData.name || userData.email}`,
+                      icon: 'CoffeeIcon',
+                      variant: 'success',
+                      text: `You have successfully logged in as ${userData.role_name}. Now you can start to explore!`,
+                    },
+                  })
+                })
             })
             .catch(() => {
               debugger
