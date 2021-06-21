@@ -16,17 +16,17 @@ export default [
   },
   {
     title: 'Categories',
-    route: 'categories',
+    route: 'categories-list',
     icon: 'BookmarkIcon',
   },
   {
     title: 'Products',
-    route: 'products',
+    route: 'products-list',
     icon: 'PackageIcon',
   },
   {
     title: 'Establishments',
-    route: 'establishments',
+    route: 'establishments-list',
     icon: 'ShoppingBagIcon',
   },
 ]
