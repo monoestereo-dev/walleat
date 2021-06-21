@@ -130,7 +130,7 @@
               <span class="align-middle ml-50">Edit</span>
             </b-dropdown-item>
 
-            <b-dropdown-item>
+            <b-dropdown-item @click="deleteCategory(data.item)">
               <feather-icon icon="TrashIcon" />
               <span class="align-middle ml-50">Delete</span>
             </b-dropdown-item>
@@ -309,20 +309,58 @@ export default {
     }, 500),
   },
   beforeMount() {
-    this.fetchCategories()
+    this.fetchCategories({ by_active_status: true })
       .then(response => {
         this.categories = response.data
         this.pagination = response.meta.pagination
       })
   },
   methods: {
-    ...mapActions('categories', ['fetchCategories']),
+    ...mapActions('categories', ['fetchCategories', 'editCategory']),
     setCategories(categories) {
       this.categories = categories.data
       this.pagination = categories.meta.pagination
     },
+    deleteCategory(category) {
+      this.$swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+          container: 'dark-layout',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          const categoryToDelete = {
+            ...category,
+            active_status: false,
+          }
+          this.editCategory({ id: category.id, category: categoryToDelete })
+            .then(() => {
+              this.$swal({
+                icon: 'success',
+                title: 'Deleted!',
+                text: 'Your file has been deleted.',
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                },
+              })
+              this.fetchCategories({ by_active_status: true })
+                .then(response => {
+                  this.categories = response.data
+                })
+            })
+        }
+      })
+    },
     handlePagination({ page, per_page }) {
       this.fetchCategories({
+        by_active_status: true,
         meta: {
           pagination: {
             page,
@@ -347,4 +385,5 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
+@import '@core/scss/vue/libs/vue-sweetalert.scss';
 </style>

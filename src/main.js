@@ -13,8 +13,10 @@ import './global-components'
 // 3rd party plugins
 import '@axios'
 // import '@/libs/acl'
+import '@/libs/sweet-alerts'
 import '@/libs/portal-vue'
 import '@/libs/toastification'
+import '@/libs/tour'
 
 // Axios Mock Adapter
 // import '@/@fake-db/db'
