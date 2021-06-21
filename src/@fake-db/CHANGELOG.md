@@ -3,6 +3,11 @@
 >“Talk is cheap. Show me the code.”\
 > -- <cite>Linus Torvalds.</cite>
 
+## [0.1.2] - 2021-06-20
+- Vista de usuarios y CRUD
+- Se borro libreria `ACL` para `control de acceso`.
+- Se agrego libreria `underscore` para limitar la busqueda by_name con un timeout de `n` milisegundos.
+
 ## [0.1.1] - 2021-06-10
 ### New
 - Se implemento `control de acceso` con libreria `ACL`.
