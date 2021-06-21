@@ -8,6 +8,8 @@ import verticalMenu from './vertical-menu'
 import auth from './auth'
 import establishments from './establishments'
 import stores from './stores'
+import categories from './categories'
+import products from './products'
 
 Vue.use(Vuex)
 
@@ -19,6 +21,8 @@ export default new Vuex.Store({
     auth,
     establishments,
     stores,
+    categories,
+    products,
   },
   state: {
     apiURL: 'https://api.mywalleat.com',
