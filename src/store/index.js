@@ -16,5 +16,11 @@ export default new Vuex.Store({
     verticalMenu,
     auth,
   },
+  state: {
+    apiURL: 'https://api.mywalleat.com',
+  },
+  getters: {
+    apiUrl: state => state.apiURL,
+  },
   strict: process.env.DEV,
 })
