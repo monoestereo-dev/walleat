@@ -6,15 +6,15 @@
       <template #aside>
         <b-avatar
           ref="previewEl"
-          :src="userData.avatar"
-          :text="avatarText(userData.fullName)"
-          :variant="`light-${resolveUserRoleVariant(userData.role)}`"
+          :src="`${apiUrl}${userData.logo}`"
+          :text="avatarText(userData.name)"
+          :variant="`light-${resolveUserRoleVariant(userData.role_name)}`"
           size="90px"
           rounded
         />
       </template>
       <h4 class="mb-1">
-        {{ userData.fullName }}
+        {{ userData.name }}
       </h4>
       <div class="d-flex flex-wrap">
         <b-button
@@ -49,27 +49,10 @@
     <!-- User Info: Input Fields -->
     <b-form>
       <b-row>
-
-        <!-- Field: Username -->
-        <b-col
-          cols="12"
-          md="4"
-        >
-          <b-form-group
-            label="Username"
-            label-for="username"
-          >
-            <b-form-input
-              id="username"
-              v-model="userData.username"
-            />
-          </b-form-group>
-        </b-col>
-
         <!-- Field: Full Name -->
         <b-col
           cols="12"
-          md="4"
+          md="6"
         >
           <b-form-group
             label="Name"
@@ -77,7 +60,7 @@
           >
             <b-form-input
               id="full-name"
-              v-model="userData.fullName"
+              v-model="userData.name"
             />
           </b-form-group>
         </b-col>
@@ -85,7 +68,7 @@
         <!-- Field: Email -->
         <b-col
           cols="12"
-          md="4"
+          md="6"
         >
           <b-form-group
             label="Email"
@@ -98,7 +81,9 @@
             />
           </b-form-group>
         </b-col>
-
+      </b-row>
+      <!-- TODO: only admin can see the next block -->
+      <b-row v-if="true">
         <!-- Field: Status -->
         <b-col
           cols="12"
@@ -109,7 +94,7 @@
             label-for="user-status"
           >
             <v-select
-              v-model="userData.status"
+              v-model="userData.active_status"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="statusOptions"
               :reduce="val => val.value"
@@ -139,7 +124,7 @@
           </b-form-group>
         </b-col>
 
-        <!-- Field: Email -->
+        <!-- Field: Company -->
         <b-col
           cols="12"
           md="4"
@@ -154,7 +139,6 @@
             />
           </b-form-group>
         </b-col>
-
       </b-row>
     </b-form>
 
@@ -213,6 +197,7 @@ import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
 import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
 import { ref } from '@vue/composition-api'
+import { mapGetters } from 'vuex'
 import useUsersList from '../users-list/useUsersList'
 
 export default {
@@ -237,6 +222,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    ...mapGetters(['apiUrl']),
   },
   setup(props) {
     const { resolveUserRoleVariant } = useUsersList()
