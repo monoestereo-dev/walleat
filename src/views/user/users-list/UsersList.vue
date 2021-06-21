@@ -212,6 +212,7 @@ import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
   BBadge, BDropdown, BDropdownItem, BPagination,
 } from 'bootstrap-vue'
+import _ from 'underscore'
 import vSelect from 'vue-select'
 import store from '@/store'
 import { ref, onUnmounted } from '@vue/composition-api'
@@ -334,6 +335,22 @@ export default {
   computed: {
     ...mapGetters(['apiUrl']),
   },
+  watch: {
+    // eslint-disable-next-line
+    searchQuery: _.debounce(function(query){
+      this.fetchUsers({
+        by_name: query || null,
+        meta: {
+          pagination: {
+            per_page: this.pagination.per_page,
+          },
+        },
+      })
+        .then(response => {
+          this.users = response.data.data
+        })
+    }, 500),
+  },
   beforeMount() {
     this.fetchUsers()
       .then(response => {
@@ -344,7 +361,6 @@ export default {
   methods: {
     ...mapActions('app-user', ['fetchUsers']),
     setUsers(users) {
-      debugger
       this.users = users.data
       this.pagination = users.meta.pagination
     },
