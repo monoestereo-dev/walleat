@@ -9,6 +9,8 @@ import auth from './routes/auth'
 import miscellaneous from './routes/miscellaneous'
 import settings from './routes/settings'
 import users from './routes/users'
+import categories from './routes/categories'
+import products from './routes/products'
 
 Vue.use(VueRouter)
 
@@ -26,6 +28,8 @@ const router = new VueRouter({
     ...miscellaneous,
     ...settings,
     ...users,
+    ...categories,
+    ...products,
 
     {
       path: '*',
