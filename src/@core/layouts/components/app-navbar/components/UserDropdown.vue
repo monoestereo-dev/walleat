@@ -143,8 +143,6 @@ export default {
   },
   methods: {
     logout() {
-      debugger
-      console.log('perro')
       // Remove userData from localStorage
       // ? You just removed token from localStorage. If you like, you can also make API call to backend to blacklist used token
       localStorage.removeItem(useJwt.jwtConfig.storageTokenKeyName)
