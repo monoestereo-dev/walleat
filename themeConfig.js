@@ -12,6 +12,8 @@ export const $themeConfig = {
     appName: 'Walleat', // Will update name in navigation menu (Branding)
     // eslint-disable-next-line global-require
     appLogoImage: require('@/assets/images/logo/walleat_logo_white.svg'), // Will update logo in navigation menu (Branding)
+    // eslint-disable-next-line global-require
+    appLogoSmall: require('@/assets/images/logo/walleat_thumbnail_white.svg'), // Will update logo in navigation menu (Branding)
   },
   layout: {
     isRTL: false,

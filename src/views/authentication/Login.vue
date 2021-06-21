@@ -286,8 +286,12 @@ export default {
         if (success) {
           this.signIn({ email: this.userEmail, password: this.password })
             .then(response => {
-              debugger
-              const userData = response
+              const { userData } = response
+              useJwt.setToken(response.token)
+              useJwt.setRefreshToken(response.token)
+              localStorage.setItem('userData', JSON.stringify(userData))
+              // this.$ability.update(userData.ability)
+
               this.$router.replace(getHomeRouteForLoggedInUser(userData.role_name))
                 .then(() => {
                   this.$toast({
