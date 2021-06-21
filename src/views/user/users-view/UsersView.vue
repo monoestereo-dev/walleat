@@ -38,7 +38,14 @@
           xl="3"
           lg="4"
         >
-          <user-view-user-plan-card />
+          <user-view-user-plan-card
+            v-if="userData.role_name === 'customer'"
+            :user-data="userData"
+          />
+          <user-view-establishment-card
+            v-if="userData.role_name === 'store_clerk'"
+            :user-data="userData"
+          />
         </b-col>
       </b-row>
 
@@ -73,6 +80,7 @@ import UserViewUserInfoCard from './UserViewUserInfoCard.vue'
 import UserViewUserPlanCard from './UserViewUserPlanCard.vue'
 import UserViewUserTimelineCard from './UserViewUserTimelineCard.vue'
 import UserViewUserPermissionsCard from './UserViewUserPermissionsCard.vue'
+import UserViewEstablishmentCard from './UserViewEstablishmentCard.vue'
 
 export default {
   components: {
@@ -86,6 +94,7 @@ export default {
     UserViewUserPlanCard,
     UserViewUserTimelineCard,
     UserViewUserPermissionsCard,
+    UserViewEstablishmentCard,
   },
   setup() {
     const userData = ref(null)
