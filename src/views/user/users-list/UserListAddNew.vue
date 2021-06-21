@@ -128,6 +128,56 @@
                 :reduce="val => val.value"
                 :clearable="false"
                 input-id="user-role"
+                @input="userData.role_resource_id = ''"
+              />
+              <b-form-invalid-feedback :state="getValidationState(validationContext)">
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+          </validation-provider>
+
+          <!-- Establishment -->
+          <validation-provider
+            v-if="userData.role_name === 'establishment_admin' || userData.role_name === 'store_clerk' "
+            #default="validationContext"
+            name="Establishment"
+            rules="required"
+          >
+            <b-form-group
+              label="Establecimiento"
+              label-for="establishment"
+              :state="getValidationState(validationContext)"
+            >
+              <v-select
+                v-model="selectedEstablishment"
+                :options="establishments"
+                :reduce="val => val.id"
+                label="name"
+                @input="clearAndGetEstablishmentStores()"
+              />
+              <b-form-invalid-feedback :state="getValidationState(validationContext)">
+                {{ validationContext.errors[0] }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+          </validation-provider>
+
+          <!-- Store -->
+          <validation-provider
+            v-if="userData.role_name === 'store_clerk'"
+            #default="validationContext"
+            name="Store"
+            rules="required"
+          >
+            <b-form-group
+              label="Tienda"
+              label-for="Store"
+              :state="getValidationState(validationContext)"
+            >
+              <v-select
+                v-model="userData.role_resource_id"
+                :options="stores"
+                :reduce="val => val.id"
+                label="name"
               />
               <b-form-invalid-feedback :state="getValidationState(validationContext)">
                 {{ validationContext.errors[0] }}
@@ -172,7 +222,6 @@ import { mapActions } from 'vuex'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import Ripple from 'vue-ripple-directive'
 import vSelect from 'vue-select'
-import countries from '@/@fake-db/data/other/countries'
 import store from '@/store'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
@@ -212,7 +261,9 @@ export default {
       required,
       alphaNum,
       email,
-      countries,
+      establishments: [],
+      stores: [],
+      selectedEstablishment: '',
     }
   },
   setup({ emit }) {
@@ -244,12 +295,41 @@ export default {
       emit,
     }
   },
+  beforeMount() {
+    // fetch establishments: this is needed when you want to add a user with establishment_admin or store_clerk role
+    this.fetchEstablishments({
+      meta: {
+        pagination: {
+          per_page: 1000,
+        },
+      },
+    })
+      .then(response => {
+        this.establishments = response.data
+      })
+  },
   methods: {
     ...mapActions('app-user', ['fetchUsers']),
+    ...mapActions('establishments', ['fetchEstablishments']),
+    ...mapActions('stores', ['fetchStores']),
+    clearAndGetEstablishmentStores() {
+      if (this.userData.role_name === 'store_clerk') {
+        this.userData.role_resource_id = ''
+      } else {
+        this.userData.role_resource_id = this.selectedEstablishment
+      }
+      this.fetchStores({ by_establishment: this.selectedEstablishment })
+        .then(response => {
+          this.stores = response.data
+        })
+    },
     onSubmit() {
       store.dispatch('app-user/addUser', this.userData)
         .then(() => {
           this.fetchUsers()
+            .then(response => {
+              this.$emit('new-users', response.data)
+            })
           this.$emit('update:is-add-new-user-sidebar-active', false)
           this.$toast({
             component: ToastificationContent,
