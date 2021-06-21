@@ -5,18 +5,7 @@
     <user-list-add-new
       :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
       :role-options="roleOptions"
-      :plan-options="planOptions"
       @refetch-data="refetchData"
-    />
-
-    <!-- Filters -->
-    <users-list-filters
-      :role-filter.sync="roleFilter"
-      :plan-filter.sync="planFilter"
-      :status-filter.sync="statusFilter"
-      :role-options="roleOptions"
-      :plan-options="planOptions"
-      :status-options="statusOptions"
     />
 
     <!-- Table Container Card -->
@@ -73,9 +62,9 @@
       <b-table
         ref="refUserListTable"
         class="position-relative"
-        :items="fetchUsers"
-        responsive
+        :items="users"
         :fields="tableColumns"
+        responsive
         primary-key="id"
         :sort-by.sync="sortBy"
         show-empty
@@ -84,14 +73,14 @@
       >
 
         <!-- Column: User -->
-        <template #cell(user)="data">
+        <template #cell(name)="data">
           <b-media vertical-align="center">
             <template #aside>
               <b-avatar
                 size="32"
-                :src="data.item.avatar"
-                :text="avatarText(data.item.fullName)"
-                :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
+                :src="`${apiUrl}${data.item.logo}`"
+                :text="avatarText(data.item.name)"
+                :variant="`light-${resolveUserRoleVariant(data.item.role_name)}`"
                 :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
               />
             </template>
@@ -99,33 +88,38 @@
               :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
               class="font-weight-bold d-block text-nowrap"
             >
-              {{ data.item.fullName }}
+              {{ data.item.name }}
             </b-link>
-            <small class="text-muted">@{{ data.item.username }}</small>
+            <small class="text-muted">{{ data.item.email }}</small>
           </b-media>
         </template>
 
         <!-- Column: Role -->
-        <template #cell(role)="data">
+        <template #cell(role_name)="data">
           <div class="text-nowrap">
             <feather-icon
-              :icon="resolveUserRoleIcon(data.item.role)"
+              :icon="resolveUserRoleIcon(data.item.role_name)"
               size="18"
               class="mr-50"
-              :class="`text-${resolveUserRoleVariant(data.item.role)}`"
+              :class="`text-${resolveUserRoleVariant(data.item.role_name)}`"
             />
-            <span class="align-text-top text-capitalize">{{ data.item.role }}</span>
+            <span class="align-text-top text-capitalize">{{ data.item.role_name }}</span>
           </div>
+        </template>
+
+        <!-- Column: phone -->
+        <template #cell(phone)="data">
+          <span v-if="data.item.customer">{{ data.item.customer.cel_number }}</span>
         </template>
 
         <!-- Column: Status -->
         <template #cell(status)="data">
           <b-badge
             pill
-            :variant="`light-${resolveUserStatusVariant(data.item.status)}`"
+            :variant="`light-${resolveUserStatusVariant(data.item.active_status)}`"
             class="text-capitalize"
           >
-            {{ data.item.status }}
+            {{ data.item.active_status }}
           </b-badge>
         </template>
 
@@ -180,14 +174,15 @@
           >
 
             <b-pagination
-              v-model="currentPage"
-              :total-rows="totalUsers"
-              :per-page="perPage"
+              v-model="pagination.page"
+              :total-rows="pagination.total_objects"
+              :per-page="pagination.per_page"
               first-number
               last-number
               class="mb-0 mt-1 mt-sm-0"
               prev-class="prev-item"
               next-class="next-item"
+              @change="(value)=>{handlePagination(value)}"
             >
               <template #prev-text>
                 <feather-icon
@@ -220,14 +215,13 @@ import vSelect from 'vue-select'
 import store from '@/store'
 import { ref, onUnmounted } from '@vue/composition-api'
 import { avatarText } from '@core/utils/filter'
-import UsersListFilters from './UsersListFilters.vue'
+import { mapActions, mapGetters } from 'vuex'
 import useUsersList from './useUsersList'
 import userStoreModule from '../userStoreModule'
 import UserListAddNew from './UserListAddNew.vue'
 
 export default {
   components: {
-    UsersListFilters,
     UserListAddNew,
 
     BCard,
@@ -261,17 +255,9 @@ export default {
 
     const roleOptions = [
       { label: 'Admin', value: 'admin' },
-      { label: 'Author', value: 'author' },
-      { label: 'Editor', value: 'editor' },
-      { label: 'Maintainer', value: 'maintainer' },
-      { label: 'Subscriber', value: 'subscriber' },
-    ]
-
-    const planOptions = [
-      { label: 'Basic', value: 'basic' },
-      { label: 'Company', value: 'company' },
-      { label: 'Enterprise', value: 'enterprise' },
-      { label: 'Team', value: 'team' },
+      { label: 'Administrador de establecimiento', value: 'establishment_admin' },
+      { label: 'Cajero', value: 'store_clerk' },
+      { label: 'Cliente', value: 'customer' },
     ]
 
     const statusOptions = [
@@ -281,7 +267,6 @@ export default {
     ]
 
     const {
-      fetchUsers,
       tableColumns,
       perPage,
       currentPage,
@@ -310,7 +295,6 @@ export default {
       // Sidebar
       isAddNewUserSidebarActive,
 
-      fetchUsers,
       tableColumns,
       perPage,
       currentPage,
@@ -332,7 +316,6 @@ export default {
       resolveUserStatusVariant,
 
       roleOptions,
-      planOptions,
       statusOptions,
 
       // Extra Filters
@@ -340,6 +323,38 @@ export default {
       planFilter,
       statusFilter,
     }
+  },
+  data() {
+    return {
+      users: [],
+      pagination: {},
+    }
+  },
+  computed: {
+    ...mapGetters(['apiUrl']),
+  },
+  beforeMount() {
+    this.fetchUsers()
+      .then(response => {
+        this.users = response.data.data
+        this.pagination = response.data.meta.pagination
+      })
+  },
+  methods: {
+    ...mapActions('app-user', ['fetchUsers']),
+    handlePagination(value) {
+      this.fetchUsers({
+        meta: {
+          pagination: {
+            page: value,
+          },
+        },
+      })
+        .then(response => {
+          this.users = response.data.data
+          this.pagination = response.data.meta.pagination
+        })
+    },
   },
 }
 </script>
