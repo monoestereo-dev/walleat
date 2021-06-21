@@ -26,8 +26,8 @@
             >
               <span class="">
                 <b-img
-                  :src="appLogoImage"
-                  width="100"
+                  :src="!isVerticalMenuCollapsed ? appLogoImage : appLogoSmall"
+                  height="30"
                   alt="logo"
                 />
               </span>
@@ -129,7 +129,7 @@ export default {
     const collapseTogglerIconFeather = computed(() => (collapseTogglerIcon.value === 'unpinned' ? 'CircleIcon' : 'DiscIcon'))
 
     // App Name
-    const { appName, appLogoImage } = $themeConfig.app
+    const { appName, appLogoImage, appLogoSmall } = $themeConfig.app
 
     return {
       navMenuItems,
@@ -150,6 +150,7 @@ export default {
       // App Name
       appName,
       appLogoImage,
+      appLogoSmall,
     }
   },
 }
