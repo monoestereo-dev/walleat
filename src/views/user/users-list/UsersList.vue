@@ -5,7 +5,7 @@
     <user-list-add-new
       :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
       :role-options="roleOptions"
-      @refetch-data="refetchData"
+      @new-users="setUsers($event)"
     />
 
     <!-- Table Container Card -->
@@ -27,11 +27,12 @@
           >
             <label>Show</label>
             <v-select
-              v-model="perPage"
+              v-model="pagination.per_page"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="perPageOptions"
               :clearable="false"
               class="per-page-selector d-inline-block mx-50"
+              @input="(value)=>{handlePagination({ per_page: value, page: 1 })}"
             />
             <label>entries</label>
           </b-col>
@@ -182,7 +183,7 @@
               class="mb-0 mt-1 mt-sm-0"
               prev-class="prev-item"
               next-class="next-item"
-              @change="(value)=>{handlePagination(value)}"
+              @change="(value)=>{handlePagination({ page: value, per_page: pagination.per_page })}"
             >
               <template #prev-text>
                 <feather-icon
@@ -342,11 +343,17 @@ export default {
   },
   methods: {
     ...mapActions('app-user', ['fetchUsers']),
-    handlePagination(value) {
+    setUsers(users) {
+      debugger
+      this.users = users.data
+      this.pagination = users.meta.pagination
+    },
+    handlePagination({ page, per_page }) {
       this.fetchUsers({
         meta: {
           pagination: {
-            page: value,
+            page,
+            per_page,
           },
         },
       })
