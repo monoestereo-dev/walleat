@@ -7,20 +7,20 @@
     <template #button-content>
       <div class="d-sm-flex d-none user-nav">
         <p class="user-name font-weight-bolder mb-0">
-          {{ userData.fullName || userData.username }}
+          {{ userData.name || userData.email }}
         </p>
         <span class="user-status">{{ userData.role }}</span>
       </div>
       <b-avatar
         size="40"
-        :src="userData.avatar"
+        :src="`${apiUrl}${userData.logo}`"
         variant="light-primary"
         badge
         class="badge-minimal"
         badge-variant="success"
       >
         <feather-icon
-          v-if="!userData.fullName"
+          v-if="!userData.name"
           icon="UserIcon"
           size="22"
         />
@@ -79,7 +79,7 @@
 
     <b-dropdown-item
       link-class="d-flex align-items-center"
-      @click="logout"
+      @click="logout()"
     >
       <feather-icon
         size="16"
@@ -94,9 +94,10 @@
 import {
   BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar,
 } from 'bootstrap-vue'
-import { initialAbility } from '@/libs/acl/config'
+// import { initialAbility } from '@/libs/acl/config'
 import useJwt from '@/auth/jwt/useJwt'
 import { avatarText } from '@core/utils/filter'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -111,6 +112,9 @@ export default {
       avatarText,
     }
   },
+  computed: {
+    ...mapGetters(['apiUrl']),
+  },
   methods: {
     logout() {
       // Remove userData from localStorage
@@ -122,7 +126,7 @@ export default {
       localStorage.removeItem('userData')
 
       // Reset ability
-      this.$ability.update(initialAbility)
+      // this.$ability.update(initialAbility)
 
       // Redirect to login page
       this.$router.push({ name: 'auth-login' })
