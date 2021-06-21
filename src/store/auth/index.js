@@ -36,7 +36,6 @@ const actions = {
         })
         .then(response => {
           context.commit('setCurrentUser', response.data)
-          localStorage.setItem('currentUser', JSON.stringify(response.data))
           resolve(response.data)
         })
         .catch(error => {
@@ -50,7 +49,6 @@ const actions = {
 
   signOut: context => {
     context.commit('clearCurrentUser')
-    localStorage.removeItem('currentUser')
     router.push('/')
   },
 
