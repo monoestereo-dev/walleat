@@ -1,6 +1,5 @@
 import { ref, watch, computed } from '@vue/composition-api'
 import store from '@/store'
-import { title } from '@core/utils/filter'
 
 // Notification
 import { useToast } from 'vue-toastification/composition'
@@ -14,15 +13,9 @@ export default function useUsersList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'user', sortable: true },
-    { key: 'email', sortable: true },
-    { key: 'role', sortable: true },
-    {
-      key: 'currentPlan',
-      label: 'Plan',
-      formatter: title,
-      sortable: true,
-    },
+    { key: 'name', sortable: true },
+    { key: 'phone', sortable: false },
+    { key: 'role_name', sortable: true },
     { key: 'status', sortable: true },
     { key: 'actions' },
   ]
@@ -89,27 +82,27 @@ export default function useUsersList() {
   // *===============================================---*
 
   const resolveUserRoleVariant = role => {
-    if (role === 'subscriber') return 'primary'
+    if (role === 'customer') return 'primary'
     if (role === 'author') return 'warning'
-    if (role === 'maintainer') return 'success'
-    if (role === 'editor') return 'info'
+    if (role === 'establishment_admin') return 'success'
+    if (role === 'store_clerk') return 'info'
     if (role === 'admin') return 'danger'
     return 'primary'
   }
 
   const resolveUserRoleIcon = role => {
-    if (role === 'subscriber') return 'UserIcon'
+    if (role === 'customer') return 'UserIcon'
     if (role === 'author') return 'SettingsIcon'
-    if (role === 'maintainer') return 'DatabaseIcon'
-    if (role === 'editor') return 'Edit2Icon'
+    if (role === 'establishment_admin') return 'DatabaseIcon'
+    if (role === 'store_clerk') return 'Edit2Icon'
     if (role === 'admin') return 'ServerIcon'
     return 'UserIcon'
   }
 
   const resolveUserStatusVariant = status => {
     if (status === 'pending') return 'warning'
-    if (status === 'active') return 'success'
-    if (status === 'inactive') return 'secondary'
+    if (status === true) return 'success'
+    if (status === false) return 'secondary'
     return 'primary'
   }
 
