@@ -6,10 +6,10 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    fetchPerros(ctx, params){
+    fetchProducts(ctx, params){
       return new Promise((resolve, reject) => {
         axios
-          .get('/v1/perros', {
+          .get('/v1/Products', {
             params
           })
           .then(response => {
@@ -20,10 +20,10 @@ export default {
           })
       })
     },
-    fetchPerro(ctx, id){
+    fetchProduct(ctx, id){
       return new Promise((resolve, reject) => {
         axios
-          .get(`/v1/perros/${id}`)
+          .get(`/v1/products/${id}`)
           .then(response => {
             resolve(response.data)
           })
@@ -32,11 +32,11 @@ export default {
           })
       })
     },
-    addPerro(ctx, { id, perro }){
+    addProduct(ctx, { id, product }){
       return new Promise((resolve, reject) => {
         axios
-          .post(`/v1/perros/${id}`, {
-            perro
+          .post(`/v1/products/${id}`, {
+            product
           })
           .then(response => {
             resolve(response.data)
@@ -46,11 +46,11 @@ export default {
           })
         })
       },
-      editPerro(ctx, { id, perro }){
+      editProduct(ctx, { id, product }){
         return new Promise((resolve, reject) => {
           axios
-          .put(`/v1/perros/${id}`, {
-            perro
+          .put(`/v1/products/${id}`, {
+            product
           })
           .then(response => {
             resolve(response.data)

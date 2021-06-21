@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from '@axios'
 
 export default {
   namespaced: true,
@@ -6,11 +6,11 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    fetchPerros(ctx, params){
+    fetchStores(ctx, params) {
       return new Promise((resolve, reject) => {
         axios
-          .get('/v1/perros', {
-            params
+          .get('/v1/stores', {
+            params,
           })
           .then(response => {
             resolve(response.data)
@@ -20,10 +20,10 @@ export default {
           })
       })
     },
-    fetchPerro(ctx, id){
+    fetchStore(ctx, id) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`/v1/perros/${id}`)
+          .get(`/v1/stores/${id}`)
           .then(response => {
             resolve(response.data)
           })
@@ -32,11 +32,11 @@ export default {
           })
       })
     },
-    addPerro(ctx, { id, perro }){
+    addStore(ctx, { id, store }) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`/v1/perros/${id}`, {
-            perro
+          .post(`/v1/stores/${id}`, {
+            store,
           })
           .then(response => {
             resolve(response.data)
@@ -44,13 +44,13 @@ export default {
           .catch(error => {
             reject(error)
           })
-        })
-      },
-      editPerro(ctx, { id, perro }){
-        return new Promise((resolve, reject) => {
-          axios
-          .put(`/v1/perros/${id}`, {
-            perro
+      })
+    },
+    editStore(ctx, { id, store }) {
+      return new Promise((resolve, reject) => {
+        axios
+          .put(`/v1/stores/${id}`, {
+            store,
           })
           .then(response => {
             resolve(response.data)
