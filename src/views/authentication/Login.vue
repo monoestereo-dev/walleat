@@ -217,6 +217,7 @@ import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton, BAlert, VBTooltip,
 } from 'bootstrap-vue'
+import useJwt from '@/auth/jwt/useJwt'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
@@ -286,11 +287,10 @@ export default {
         if (success) {
           this.signIn({ email: this.userEmail, password: this.password })
             .then(response => {
-              const { userData } = response
+              const userData = response
               useJwt.setToken(response.token)
               useJwt.setRefreshToken(response.token)
               localStorage.setItem('userData', JSON.stringify(userData))
-              // this.$ability.update(userData.ability)
 
               this.$router.replace(getHomeRouteForLoggedInUser(userData.role_name))
                 .then(() => {
@@ -307,7 +307,7 @@ export default {
                 })
             })
             .catch(() => {
-              debugger
+
             })
         }
       })
