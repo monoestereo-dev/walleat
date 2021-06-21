@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from '@axios'
 
 export default {
   namespaced: true,
@@ -6,11 +6,11 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    fetchProducts(ctx, params){
+    fetchProducts(ctx, params) {
       return new Promise((resolve, reject) => {
         axios
-          .get('/v1/Products', {
-            params
+          .get('/v1/products', {
+            params,
           })
           .then(response => {
             resolve(response.data)
@@ -20,7 +20,7 @@ export default {
           })
       })
     },
-    fetchProduct(ctx, id){
+    fetchProduct(ctx, id) {
       return new Promise((resolve, reject) => {
         axios
           .get(`/v1/products/${id}`)
@@ -32,11 +32,11 @@ export default {
           })
       })
     },
-    addProduct(ctx, { id, product }){
+    addProduct(ctx, { id, product }) {
       return new Promise((resolve, reject) => {
         axios
           .post(`/v1/products/${id}`, {
-            product
+            product,
           })
           .then(response => {
             resolve(response.data)
@@ -44,13 +44,13 @@ export default {
           .catch(error => {
             reject(error)
           })
-        })
-      },
-      editProduct(ctx, { id, product }){
-        return new Promise((resolve, reject) => {
-          axios
+      })
+    },
+    editProduct(ctx, { id, product }) {
+      return new Promise((resolve, reject) => {
+        axios
           .put(`/v1/products/${id}`, {
-            product
+            product,
           })
           .then(response => {
             resolve(response.data)
