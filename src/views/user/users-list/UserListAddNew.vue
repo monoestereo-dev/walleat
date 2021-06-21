@@ -46,39 +46,16 @@
             rules="required"
           >
             <b-form-group
-              label="Full Name"
+              label="Nombre"
               label-for="full-name"
             >
               <b-form-input
                 id="full-name"
-                v-model="userData.fullName"
+                v-model="userData.name"
                 autofocus
                 :state="getValidationState(validationContext)"
                 trim
                 placeholder="John Doe"
-              />
-
-              <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <!-- Username -->
-          <validation-provider
-            #default="validationContext"
-            name="Username"
-            rules="required|alpha-num"
-          >
-            <b-form-group
-              label="Username"
-              label-for="username"
-            >
-              <b-form-input
-                id="username"
-                v-model="userData.username"
-                :state="getValidationState(validationContext)"
-                trim
               />
 
               <b-form-invalid-feedback>
@@ -110,71 +87,24 @@
             </b-form-group>
           </validation-provider>
 
-          <!-- Company -->
+          <!-- Tel -->
           <validation-provider
             #default="validationContext"
-            name="Contact"
-            rules="required"
+            name="Cel"
+            rules="min:10"
           >
             <b-form-group
-              label="Contact"
-              label-for="contact"
+              label="Cel Number"
+              label-for="cel"
             >
               <b-form-input
-                id="contact"
-                v-model="userData.contact"
+                id="cel"
+                v-model="userData.cel_number"
                 :state="getValidationState(validationContext)"
                 trim
               />
 
               <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <!-- Company -->
-          <validation-provider
-            #default="validationContext"
-            name="Company"
-            rules="required"
-          >
-            <b-form-group
-              label="Company"
-              label-for="company"
-            >
-              <b-form-input
-                id="company"
-                v-model="userData.company"
-                :state="getValidationState(validationContext)"
-                trim
-              />
-
-              <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <!-- Country -->
-          <validation-provider
-            #default="validationContext"
-            name="Country"
-            rules="required"
-          >
-            <b-form-group
-              label="Country"
-              label-for="country"
-              :state="getValidationState(validationContext)"
-            >
-              <v-select
-                v-model="userData.country"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="countries"
-                :clearable="false"
-                input-id="country"
-              />
-              <b-form-invalid-feedback :state="getValidationState(validationContext)">
                 {{ validationContext.errors[0] }}
               </b-form-invalid-feedback>
             </b-form-group>
@@ -187,42 +117,17 @@
             rules="required"
           >
             <b-form-group
-              label="User Role"
+              label="Rol"
               label-for="user-role"
               :state="getValidationState(validationContext)"
             >
               <v-select
-                v-model="userData.role"
+                v-model="userData.role_name"
                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                 :options="roleOptions"
                 :reduce="val => val.value"
                 :clearable="false"
                 input-id="user-role"
-              />
-              <b-form-invalid-feedback :state="getValidationState(validationContext)">
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <!-- Plan -->
-          <validation-provider
-            #default="validationContext"
-            name="Plan"
-            rules="required"
-          >
-            <b-form-group
-              label="Plan"
-              label-for="plan"
-              :state="getValidationState(validationContext)"
-            >
-              <v-select
-                v-model="userData.currentPlan"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="planOptions"
-                :reduce="val => val.value"
-                :clearable="false"
-                input-id="plan"
               />
               <b-form-invalid-feedback :state="getValidationState(validationContext)">
                 {{ validationContext.errors[0] }}
@@ -263,11 +168,13 @@ import {
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { ref } from '@vue/composition-api'
 import { required, alphaNum, email } from '@validations'
+import { mapActions } from 'vuex'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import Ripple from 'vue-ripple-directive'
 import vSelect from 'vue-select'
 import countries from '@/@fake-db/data/other/countries'
 import store from '@/store'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
   components: {
@@ -299,10 +206,6 @@ export default {
       type: Array,
       required: true,
     },
-    planOptions: {
-      type: Array,
-      required: true,
-    },
   },
   data() {
     return {
@@ -312,29 +215,19 @@ export default {
       countries,
     }
   },
-  setup(props, { emit }) {
+  setup({ emit }) {
     const blankUserData = {
-      fullName: '',
-      username: '',
+      name: '',
       email: '',
-      role: null,
-      currentPlan: null,
-      company: '',
-      country: '',
-      contact: '',
+      role_name: 'customer',
+      role_resource_id: '',
+      logo: null,
+      cel_number: '',
     }
 
     const userData = ref(JSON.parse(JSON.stringify(blankUserData)))
     const resetuserData = () => {
       userData.value = JSON.parse(JSON.stringify(blankUserData))
-    }
-
-    const onSubmit = () => {
-      store.dispatch('app-user/addUser', userData.value)
-        .then(() => {
-          emit('refetch-data')
-          emit('update:is-add-new-user-sidebar-active', false)
-        })
     }
 
     const {
@@ -345,12 +238,31 @@ export default {
 
     return {
       userData,
-      onSubmit,
-
       refFormObserver,
       getValidationState,
       resetForm,
+      emit,
     }
+  },
+  methods: {
+    ...mapActions('app-user', ['fetchUsers']),
+    onSubmit() {
+      store.dispatch('app-user/addUser', this.userData)
+        .then(() => {
+          this.fetchUsers()
+          this.$emit('update:is-add-new-user-sidebar-active', false)
+          this.$toast({
+            component: ToastificationContent,
+            position: 'top-right',
+            props: {
+              title: `Usuario ${this.userData.role_name} creado con exito`,
+              icon: 'CoffeeIcon',
+              variant: 'success',
+              text: `Se ha enviado un correo a ${this.userData.email} con las intrucciones para establecer su contraseña.`,
+            },
+          })
+        })
+    },
   },
 }
 </script>
