@@ -5,32 +5,23 @@
   >
     <b-card-header class="d-flex justify-content-between align-items-center pt-75 pb-25">
       <h5 class="mb-0">
-        Current Plan
+        Credito actual
       </h5>
       <b-badge variant="light-primary">
         Basic
       </b-badge>
-      <small class="text-muted w-100">July 22, 2021</small>
     </b-card-header>
 
     <b-card-body>
-      <ul class="list-unstyled my-1">
-        <li>
-          <span class="align-middle">5 Users</span>
-        </li>
-        <li class="my-25">
-          <span class="align-middle">10 GB storage</span>
-        </li>
-        <li>
-          <span class="align-middle">Basic Support</span>
-        </li>
-      </ul>
+      <div class="d-flex align-items-center justify-content-center flex-column p-1">
+        <h1>$ {{ userData.customer.current_balance }}</h1>
+      </div>
       <b-button
         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
         variant="primary"
         block
       >
-        Upgrade Plan
+        Agregar credito
       </b-button>
     </b-card-body>
   </b-card>
@@ -52,6 +43,12 @@ export default {
     BCardBody,
     BBadge,
     BButton,
+  },
+  props: {
+    userData: {
+      type: Object,
+      default: () => {},
+    },
   },
 }
 </script>
