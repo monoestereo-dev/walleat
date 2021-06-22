@@ -3,10 +3,15 @@
     id="menu-bottom-menu"
     class="d-flex justify-content-around align-items-center menu-shadow"
   >
-    <feather-icon
-      size="24"
-      icon="UserIcon"
-    />
+    <b-link
+      :to="{ name: 'home' }"
+      v-ripple
+    >
+      <feather-icon
+        size="24"
+        icon="UserIcon"
+      />
+    </b-link>
     <div
       v-ripple
       class="qr-icon text-light"
@@ -16,20 +21,28 @@
         icon="CpuIcon"
       />
     </div>
-
-    <feather-icon
-      size="24"
-      icon="DollarSignIcon"
-    />
+    <b-link
+      :to="{ name: 'second-page' }"
+      v-ripple
+    >
+      <feather-icon
+        size="24"
+        icon="DollarSignIcon"
+      />
+    </b-link>
   </div>
 </template>
 
 <script>
+import { BLink } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 
 export default {
   directives: {
     Ripple,
+  },
+  components: {
+    BLink,
   },
 }
 </script>
