@@ -20,8 +20,13 @@ export default [
     icon: 'BookmarkIcon',
   },
   {
-    title: 'Products',
+    title: 'Products management',
     route: 'products-list',
+    icon: 'PackageIcon',
+  },
+  {
+    title: 'Products',
+    route: 'ecommerce',
     icon: 'PackageIcon',
   },
   {

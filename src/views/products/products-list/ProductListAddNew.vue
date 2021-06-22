@@ -1,7 +1,7 @@
 <template>
   <b-sidebar
     id="add-new-user-sidebar"
-    :visible="isAddNewUserSidebarActive"
+    :visible="isAddNewProductSidebarActive"
     bg-variant="white"
     sidebar-class="sidebar-lg"
     shadow
@@ -9,13 +9,13 @@
     no-header
     right
     @hidden="resetForm"
-    @change="(val) => $emit('update:is-add-new-user-sidebar-active', val)"
+    @change="(val) => $emit('update:is-add-new-product-sidebar-active', val)"
   >
     <template #default="{ hide }">
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
         <h5 class="mb-0">
-          Add New User
+          Agregar producto
         </h5>
 
         <feather-icon
@@ -64,52 +64,6 @@
             </b-form-group>
           </validation-provider>
 
-          <!-- Email -->
-          <validation-provider
-            #default="validationContext"
-            name="Email"
-            rules="required|email"
-          >
-            <b-form-group
-              label="Email"
-              label-for="email"
-            >
-              <b-form-input
-                id="email"
-                v-model="productData.email"
-                :state="getValidationState(validationContext)"
-                trim
-              />
-
-              <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <!-- Tel -->
-          <validation-provider
-            #default="validationContext"
-            name="Cel"
-            rules="min:10"
-          >
-            <b-form-group
-              label="Cel Number"
-              label-for="cel"
-            >
-              <b-form-input
-                id="cel"
-                v-model="productData.cel_number"
-                :state="getValidationState(validationContext)"
-                trim
-              />
-
-              <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
           <!-- Form Actions -->
           <div class="d-flex mt-2">
             <b-button
@@ -146,7 +100,6 @@ import { required, alphaNum, email } from '@validations'
 import { mapActions } from 'vuex'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import Ripple from 'vue-ripple-directive'
-import store from '@/store'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
@@ -166,11 +119,11 @@ export default {
     Ripple,
   },
   model: {
-    prop: 'isAddNewUserSidebarActive',
-    event: 'update:is-add-new-user-sidebar-active',
+    prop: 'isAddNewProductSidebarActive',
+    event: 'update:is-add-new-product-sidebar-active',
   },
   props: {
-    isAddNewUserSidebarActive: {
+    isAddNewProductSidebarActive: {
       type: Boolean,
       required: true,
     },
@@ -186,7 +139,7 @@ export default {
     }
   },
   setup({ emit }) {
-    const blankUserData = {
+    const blankProductData = {
       name: '',
       email: '',
       role_name: 'customer',
@@ -195,9 +148,9 @@ export default {
       cel_number: '',
     }
 
-    const productData = ref(JSON.parse(JSON.stringify(blankUserData)))
+    const productData = ref(JSON.parse(JSON.stringify(blankProductData)))
     const resetproductData = () => {
-      productData.value = JSON.parse(JSON.stringify(blankUserData))
+      productData.value = JSON.parse(JSON.stringify(blankProductData))
     }
 
     const {
@@ -216,14 +169,13 @@ export default {
   },
   beforeMount() {},
   methods: {
-    ...mapActions('app-user', ['fetchUsers']),
-    ...mapActions('stores', ['fetchStores']),
+    ...mapActions('products', ['addProduct']),
     onSubmit() {
-      store.dispatch('products/addProduct', this.productData)
+      this.addProduct(this.productData)
         .then(() => {
           this.fetchUsers()
             .then(response => {
-              this.$emit('new-users', response.data)
+              this.$emit('new-products', response.data)
             })
           this.$emit('update:is-add-new-product-sidebar-active', false)
           this.$toast({

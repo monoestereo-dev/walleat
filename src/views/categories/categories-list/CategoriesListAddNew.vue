@@ -9,7 +9,7 @@
     no-header
     right
     @hidden="resetForm"
-    @change="(val) => $emit('update:is-add-new-user-sidebar-active', val)"
+    @change="(val) => $emit('update:is-add-new-category-sidebar-active', val)"
   >
     <template #default="{ hide }">
       <!-- Header -->
@@ -120,7 +120,7 @@ export default {
   },
   model: {
     prop: 'isAddNewCategorySidebarActive',
-    event: 'update:is-add-new-user-sidebar-active',
+    event: 'update:is-add-new-category-sidebar-active',
   },
   props: {
     isAddNewCategorySidebarActive: {

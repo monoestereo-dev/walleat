@@ -4,7 +4,6 @@ export default [
     name: 'home',
     component: () => import('@/views/HomeCustomer.vue'),
     meta: {
-      pageTitle: 'Home',
       breadcrumb: [
         {
           text: 'Home',
@@ -18,7 +17,6 @@ export default [
     name: 'second-page',
     component: () => import('@/views/SecondPage.vue'),
     meta: {
-      pageTitle: 'Second Page',
       breadcrumb: [
         {
           text: 'Second Page',

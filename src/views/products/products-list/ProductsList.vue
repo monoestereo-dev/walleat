@@ -49,7 +49,7 @@
               />
               <b-button
                 variant="primary"
-                @click="isAddNewUserSidebarActive = true"
+                @click="isAddNewProductSidebarActive = true"
               >
                 <span class="text-nowrap">Agregar producto</span>
               </b-button>
@@ -229,7 +229,7 @@ export default {
     vSelect,
   },
   setup() {
-    const isAddNewUserSidebarActive = ref(false)
+    const isAddNewProductSidebarActive = ref(false)
 
     const statusOptions = [
       { label: 'Active', value: true },
@@ -261,7 +261,7 @@ export default {
     return {
 
       // Sidebar
-      isAddNewUserSidebarActive,
+      isAddNewProductSidebarActive,
 
       tableColumns,
       perPage,
