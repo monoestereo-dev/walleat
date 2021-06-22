@@ -14,6 +14,10 @@ footer {
     min-height: $footer-height;
     transition: 300ms ease all;
 
+    @media (max-width: 576px) {
+      min-height: 5rem;
+    }
+
     // heart icon scss
     span {
       i,
