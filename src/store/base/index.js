@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from 'axios'
 
 export default {
   namespaced: true,
@@ -6,11 +6,11 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    fetchPerros(ctx, params){
+    fetchPerros(ctx, params) {
       return new Promise((resolve, reject) => {
         axios
           .get('/v1/perros', {
-            params
+            params,
           })
           .then(response => {
             resolve(response.data)
@@ -20,7 +20,7 @@ export default {
           })
       })
     },
-    fetchPerro(ctx, id){
+    fetchPerro(ctx, id) {
       return new Promise((resolve, reject) => {
         axios
           .get(`/v1/perros/${id}`)
@@ -32,11 +32,11 @@ export default {
           })
       })
     },
-    addPerro(ctx, { id, perro }){
+    addPerro(ctx, { id, perro }) {
       return new Promise((resolve, reject) => {
         axios
           .post(`/v1/perros/${id}`, {
-            perro
+            perro,
           })
           .then(response => {
             resolve(response.data)
@@ -44,13 +44,13 @@ export default {
           .catch(error => {
             reject(error)
           })
-        })
-      },
-      editPerro(ctx, { id, perro }){
-        return new Promise((resolve, reject) => {
-          axios
+      })
+    },
+    editPerro(ctx, { id, perro }) {
+      return new Promise((resolve, reject) => {
+        axios
           .put(`/v1/perros/${id}`, {
-            perro
+            perro,
           })
           .then(response => {
             resolve(response.data)

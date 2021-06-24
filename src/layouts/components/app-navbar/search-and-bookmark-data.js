@@ -4,8 +4,9 @@ export default {
   pages: {
     key: 'title',
     data: [
+      { title: 'Walleats', route: { name: 'walleats-list' }, icon: 'DollarSignIcon', isBookmarked: true },
       { title: 'Home', route: { name: 'home' }, icon: 'HomeIcon', isBookmarked: true },
-      { title: 'Example', route: { name: 'second-page' }, icon: 'FileIcon', isBookmarked: true },      
+      { title: 'Example', route: { name: 'walleat-pay' }, icon: 'CpuIcon', isBookmarked: true },
     ],
   },
   files: {

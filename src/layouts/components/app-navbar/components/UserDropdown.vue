@@ -1,5 +1,6 @@
 <template>
   <b-nav-item-dropdown
+    v-if="userData"
     right
     toggle-class="d-flex align-items-center dropdown-user-link"
     class="dropdown-user"

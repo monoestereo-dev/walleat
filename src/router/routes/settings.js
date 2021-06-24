@@ -4,6 +4,7 @@ export default [
     name: 'pages-account-setting',
     component: () => import('@/views/account-setting/AccountSettingView.vue'),
     meta: {
+      requiresAuth: true,
       pageTitle: 'Account Settings',
       breadcrumb: [
         {

@@ -4,6 +4,7 @@ export default [
     name: 'home',
     component: () => import('@/views/HomeCustomer.vue'),
     meta: {
+      requiresAuth: true,
       breadcrumb: [
         {
           text: 'Home',
@@ -13,10 +14,11 @@ export default [
     },
   },
   {
-    path: '/second-page',
-    name: 'second-page',
+    path: '/walleat-pay',
+    name: 'walleat-pay',
     component: () => import('@/views/SecondPage.vue'),
     meta: {
+      requiresAuth: true,
       breadcrumb: [
         {
           text: 'Second Page',

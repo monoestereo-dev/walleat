@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from '@axios'
 
 export default {
   namespaced: true,
@@ -6,11 +6,11 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    fetchWalleats(ctx, params){
+    fetchWalleats(ctx, params) {
       return new Promise((resolve, reject) => {
         axios
           .get('/v1/bracelets', {
-            params
+            params,
           })
           .then(response => {
             resolve(response.data)
@@ -20,7 +20,7 @@ export default {
           })
       })
     },
-    fetchWalleat(ctx, id){
+    fetchWalleat(ctx, id) {
       return new Promise((resolve, reject) => {
         axios
           .get(`/v1/bracelets/${id}`)
@@ -32,11 +32,11 @@ export default {
           })
       })
     },
-    addWalleat(ctx, { id, bracelet }){
+    fetchWalleatGraph(ctx, params) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`/v1/bracelets/${id}`, {
-            bracelet
+          .get('/v1/bracelet_report', {
+            params,
           })
           .then(response => {
             resolve(response.data)
@@ -44,13 +44,27 @@ export default {
           .catch(error => {
             reject(error)
           })
-        })
-      },
-      editWalleat(ctx, { id, bracelet }){
-        return new Promise((resolve, reject) => {
-          axios
+      })
+    },
+    addWalleat(ctx, { id, bracelet }) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post(`/v1/bracelets/${id}`, {
+            bracelet,
+          })
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    editWalleat(ctx, { id, bracelet }) {
+      return new Promise((resolve, reject) => {
+        axios
           .put(`/v1/bracelets/${id}`, {
-            bracelet
+            bracelet,
           })
           .then(response => {
             resolve(response.data)

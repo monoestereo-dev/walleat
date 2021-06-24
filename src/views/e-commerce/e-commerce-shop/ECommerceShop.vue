@@ -14,7 +14,7 @@
                 @click="mqShallShowLeftSidebar = true"
               />
               <div class="search-results">
-                {{ totalProducts }} results found
+                {{ totalProducts }} resultados
               </div>
             </div>
             <div class="view-options d-flex">
@@ -70,7 +70,7 @@
           <b-input-group class="input-group-merge">
             <b-form-input
               v-model="filters.q"
-              placeholder="Search Product"
+              placeholder="Buscar producto"
               class="search-product"
             />
             <b-input-group-append is-text>
@@ -222,6 +222,7 @@
 </template>
 
 <script>
+import _ from 'underscore'
 import {
   BDropdown, BDropdownItem, BFormRadioGroup, BFormRadio, BRow, BCol, BInputGroup, BInputGroupAppend,
   BFormInput, BCard, BCardBody, BLink, BImg, BCardText, BButton, BPagination, BBadge,
@@ -284,23 +285,55 @@ export default {
     const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
 
     // Wrapper Function for `fetchProducts` which can be triggered initially and upon changes of filters
-    const fetchShopProducts = () => {
-      fetchProducts({
-        by_active_status: true,
-        by_name: filters.value.q,
-        by_category: filters.value.categories,
-        meta: {
-          pagination: {
-            page: filters.value.page,
-            per_page: filters.value.perPage,
+    // eslint-disable-next-line
+    const fetchShopProducts = _.debounce(function() {
+      if (/^\d*$/.test(filters.value.q) && filters.value.q !== null && filters.value.q !== '') {
+        fetchProducts({
+          by_sku: filters.value.q || null,
+          by_active_status: true,
+          meta: {
+            pagination: {
+              page: filters.value.page,
+              per_page: filters.value.perPage,
+            },
           },
-        },
-      })
-        .then(response => {
-          products.value = response.data
-          totalProducts.value = response.meta.pagination.total_objects
         })
-    }
+          .then(response => {
+            products.value = response.data
+            totalProducts.value = response.meta.pagination.total_objects
+          })
+      } else if (filters.value.q !== null && filters.value.q !== '') {
+        fetchProducts({
+          by_name: filters.value.q || null,
+          by_active_status: true,
+          meta: {
+            pagination: {
+              page: filters.value.page,
+              per_page: filters.value.perPage,
+            },
+          },
+        })
+          .then(response => {
+            products.value = response.data
+            totalProducts.value = response.meta.pagination.total_objects
+          })
+      } else if (filters.value.q === null || filters.value.q === '') {
+        fetchProducts({
+          by_active_status: true,
+          meta: {
+            pagination: {
+              page: filters.value.page,
+              per_page: filters.value.perPage,
+            },
+          },
+        })
+          .then(response => {
+            products.value = response.data
+            totalProducts.value = response.meta.pagination.total_objects
+          })
+      }
+    }, 500)
+
     const fetchProductsCategories = () => {
       fetchCategories({
         by_active_status: true,

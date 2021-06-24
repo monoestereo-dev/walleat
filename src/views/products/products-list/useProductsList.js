@@ -13,11 +13,10 @@ export default function useUsersList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'name', sortable: true },
-    { key: 'sku', sortable: false },
-    { key: 'nutritional_info', sortable: true },
-    { key: 'status', sortable: true },
-    { key: 'actions' },
+    { key: 'name', label: 'Nombre', sortable: true },
+    { key: 'sku', label: 'Sku', sortable: false },
+    { key: 'nutritional_info', label: 'Score nutrimental', sortable: true },
+    { key: 'actions', label: '' },
   ]
   const perPage = ref(10)
   const totalUsers = ref(0)
@@ -51,6 +50,7 @@ export default function useUsersList() {
     store
       .dispatch('app-user/fetchUsers', {
         by_name: searchQuery.value,
+        by_sku: searchQuery.value,
         by_column: { order: isSortDirDesc.value, column: sortBy.value },
         meta: {
           pagination: {

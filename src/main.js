@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
+import VueQriously from 'vue-qriously'
 
 import i18n from '@/libs/i18n'
 import router from './router'
@@ -17,6 +18,7 @@ import '@/libs/sweet-alerts'
 import '@/libs/portal-vue'
 import '@/libs/toastification'
 import '@/libs/tour'
+import './registerServiceWorker'
 
 // Axios Mock Adapter
 // import '@/@fake-db/db'
@@ -24,6 +26,7 @@ import '@/libs/tour'
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
+Vue.use(VueQriously)
 
 // Composition API
 Vue.use(VueCompositionAPI)
@@ -33,6 +36,10 @@ require('@core/scss/core.scss')
 
 // import assets styles
 require('@/assets/scss/style.scss')
+
+// Feather font icon - For form-wizard
+// * Shall remove it if not using font-icons of feather-icons - For form-wizard
+require('@core/assets/fonts/feather/iconfont.css') // For form-wizard
 
 Vue.config.productionTip = false
 

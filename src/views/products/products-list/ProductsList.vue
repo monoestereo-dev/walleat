@@ -24,7 +24,7 @@
             md="6"
             class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
           >
-            <label>Show</label>
+            <label>Mostrar</label>
             <v-select
               v-model="pagination.per_page"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -33,7 +33,7 @@
               class="per-page-selector d-inline-block mx-50"
               @input="(value)=>{handlePagination({ per_page: value, page: 1 })}"
             />
-            <label>entries</label>
+            <label>resultados</label>
           </b-col>
 
           <!-- Search -->
@@ -45,7 +45,7 @@
               <b-form-input
                 v-model="searchQuery"
                 class="d-inline-block mr-1"
-                placeholder="Search..."
+                placeholder="Buscar..."
               />
               <b-button
                 variant="primary"
@@ -301,19 +301,48 @@ export default {
   watch: {
     // eslint-disable-next-line
     searchQuery: _.debounce(function(query){
-      this.fetchProducts({
-        by_name: query || null,
-        by_active_status: true,
-        meta: {
-          pagination: {
-            per_page: this.pagination.per_page,
+      if (/^\d*$/.test(query) && query !== null && query !== '') {
+        this.fetchProducts({
+          by_sku: query || null,
+          by_active_status: true,
+          meta: {
+            pagination: {
+              per_page: this.pagination.per_page,
+            },
           },
-        },
-      })
-        .then(response => {
-          this.products = response.data
-          this.pagination = response.meta.pagination
         })
+          .then(response => {
+            this.products = response.data
+            this.pagination = response.meta.pagination
+          })
+      } else if (query !== null && query !== '') {
+        this.fetchProducts({
+          by_name: query || null,
+          by_active_status: true,
+          meta: {
+            pagination: {
+              per_page: this.pagination.per_page,
+            },
+          },
+        })
+          .then(response => {
+            this.products = response.data
+            this.pagination = response.meta.pagination
+          })
+      } else if (query === null || query === '') {
+        this.fetchProducts({
+          by_active_status: true,
+          meta: {
+            pagination: {
+              per_page: this.pagination.per_page,
+            },
+          },
+        })
+          .then(response => {
+            this.products = response.data
+            this.pagination = response.meta.pagination
+          })
+      }
     }, 500),
   },
   beforeMount() {

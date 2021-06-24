@@ -1,60 +1,75 @@
 <template>
   <div>
-    <div v-if="userData.customer">
-      <div class="d-flex align-items-center mb-1">
-        Balance total
-        <feather-icon class="ml-1" icon="EyeIcon" />
-      </div>
-      <div class="d-flex">
-        <h1 class="display-4">
-          $ {{userData.customer.current_balance}}
-        </h1>
-        <feather-icon
-          icon="InfoIcon"
-        />
-      </div>
-      <b-row class="d-flex justify-content-around mt-1 mb-2">
-        <b-col>
-          <b-button
-            block
-            pill
-          >
-            Retirar
-          </b-button>
-        </b-col>
-        <b-col>
-          <b-button
-            block
-            pill
-            variant="success"
-          >
-            Depositar
-          </b-button>
-        </b-col>
-      </b-row>
-    </div>
     <b-row class="match-height mt-1">
       <b-col
-        xl="4"
+        v-if="userData.customer"
+        sm="12"
         md="6"
+        lg="3"
+      >
+        <b-card
+          class="balance"
+          bg-variant="transparent"
+        >
+          <div class="d-flex align-items-center mb-1">
+            Balance total
+            <feather-icon
+              class="ml-1"
+              icon="EyeIcon"
+            />
+          </div>
+          <div class="d-flex">
+            <h1 class="display-4">
+              $ {{ userData.customer.current_balance }}
+            </h1>
+            <feather-icon
+              icon="InfoIcon"
+            />
+          </div>
+          <b-row class="d-flex justify-content-around mt-1">
+            <b-col>
+              <b-button
+                block
+                pill
+              >
+                Retirar
+              </b-button>
+            </b-col>
+            <b-col>
+              <b-button
+                block
+                pill
+                variant="success"
+                :to="{ name: 'walleat-add-credit' }"
+              >
+                Depositar
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-card>
+      </b-col>
+      <b-col
+        md="6"
+        lg="9"
       >
         <add-your-first-bracelet :data="congratulations" />
       </b-col>
       <b-col
-        xl="8"
-        md="6"
+        sm="12"
       >
-        <customer-statistics :data="statisticsItems" />
+        <customer-transactions :data="orders" />
       </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
-
-import { BRow, BCol, BButton } from 'bootstrap-vue'
+import { mapActions } from 'vuex'
+import {
+  BRow, BCol, BButton, BCard,
+} from 'bootstrap-vue'
 import { getUserData } from '@/auth/utils'
-import CustomerStatistics from '@/@core/components/CustomerStatistics.vue'
+import CustomerTransactions from '@/@core/components/CustomerTransactions.vue'
 import AddYourFirstBracelet from '@/@core/components/BraceletWizzard.vue'
 
 export default {
@@ -62,8 +77,8 @@ export default {
     BRow,
     BCol,
     BButton,
-
-    CustomerStatistics,
+    BCard,
+    CustomerTransactions,
     AddYourFirstBracelet,
   },
   data() {
@@ -103,6 +118,7 @@ export default {
           customClass: '',
         },
       ],
+      orders: [],
     }
   },
   created() {
@@ -117,6 +133,13 @@ export default {
     //     this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
     //   })
     this.userData = getUserData()
+    this.fetchOrders()
+      .then(response => {
+        this.orders = response.data
+      })
+  },
+  methods: {
+    ...mapActions('orders', ['fetchOrders']),
   },
 }
 </script>
@@ -124,4 +147,5 @@ export default {
 <style lang="scss">
 @import '@core/scss/vue/pages/dashboard-ecommerce.scss';
 @import '@core/scss/vue/libs/chart-apex.scss';
+
 </style>

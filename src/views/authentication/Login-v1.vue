@@ -171,7 +171,7 @@ import { $themeConfig } from '@themeConfig'
 
 export default {
   setup() {
-     const { appName } = $themeConfig.app
+    const { appName } = $themeConfig.app
     return {
       appName,
     }

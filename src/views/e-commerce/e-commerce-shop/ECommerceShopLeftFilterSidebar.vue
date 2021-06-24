@@ -8,7 +8,7 @@
         <b-row>
           <b-col cols="12">
             <h6 class="filter-heading d-none d-lg-block">
-              Filters
+              Filtros
             </h6>
           </b-col>
         </b-row>
@@ -19,7 +19,7 @@
           <!-- Price Slider -->
           <div class="price-slider">
             <h6 class="filter-title mt-0">
-              Price Range
+              Rango de precio
             </h6>
             <vue-slider
               v-model="filters.priceRange"
@@ -30,7 +30,7 @@
           <!-- Categories -->
           <div class="product-categories">
             <h6 class="filter-title">
-              Categories
+              Categorías
             </h6>
             <b-form-radio-group
               v-model="filters.categories"
@@ -45,7 +45,7 @@
           <!-- Ratings -->
           <div class="ratings">
             <h6 class="filter-title">
-              Ratings
+              Score nutrimental
             </h6>
             <div
               v-for="(rating, n) in filterOptions.ratings"

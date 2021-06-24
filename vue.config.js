@@ -2,6 +2,13 @@ const path = require('path')
 
 module.exports = {
   publicPath: '/',
+  pwa: {
+    themeColor: '#7367f0',
+    appleMobileWebAppCapable: true,
+    msTileColor: '#000000',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
+  },
   css: {
     loaderOptions: {
       sass: {

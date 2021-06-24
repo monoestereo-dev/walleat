@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import { canNavigate } from '@/libs/acl/routeProtection'
 import { isUserLoggedIn, getUserData, getHomeRouteForLoggedInUser } from '@/auth/utils'
+// import { canNavigate } from '@/libs/acl/routeProtection'
 
 // Routes
 import pages from './routes/pages'
@@ -11,6 +11,7 @@ import settings from './routes/settings'
 import users from './routes/users'
 import categories from './routes/categories'
 import products from './routes/products'
+import walleats from './routes/walleats'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,7 @@ const router = new VueRouter({
     ...users,
     ...categories,
     ...products,
+    ...walleats,
 
     {
       path: '*',
@@ -40,14 +42,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, _, next) => {
   const isLoggedIn = isUserLoggedIn()
-
-  // if (!canNavigate(to)) {
-  //   // Redirect to login if not logged in
-  //   if (!isLoggedIn) return next({ name: 'auth-login' })
-
-  //   // If logged in => not authorized
-  //   return next({ name: 'misc-not-authorized' })
-  // }
+  if (to.meta.requiresAuth) {
+    // Redirect to login if not logged in
+    if (!isLoggedIn) return next({ name: 'auth-login' })
+  }
 
   // Redirect if logged in
   if (to.meta.redirectIfLoggedIn && isLoggedIn) {

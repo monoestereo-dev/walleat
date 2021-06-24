@@ -222,7 +222,4 @@
   </svg>
 </template>
 <style lang="scss" scoped>
-.cls-1 {
-  fill: #ef7b10;
-}
 </style>

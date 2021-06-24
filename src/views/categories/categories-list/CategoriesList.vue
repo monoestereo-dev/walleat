@@ -24,7 +24,7 @@
             md="6"
             class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
           >
-            <label>Show</label>
+            <label>Mostrar</label>
             <v-select
               v-model="pagination.per_page"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -33,7 +33,7 @@
               class="per-page-selector d-inline-block mx-50"
               @input="(value)=>{handlePagination({ per_page: value, page: 1 })}"
             />
-            <label>entries</label>
+            <label>resultados</label>
           </b-col>
 
           <!-- Search -->
@@ -45,13 +45,13 @@
               <b-form-input
                 v-model="searchQuery"
                 class="d-inline-block mr-1"
-                placeholder="Search..."
+                placeholder="Buscar..."
               />
               <b-button
                 variant="primary"
                 @click="isAddNewCategorySidebarActive = true"
               >
-                <span class="text-nowrap">Add Category</span>
+                <span class="text-nowrap">Agregar categoría</span>
               </b-button>
             </div>
           </b-col>

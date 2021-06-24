@@ -66,7 +66,10 @@
 
             <!-- Price And Ratings -->
             <div class="d-flex align-items-center my-1">
-              <h1 v-if="false" class="item-price mr-1">
+              <h1
+                v-if="false"
+                class="item-price mr-1"
+              >
                 $ 500
               </h1>
               <div class="ecommerce-details-price d-flex flex-wrap">
@@ -91,7 +94,7 @@
                   :key="`category-${category.id}`"
                   class="d-inline-block"
                 >
-                  <b-badge>{{category}}</b-badge>
+                  <b-badge>{{ category }}</b-badge>
                 </li>
               </ul>
             </div>

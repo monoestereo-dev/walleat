@@ -1,4 +1,13 @@
+import Vue from 'vue'
+import dayjs from 'dayjs'
 import { isToday } from './utils'
+
+Vue.filter('money', value => {
+  const val = (value / 1).toFixed(2)
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+})
+
+Vue.filter('date', value => dayjs(value).format('DD MMM'))
 
 export const kFormatter = num => (num > 999 ? `${(num / 1000).toFixed(1)}k` : num)
 

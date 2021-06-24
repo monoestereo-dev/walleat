@@ -10,14 +10,14 @@
         Error fetching user data
       </h4>
       <div class="alert-body">
-        No user found with this user id. Check
+        No products found with this user id. Check
         <b-link
           class="alert-link"
           :to="{ name: 'apps-users-list'}"
         >
-          User List
+          products List
         </b-link>
-        for other users.
+        for other prducts.
       </div>
     </b-alert>
 
@@ -57,7 +57,6 @@ export default {
   },
   setup() {
     const productData = ref(null)
-    debugger
     store.dispatch('products/fetchProduct', router.currentRoute.params.id)
       .then(response => { productData.value = response })
       .catch(error => {

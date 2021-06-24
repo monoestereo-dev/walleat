@@ -10,7 +10,7 @@ export default [
       },
       {
         title: 'Second Page',
-        route: 'second-page',
+        route: 'walleat-pay',
         icon: 'FileIcon',
       },
     ],
