@@ -119,7 +119,7 @@
           <h6 class="item-name">
             <b-link
               class="text-body"
-              :to="{ name: 'apps-e-commerce-product-details', params: { slug: product.slug } }"
+              :to="{ name: 'product-view', params: { id: product.id } }"
             >
               {{ product.name }}
             </b-link>
@@ -150,29 +150,30 @@
             </div>
           </div>
           <b-button
+            v-if="$route.name === 'ban-products'"
             variant="light"
             tag="a"
             class="btn-wishlist"
-            @click="toggleProductInWishlist(product)"
+            @click="handleBanProduct(product)"
           >
             <feather-icon
-              icon="HeartIcon"
+              :icon="product.is_banned? 'SlashIcon' : 'CheckCircleIcon'"
               class="mr-50"
-              :class="{'text-danger': product.isInWishlist}"
+              :stroke="product.is_banned ? '#ea5455' : '#28c76f'"
             />
-            <span>Wishlist</span>
+            <span :class="product.is_banned ? 'text-danger' : 'text-success'">{{ product.is_banned ? 'No permitido' : 'Permitido' }}</span>
           </b-button>
           <b-button
             variant="primary"
             tag="a"
             class="btn-cart"
-            @click="handleCartActionClick(product)"
+            :to="{ name: 'product-view', params: { id: product.id } }"
           >
             <feather-icon
-              icon="ShoppingCartIcon"
+              icon="EyeIcon"
               class="mr-50"
             />
-            <span>{{ product.isInCart ? 'View In Cart' : 'Add to Cart' }}</span>
+            <span>Más detalles</span>
           </b-button>
         </div>
       </b-card>
@@ -267,7 +268,8 @@ export default {
     NutriScore,
 
   },
-  setup() {
+  /* eslint-disable */
+  setup(x,ctx) {
     const {
       filters, filterOptions, sortBy, sortByOptions,
     } = useShopFiltersSortingAndPagination()
@@ -290,7 +292,10 @@ export default {
       if (/^\d*$/.test(filters.value.q) && filters.value.q !== null && filters.value.q !== '') {
         fetchProducts({
           by_sku: filters.value.q || null,
+          by_category: filters.value.categories || null,
           by_active_status: true,
+          by_bracelet: ctx.root.$route.params.id || null,
+          is_banned: ctx.root.$route.params.id || null,
           meta: {
             pagination: {
               page: filters.value.page,
@@ -305,7 +310,10 @@ export default {
       } else if (filters.value.q !== null && filters.value.q !== '') {
         fetchProducts({
           by_name: filters.value.q || null,
+          by_category: filters.value.categories || null,
           by_active_status: true,
+          by_bracelet: ctx.root.$route.params.id || null,
+          is_banned: ctx.root.$route.params.id || null,
           meta: {
             pagination: {
               page: filters.value.page,
@@ -320,6 +328,9 @@ export default {
       } else if (filters.value.q === null || filters.value.q === '') {
         fetchProducts({
           by_active_status: true,
+          by_category: filters.value.categories || null,
+          by_bracelet: ctx.root.$route.params.id || null,
+          is_banned: ctx.root.$route.params.id || null,
           meta: {
             pagination: {
               page: filters.value.page,
@@ -380,6 +391,12 @@ export default {
   },
   computed: {
     ...mapGetters(['apiUrl']),
+  },
+  methods: {
+    handleBanProduct(product) {
+      debugger
+      console.log(product)
+    },
   },
 }
 </script>
