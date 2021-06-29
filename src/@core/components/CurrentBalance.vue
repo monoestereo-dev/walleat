@@ -1,0 +1,66 @@
+<template>
+  <div>
+    <b-card
+      class="balance"
+      bg-variant="transparent"
+    >
+      <div class="d-flex align-items-center mb-1">
+        Balance total
+        <feather-icon
+          class="ml-1"
+          icon="EyeIcon"
+        />
+      </div>
+      <div class="d-flex">
+        <h1 class="display-4">
+          $ {{ userData.customer.current_balance }}
+        </h1>
+        <feather-icon
+          icon="InfoIcon"
+        />
+      </div>
+      <b-row class="d-flex justify-content-around mt-1">
+        <b-col>
+          <b-button
+            block
+            pill
+          >
+            Retirar
+          </b-button>
+        </b-col>
+        <b-col>
+          <b-button
+            block
+            pill
+            variant="success"
+            :to="{ name: 'walleat-add-credit' }"
+          >
+            Depositar
+          </b-button>
+        </b-col>
+      </b-row>
+    </b-card>
+  </div>
+</template>
+
+<script>
+import {
+  BRow, BCol, BButton, BCard,
+} from 'bootstrap-vue'
+
+export default {
+  components: {
+    BRow, BCol, BButton, BCard,
+  },
+  props: {
+    userData: {
+      type: Object,
+      default: () => {},
+    },
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>
