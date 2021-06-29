@@ -3,30 +3,34 @@
     v-if="data"
     class="card-congratulation-medal"
   >
-    <h5>Congratulations 🎉 {{ data.name }}!</h5>
+    <h5>
+      ¡Agrega tu primer Walleat!
+    </h5>
     <b-card-text class="font-small-3">
-      You have won gold medal
+      Tu nueva experiencia de pago.
     </b-card-text>
-    <h3 class="mb-75 mt-2 pt-50">
-      <b-link>${{ kFormatter(data.saleToday) }}</b-link>
-    </h3>
     <b-button
+      class="mt-1"
       v-ripple.400="'rgba(255, 255, 255, 0.15)'"
       variant="primary"
     >
-      View Sales
+      Continua aquí!
+      <feather-icon
+        icon="ArrowRightIcon"
+      />
     </b-button>
     <b-img
-      :src="require('@/assets/images/illustration/badge.svg')"
+      :src="require('@/assets/images/logo/walleat_thumbnail_white.svg')"
       class="congratulation-medal"
       alt="Medal Pic"
+      width="80"
     />
   </b-card>
 </template>
 
 <script>
 import {
-  BCard, BCardText, BLink, BButton, BImg,
+  BCard, BCardText, BButton, BImg,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { kFormatter } from '@core/utils/filter'
@@ -35,7 +39,6 @@ export default {
   components: {
     BCard,
     BCardText,
-    BLink,
     BImg,
     BButton,
   },
