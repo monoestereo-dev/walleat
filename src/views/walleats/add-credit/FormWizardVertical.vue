@@ -14,7 +14,7 @@
       @on-complete="formSubmitted"
     >
 
-      <!-- account datails tab -->
+      <!-- Cantidad -->
       <tab-content title="Cantidad">
         <b-row>
           <b-col
@@ -30,13 +30,19 @@
           </b-col>
           <b-col>
             <b-form-group
-              label-for="v-username"
+              label-for="v-ammount"
             >
-              <b-form-input
-                id="v-username"
-                placeholder="25"
-                size="lg"
-              />
+              <b-input-group
+                prepend="$"
+                class="input-group-merge"
+              >
+                <b-form-input
+                  id="v-ammount"
+                  v-model="transaction.credits"
+                  placeholder="25"
+                  size="lg"
+                />
+              </b-input-group>
             </b-form-group>
           </b-col>
         </b-row>
@@ -60,10 +66,11 @@
           </b-col>
           <b-col>
             <b-form-group
-              label-for="v-first-name"
+              label-for="v-phone"
             >
               <b-form-input
-                id="v-first-name"
+                id="v-phone"
+                v-model="transaction.phone"
                 placeholder=""
                 size="lg"
               />
@@ -75,58 +82,33 @@
       <!-- address -->
       <tab-content title="Confirmar">
         <b-row>
-          <b-col
-            cols="12"
-            class="mb-2"
-          >
-            <h5 class="mb-0">
-              Address
-            </h5>
-            <small class="text-muted">Enter Your Address.</small>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Address"
-              label-for="v-address"
-            >
-              <b-form-input
-                id="v-address"
-                placeholder="98 Borough bridge Road, Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Landmark"
-              label-for="v-landmark"
-            >
-              <b-form-input
-                id="v-landmark"
-                placeholder="Borough bridge"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Pincode"
-              label-for="v-pincode"
-            >
-              <b-form-input
-                id="v-pincode"
-                placeholder="658921"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="City"
-              label-for="v-city"
-            >
-              <b-form-input
-                id="v-city"
-                placeholder="Birmingham"
-              />
-            </b-form-group>
+          <b-col>
+            <div class="mb-1">
+              <p class="mb-0 text-muted">
+                Total:
+              </p>
+              <h2 class="display-4">
+                $ {{ Number(transaction.credits) + Number(fee(transaction.credits)) | money }}
+              </h2>
+            </div>
+            <b-row>
+              <b-col>
+                <p class="d-flex flex-column">
+                  <span class="text-muted">
+                    Creditos:
+                  </span>
+                  ${{ transaction.credits | money }}
+                </p>
+              </b-col>
+              <b-col>
+                <p class="d-flex flex-column">
+                  <span class="text-muted">
+                    Comisión:
+                  </span>
+                  $ {{ fee(transaction.credits) | money }}
+                </p>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
       </tab-content>
@@ -146,6 +128,7 @@ import {
   BImg,
   BFormGroup,
   BFormInput,
+  BInputGroup,
 } from 'bootstrap-vue'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
@@ -158,33 +141,16 @@ export default {
     BImg,
     BFormGroup,
     BFormInput,
+    BInputGroup,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
   },
   data() {
     return {
-      selectedContry: 'select_value',
-      selectedLanguage: 'nothing_selected',
-      countryName: [
-        { value: 'select_value', text: 'Select Value' },
-        { value: 'Russia', text: 'Russia' },
-        { value: 'Canada', text: 'Canada' },
-        { value: 'China', text: 'China' },
-        { value: 'United States', text: 'United States' },
-        { value: 'Brazil', text: 'Brazil' },
-        { value: 'Australia', text: 'Australia' },
-        { value: 'India', text: 'India' },
-      ],
-      languageName: [
-        { value: 'nothing_selected', text: 'Nothing Selected' },
-        { value: 'English', text: 'English' },
-        { value: 'Chinese', text: 'Mandarin Chinese' },
-        { value: 'Hindi', text: 'Hindi' },
-        { value: 'Spanish', text: 'Spanish' },
-        { value: 'Arabic', text: 'Arabic' },
-        { value: 'Malay', text: 'Malay' },
-        { value: 'Russian', text: 'Russian' },
-      ],
+      transaction: {
+        credits: 25,
+        phone: null,
+      },
     }
   },
   methods: {
@@ -197,6 +163,12 @@ export default {
           variant: 'success',
         },
       })
+    },
+    fee(credits) {
+      const min = 2
+      const max = 20
+
+      return Math.min(Math.max(min, 0.01 * credits), max)
     },
   },
 }
