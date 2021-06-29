@@ -1,63 +1,23 @@
 <template>
   <div>
-    <b-row class="match-height mt-1">
+    <b-row class="">
       <b-col
         v-if="userData.customer"
         sm="12"
         md="6"
-        lg="3"
+        lg="5"
+        xl="4"
       >
-        <b-card
-          class="balance"
-          bg-variant="transparent"
-        >
-          <div class="d-flex align-items-center mb-1">
-            Balance total
-            <feather-icon
-              class="ml-1"
-              icon="EyeIcon"
-            />
-          </div>
-          <div class="d-flex">
-            <h1 class="display-4">
-              $ {{ userData.customer.current_balance }}
-            </h1>
-            <feather-icon
-              icon="InfoIcon"
-            />
-          </div>
-          <b-row class="d-flex justify-content-around mt-1">
-            <b-col>
-              <b-button
-                block
-                pill
-              >
-                Retirar
-              </b-button>
-            </b-col>
-            <b-col>
-              <b-button
-                block
-                pill
-                variant="success"
-                :to="{ name: 'walleat-add-credit' }"
-              >
-                Depositar
-              </b-button>
-            </b-col>
-          </b-row>
-        </b-card>
-      </b-col>
-      <b-col
-        md="6"
-        lg="9"
-      >
+        <current-balance :user-data="userData" />
         <add-your-first-bracelet :data="congratulations" />
       </b-col>
       <b-col
-        sm="12"
+        cols="12"
+        md="6"
+        lg="7"
+        xl="8"
       >
-        <customer-transactions :data="orders" />
+        <transactions-timeline :orders="orders" />
       </b-col>
     </b-row>
   </div>
@@ -66,20 +26,20 @@
 <script>
 import { mapActions } from 'vuex'
 import {
-  BRow, BCol, BButton, BCard,
+  BRow, BCol,
 } from 'bootstrap-vue'
 import { getUserData } from '@/auth/utils'
-import CustomerTransactions from '@/@core/components/CustomerTransactions.vue'
+import TransactionsTimeline from '@/@core/components/TransactionsTimeline.vue'
 import AddYourFirstBracelet from '@/@core/components/BraceletWizzard.vue'
+import CurrentBalance from '@/@core/components/CurrentBalance.vue'
 
 export default {
   components: {
     BRow,
     BCol,
-    BButton,
-    BCard,
-    CustomerTransactions,
+    TransactionsTimeline,
     AddYourFirstBracelet,
+    CurrentBalance,
   },
   data() {
     return {
