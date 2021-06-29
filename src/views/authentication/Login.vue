@@ -2,15 +2,6 @@
   <div class="auth-wrapper auth-v2">
     <b-row class="auth-inner m-0">
 
-      <!-- Brand logo-->
-      <b-link class="brand-logo">
-        <vuexy-logo />
-        <h2 class="brand-text">
-          {{ appName }}
-        </h2>
-      </b-link>
-      <!-- /Brand logo-->
-
       <!-- Left Text-->
       <b-col
         lg="8"
@@ -37,6 +28,13 @@
           lg="12"
           class="px-xl-2 mx-auto"
         >
+          <div class="d-flex justify-content-center mb-3">
+            <b-img
+              :src="appLogoImage"
+              alt="logo"
+              width="150"
+            />
+          </div>
           <b-card-title
             class="mb-1 font-weight-bold"
             title-tag="h2"
@@ -46,27 +44,6 @@
           <b-card-text class="mb-2">
             Please sign-in to your account and start the adventure
           </b-card-text>
-
-          <b-alert
-            variant="primary"
-            show
-          >
-            <div class="alert-body font-small-2">
-              <p>
-                <small class="mr-50"><span class="font-weight-bold">Admin:</span> admin@demo.com | admin</small>
-              </p>
-              <p>
-                <small class="mr-50"><span class="font-weight-bold">Client:</span> client@demo.com | client</small>
-              </p>
-            </div>
-            <feather-icon
-              v-b-tooltip.hover.left="'This is just for ACL demo purpose'"
-              icon="HelpCircleIcon"
-              size="18"
-              class="position-absolute"
-              style="top: 10; right: 10;"
-            />
-          </b-alert>
 
           <!-- form -->
           <validation-observer
@@ -213,9 +190,9 @@
 /* eslint-disable global-require */
 import { mapActions } from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
-  BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton, BAlert, VBTooltip,
+  BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox,
+  BCardText, BCardTitle, BImg, BForm, BButton, VBTooltip,
 } from 'bootstrap-vue'
 import useJwt from '@/auth/jwt/useJwt'
 import { required, email } from '@validations'
@@ -227,9 +204,10 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 
 export default {
   setup() {
-    const { appName } = $themeConfig.app
+    const { appName, appLogoImage } = $themeConfig.app
     return {
       appName,
+      appLogoImage,
     }
   },
   directives: {
@@ -249,8 +227,6 @@ export default {
     BImg,
     BForm,
     BButton,
-    BAlert,
-    VuexyLogo,
     ValidationProvider,
     ValidationObserver,
   },
