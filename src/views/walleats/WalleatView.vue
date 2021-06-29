@@ -11,11 +11,19 @@
           <span class="walleat-name">{{ walleat.name }}</span>
         </div>
       </div>
-      <feather-icon
-        class="m-1 cursor-pointer"
-        icon="SettingsIcon"
-        size="28"
-      />
+      <div>
+        <feather-icon
+          class="m-1 cursor-pointer"
+          icon="PowerIcon"
+          size="28"
+          :class="walleat.active_status ? 'text-success' : 'text-danger'"
+        />
+        <feather-icon
+          class="m-1 cursor-pointer"
+          icon="SettingsIcon"
+          size="28"
+        />
+      </div>
     </div>
     <b-row class="match-height">
       <b-col class="text-center">
@@ -40,7 +48,7 @@
       <b-col>
         <b-card
           class="text-center cursor-pointer"
-          @click="$router.push({ name: 'products-list', params: { id: walleat.id } })"
+          @click="$router.push({ name: 'ban-products', params: { id: walleat.id } })"
         >
           <h2 class="lock-icon">
             🔒
