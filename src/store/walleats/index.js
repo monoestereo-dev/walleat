@@ -88,5 +88,19 @@ export default {
           })
       })
     },
+    banItem(ctx, banneableItem) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/v1/banneable_items', {
+            banneable_item: banneableItem,
+          })
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
   },
 }

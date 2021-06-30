@@ -19,22 +19,6 @@
             </div>
             <div class="view-options d-flex">
 
-              <!-- Sort Button -->
-              <b-dropdown
-                v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                :text="sortBy.text"
-                right
-                variant="outline-primary"
-              >
-                <b-dropdown-item
-                  v-for="sortOption in sortByOptions"
-                  :key="sortOption.value"
-                  @click="sortBy=sortOption"
-                >
-                  {{ sortOption.text }}
-                </b-dropdown-item>
-              </b-dropdown>
-
               <!-- Item View Radio Button Group  -->
               <b-form-radio-group
                 v-model="itemView"
@@ -225,12 +209,12 @@
 <script>
 import _ from 'underscore'
 import {
-  BDropdown, BDropdownItem, BFormRadioGroup, BFormRadio, BRow, BCol, BInputGroup, BInputGroupAppend,
+  BFormRadioGroup, BFormRadio, BRow, BCol, BInputGroup, BInputGroupAppend,
   BFormInput, BCard, BCardBody, BLink, BImg, BCardText, BButton, BPagination, BBadge,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { watch } from '@vue/composition-api'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
 import NutriScore from '@/@core/components/NutriScore.vue'
 import ShopLeftFilterSidebar from './ECommerceShopLeftFilterSidebar.vue'
@@ -243,8 +227,6 @@ export default {
   },
   components: {
     // BSV
-    BDropdown,
-    BDropdownItem,
     BFormRadioGroup,
     BFormRadio,
     BRow,
@@ -268,8 +250,7 @@ export default {
     NutriScore,
 
   },
-  /* eslint-disable */
-  setup(x,ctx) {
+  setup(x, ctx) {
     const {
       filters, filterOptions, sortBy, sortByOptions,
     } = useShopFiltersSortingAndPagination()
@@ -393,9 +374,31 @@ export default {
     ...mapGetters(['apiUrl']),
   },
   methods: {
+    ...mapActions('walleats', ['banItem']),
+    ...mapActions('products', ['fetchProducts']),
     handleBanProduct(product) {
-      debugger
-      console.log(product)
+      this.banItem({
+        bracelet_id: this.$route.params.id,
+        banneable_id: product.id,
+        banneable_type: 'Product',
+        _delete: product.is_banned ? 'true' : 'false',
+      })
+        .then(() => {
+          this.fetchProducts({
+            by_active_status: true,
+            by_bracelet: this.$route.params.id || null,
+            is_banned: this.$route.params.id || null,
+            meta: {
+              pagination: {
+                page: this.filters.page,
+                per_page: this.filters.perPage,
+              },
+            },
+          })
+            .then(response => {
+              this.products = response.data
+            })
+        })
     },
   },
 }
