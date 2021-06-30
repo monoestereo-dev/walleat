@@ -18,10 +18,9 @@
           size="28"
           :class="walleat.active_status ? 'text-success' : 'text-danger'"
         />
-        <feather-icon
-          class="m-1 cursor-pointer"
-          icon="SettingsIcon"
-          size="28"
+        <walleat-settings
+          :data="walleat"
+          @success="updateWalleat($event)"
         />
       </div>
     </div>
@@ -86,6 +85,7 @@
 <script>
 import ChartjsDoughnutChart from '@/@core/components/charts/chartjs/ChartjsDoughnutChart.vue'
 import OrdersTable from '@/@core/components/OrdersTable.vue'
+import WalleatSettings from '@/views/walleats/WalleatSettings.vue'
 import {
   BAvatar,
   BRow,
@@ -100,6 +100,7 @@ export default {
   components: {
     ChartjsDoughnutChart,
     OrdersTable,
+    WalleatSettings,
     BAvatar,
     BRow,
     BCol,
@@ -109,7 +110,9 @@ export default {
   },
   data() {
     return {
-      walleat: {},
+      walleat: {
+        name: 'test',
+      },
       orders: [],
       doughnutData: {},
     }
@@ -138,10 +141,23 @@ export default {
         '#299AFF',
         '#4F5D70',
         '#2c9aff',
+        '#666ee8',
         '#84D0FF',
         '#EDF1F4',
-        '#666ee8',
         '#ff4961',
+        '#4F5D70',
+        '#2c9aff',
+        '#836AF9',
+        '#84D0FF',
+        '#ffe800',
+        '#ff4961',
+        '#6e6b7b',
+        '#ffe802',
+        '#FDAC34',
+        '#299AFF',
+        '#EDF1F4',
+        '#666ee8',
+        '#28dac6',
         '#6e6b7b',
       ]
       this.doughnutData = {
@@ -211,6 +227,9 @@ export default {
         by_bracelet: this.$route.params.id,
         by_date: { end_date: endDate, start_date: startDate },
       })
+    },
+    updateWalleat(walleat) {
+      this.walleat = walleat
     },
   },
 }

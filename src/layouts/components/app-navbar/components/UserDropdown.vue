@@ -14,7 +14,7 @@
           v-if="userData.customer"
           class="user-status text-success"
         >
-         $ {{ userData.customer.current_balance | money}}
+          $ {{ userData.customer.current_balance | money }}
         </span>
         <span
           v-else

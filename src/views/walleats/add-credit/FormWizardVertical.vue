@@ -175,6 +175,15 @@ export default {
               variant: 'success',
             },
           })
+          this.$swal({
+            title: 'Good job!',
+            text: 'You clicked the button!',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
         })
     },
     fee(amount) {

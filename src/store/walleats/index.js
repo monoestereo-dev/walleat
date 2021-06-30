@@ -2,9 +2,19 @@ import axios from '@axios'
 
 export default {
   namespaced: true,
-  state: {},
-  getters: {},
-  mutations: {},
+  state: {
+    walleat: {},
+  },
+  getters: {
+    walleat(state) {
+      return state.walleat
+    },
+  },
+  mutations: {
+    SET_WALLEAT(state, payload) {
+      state.walleat = payload
+    },
+  },
   actions: {
     fetchWalleats(ctx, params) {
       return new Promise((resolve, reject) => {
@@ -26,6 +36,7 @@ export default {
           .get(`/v1/bracelets/${id}`)
           .then(response => {
             resolve(response.data)
+            ctx.commit('SET_WALLEAT', { ...response.data })
           })
           .catch(error => {
             reject(error)
@@ -60,11 +71,11 @@ export default {
           })
       })
     },
-    editWalleat(ctx, { id, bracelet }) {
+    editWalleat(ctx, walleat) {
       return new Promise((resolve, reject) => {
         axios
-          .put(`/v1/bracelets/${id}`, {
-            bracelet,
+          .put(`/v1/bracelets/${walleat.id}`, {
+            bracelet: walleat,
           })
           .then(response => {
             resolve(response.data)

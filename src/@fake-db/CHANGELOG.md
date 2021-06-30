@@ -5,6 +5,10 @@
 
 ## [0.2.7] - 2021-06-30
 - [NEW] El usuario puede prohibir productos.
+- [NEW] Grafica de categoriías con resumen ya funciona
+- [NEW] En la parte superior aparece el saldo del customer, y si no es customer aparece el role_name
+- [NEW] Editar brazalete
+- [ENH] Se ocultaron las notificaciones y el cambio de idioma en el menu horizontal porque aun no se integran.
 
 ## [0.2.6] - 2021-06-29
 - [NEW] nuevo timeline de historial de compras.
