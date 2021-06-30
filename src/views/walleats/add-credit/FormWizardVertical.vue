@@ -38,9 +38,10 @@
               >
                 <b-form-input
                   id="v-ammount"
-                  v-model="transaction.credits"
+                  v-model="credits"
                   placeholder="25"
                   size="lg"
+                  type="number"
                 />
               </b-input-group>
             </b-form-group>
@@ -66,13 +67,14 @@
           </b-col>
           <b-col>
             <b-form-group
-              label-for="v-phone"
+              label-for="v-cel_number"
             >
               <b-form-input
-                id="v-phone"
-                v-model="transaction.phone"
+                id="v-cel_number"
+                v-model="payment.cel_number"
                 placeholder=""
                 size="lg"
+                type="number"
               />
             </b-form-group>
           </b-col>
@@ -88,7 +90,7 @@
                 Total:
               </p>
               <h2 class="display-4">
-                $ {{ Number(transaction.credits) + Number(fee(transaction.credits)) | money }}
+                $ {{ Number(credits) + Number(fee(credits)) | money }}
               </h2>
             </div>
             <b-row>
@@ -97,7 +99,7 @@
                   <span class="text-muted">
                     Creditos:
                   </span>
-                  ${{ transaction.credits | money }}
+                  ${{ credits | money }}
                 </p>
               </b-col>
               <b-col>
@@ -105,7 +107,7 @@
                   <span class="text-muted">
                     Comisión:
                   </span>
-                  $ {{ fee(transaction.credits) | money }}
+                  $ {{ fee(credits) | money }}
                 </p>
               </b-col>
             </b-row>
@@ -119,6 +121,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import '@/@core/scss/vue/libs/vue-wizard.scss'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
@@ -147,28 +150,37 @@ export default {
   },
   data() {
     return {
-      transaction: {
-        credits: 25,
-        phone: null,
+      credits: 25.00,
+      payment: {
+        cel_number: null,
       },
     }
   },
   methods: {
+    ...mapActions('walleats', ['addCredit']),
     formSubmitted() {
-      this.$toast({
-        component: ToastificationContent,
-        props: {
-          title: 'Form Submitted',
-          icon: 'EditIcon',
-          variant: 'success',
-        },
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      this.addCredit({
+        ...this.payment,
+        amount: Number(this.credits) + Number(this.fee(this.credits)),
+        customer_id: userData.customer.id,
+        referenciaNumerica: 0,
       })
+        .then(() => {
+          this.$toast({
+            component: ToastificationContent,
+            props: {
+              title: 'Form Submitted',
+              icon: 'EditIcon',
+              variant: 'success',
+            },
+          })
+        })
     },
-    fee(credits) {
+    fee(amount) {
       const min = 2
       const max = 20
-
-      return Math.min(Math.max(min, 0.01 * credits), max)
+      return Math.min(Math.max(min, 0.01 * amount), max)
     },
   },
 }

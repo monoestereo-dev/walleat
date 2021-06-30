@@ -74,5 +74,19 @@ export default {
           })
       })
     },
+    addCredit(ctx, payment) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/v1/payments', {
+            payment,
+          })
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
   },
 }
