@@ -17,6 +17,7 @@
           icon="PowerIcon"
           size="28"
           :class="walleat.active_status ? 'text-success' : 'text-danger'"
+          @click="changeWalleatActiveStatus()"
         />
         <walleat-settings
           :data="walleat"
@@ -35,7 +36,7 @@
               align-items-center
               cursor-pointer
             "
-            @click="$router.push({ name: 'walleat-add-credit', params: { id: walleat.id } })"
+            @click="changeDailyLimit()"
           >
             <h2 class="display-5">
               $ {{ walleat.daily_limit }}
@@ -174,7 +175,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions('walleats', ['fetchWalleat', 'fetchWalleatGraph']),
+    ...mapActions('walleats', ['fetchWalleat', 'fetchWalleatGraph', 'editWalleat']),
     ...mapActions('orders', ['fetchOrders']),
     getcurrentDayData() {
       const date = new Date()
@@ -228,14 +229,53 @@ export default {
         by_date: { end_date: endDate, start_date: startDate },
       })
     },
+    changeWalleatActiveStatus() {
+      this.editWalleat({
+        ...this.walleat,
+        active_status: !this.walleat.active_status,
+      })
+        .then(response => {
+          this.updateWalleat(response)
+        })
+    },
     updateWalleat(walleat) {
       this.walleat = walleat
+    },
+    changeDailyLimit() {
+      this.$swal({
+        title: 'Limite diario',
+        input: 'text',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+          container: 'dark-layout',
+        },
+        buttonsStyling: false,
+        inputAttributes: {
+          autocapitalize: 'off',
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        showLoaderOnConfirm: true,
+        preConfirm: dailyLimit => {
+          if (!dailyLimit) return null
+          return this.editWalleat({
+            ...this.walleat,
+            daily_limit: dailyLimit,
+          })
+            .then(response => response)
+        },
+      })
+        .then(response => {
+          this.updateWalleat(response.value)
+        })
     },
   },
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-sweetalert.scss';
 .walleat-name {
   display: -webkit-box;
   -webkit-line-clamp: 1;

@@ -5,12 +5,6 @@ export default [
     component: () => import('@/views/HomeCustomer.vue'),
     meta: {
       requiresAuth: true,
-      breadcrumb: [
-        {
-          text: 'Home',
-          active: true,
-        },
-      ],
     },
   },
   {
@@ -19,12 +13,6 @@ export default [
     component: () => import('@/views/SecondPage.vue'),
     meta: {
       requiresAuth: true,
-      breadcrumb: [
-        {
-          text: 'Second Page',
-          active: true,
-        },
-      ],
     },
   },
 ]
