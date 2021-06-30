@@ -10,7 +10,18 @@
         <p class="user-name font-weight-bolder mb-0">
           {{ userData.name || userData.email }}
         </p>
-        <span class="user-status">{{ userData.role }}</span>
+        <span
+          v-if="userData.customer"
+          class="user-status text-success"
+        >
+         $ {{ userData.customer.current_balance | money}}
+        </span>
+        <span
+          v-else
+          class="user-status text-success"
+        >
+          {{ userData.role_name }}
+        </span>
       </div>
       <b-avatar
         size="40"
