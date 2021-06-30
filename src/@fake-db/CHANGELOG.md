@@ -3,8 +3,17 @@
 >“Talk is cheap. Show me the code.”\
 > -- <cite>Linus Torvalds.</cite>
 
+## [0.2.7] - 2021-06-30
+- [NEW] El usuario puede prohibir productos.
+
+## [0.2.6] - 2021-06-29
+- [NEW] nuevo timeline de historial de compras.
+- [NEW] walleat pay con qr.
+- [NEW] Vista para administrar consumo por Walleat.
+- [NEW] Integracion CODI-monoestereo para agregar creditos.
+
 ## [0.2.5] - 2021-06-23
-- [NEW] Ya funciona la grafica de dona en la vista de detalle de brazalete
+- [NEW] Ya funciona la gráfica de dona en la vista de detalle de brazalete
 
 ## [0.2.4] - 2021-06-22
 - [NEW] Home view.
