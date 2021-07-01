@@ -31,26 +31,37 @@
           <b-card-body
             class="
               d-flex
-              flex-column
               justify-content-center
               align-items-center
               cursor-pointer
             "
             @click="changeDailyLimit()"
           >
-            <h2 class="display-5">
-              $ {{ walleat.daily_limit }}
-            </h2>
-            Limite diario
+            <b-avatar
+              size="48"
+              variant="light-danger"
+              class="mr-1"
+            >
+              <feather-icon
+                size="24"
+                icon="OctagonIcon"
+              />
+            </b-avatar>
+            <div>
+              <h2 class="display-5 mb-0">
+                $ {{ walleat.daily_limit }}
+              </h2>
+              Limite diario
+            </div>
           </b-card-body>
         </b-card>
       </b-col>
       <b-col>
         <b-card
           class="text-center cursor-pointer"
-          @click="$router.push({ name: 'ban-products', params: { id: walleat.id } })"
+          @click="$router.push({ name: 'ban-products', params: { id: $route.params.id } })"
         >
-          <h2 class="lock-icon">
+          <h2 class="lock-icon mb-0">
             🔒
           </h2>
           Administrar consumo
@@ -230,13 +241,36 @@ export default {
       })
     },
     changeWalleatActiveStatus() {
-      this.editWalleat({
-        ...this.walleat,
-        active_status: !this.walleat.active_status,
+      this.$swal({
+        title: '¿Estás seguro?',
+        text: this.walleat.active_status ? 'No podras realizar compras con este Walleat!' : 'Si lo reactivas, se podran realizar compras con este Walleat.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          this.editWalleat({
+            ...this.walleat,
+            active_status: !this.walleat.active_status,
+          })
+            .then(response => {
+              this.updateWalleat(response)
+              this.$swal({
+                icon: 'success',
+                title: response.active_status ? 'Reactivado' : 'Bloqueado',
+                text: response.active_status ? 'Walleat Activo.' : 'Walleat Deshabilitado',
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                },
+              })
+            })
+        }
       })
-        .then(response => {
-          this.updateWalleat(response)
-        })
     },
     updateWalleat(walleat) {
       this.walleat = walleat
@@ -286,7 +320,7 @@ export default {
   font-weight: 600;
 }
 .lock-icon {
-  font-size: 32px;
+  font-size: 25px;
 }
 .cursor-pointer {
   cursor: pointer;
