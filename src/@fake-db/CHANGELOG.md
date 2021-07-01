@@ -4,6 +4,10 @@
 > -- <cite>Linus Torvalds.</cite>
 
 ## [0.2.7] - 2021-06-30
+- [ENH] Se pueden seleccionar multiples categorias en los filtros de productos.
+- [NEW] Se ocultan los menús dependiendo el role_name del usuario.
+
+## [0.2.7] - 2021-06-30
 - [NEW] El usuario puede prohibir productos.
 - [NEW] Grafica de categoriías con resumen ya funciona.
 - [NEW] En la parte superior aparece el saldo del customer, y si no es customer aparece el role_name.
