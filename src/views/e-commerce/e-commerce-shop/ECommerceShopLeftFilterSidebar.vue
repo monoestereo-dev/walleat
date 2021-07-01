@@ -32,7 +32,7 @@
             <h6 class="filter-title">
               Categorías
             </h6>
-            <b-form-radio-group
+            <b-form-checkbox-group
               v-model="filters.categories"
               class="categories-radio-group"
               stacked
@@ -76,7 +76,7 @@
 
 <script>
 import {
-  BRow, BCol, BCard, BFormRadioGroup, BLink,
+  BRow, BCol, BCard, BFormCheckboxGroup, BLink,
 } from 'bootstrap-vue'
 import VueSlider from 'vue-slider-component'
 import NutriScore from '@/@core/components/NutriScore.vue'
@@ -85,7 +85,7 @@ export default {
   components: {
     BRow,
     BCol,
-    BFormRadioGroup,
+    BFormCheckboxGroup,
     BLink,
     BCard,
     NutriScore,
