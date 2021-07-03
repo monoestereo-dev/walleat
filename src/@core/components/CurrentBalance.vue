@@ -15,13 +15,13 @@
       <div class="d-flex">
         <h1
           v-if="isBalanceVisible"
-          class="display-4"
+          class="display-5"
         >
           $ {{ userData.customer.current_balance | money }}
         </h1>
         <h1
           v-else
-          class="display-4"
+          class="display-5"
         >
           $ *****
         </h1>
