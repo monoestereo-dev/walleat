@@ -57,11 +57,11 @@ export default {
           })
       })
     },
-    addWalleat(ctx, { id, bracelet }) {
+    addWalleat(ctx, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`/v1/bracelets/${id}`, {
-            bracelet,
+          .post('/v1/bracelets/', {
+            bracelet: payload,
           })
           .then(response => {
             resolve(response.data)

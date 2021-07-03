@@ -10,9 +10,10 @@
       Tu nueva experiencia de pago.
     </b-card-text>
     <b-button
-      class="mt-1"
       v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+      class="mt-1"
       variant="primary"
+      :to="{ name: 'walleat-new' }"
     >
       Continua aquí!
       <feather-icon
@@ -56,3 +57,6 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-sweetalert.scss';
+</style>

@@ -3,6 +3,10 @@
 >“Talk is cheap. Show me the code.”\
 > -- <cite>Linus Torvalds.</cite>
 
+## [0.2.8] - 2021-07-01
+- [NEW] Se puede vincular un Walleat a un customer.
+
+
 ## [0.2.7] - 2021-06-30
 - [ENH] Se pueden seleccionar multiples categorias en los filtros de productos.
 - [NEW] Se ocultan los menús dependiendo el role_name del usuario.
@@ -13,12 +17,12 @@
 - [NEW] En la parte superior aparece el saldo del customer, y si no es customer aparece el role_name.
 - [NEW] Editar brazalete.
 - [ENH] Se ocultaron las notificaciones y el cambio de idioma en el menu horizontal porque aun no se integran.
-- [NEW] Activar y desactivar walleat.
-- [NEW] Editar limite diario de un walleat.
+- [NEW] Activar y desactivar Walleat.
+- [NEW] Editar limite diario de un Walleat.
 
 ## [0.2.6] - 2021-06-29
 - [NEW] nuevo timeline de historial de compras.
-- [NEW] walleat pay con qr.
+- [NEW] Walleat pay con qr.
 - [NEW] Vista para administrar consumo por Walleat.
 - [NEW] Integracion CODI-monoestereo para agregar creditos.
 
@@ -27,8 +31,8 @@
 
 ## [0.2.4] - 2021-06-22
 - [NEW] Home view.
-- [NEW] Vista de walleats
-- [NEW] Vista de detalle de walleat
+- [NEW] Vista de Walleats
+- [NEW] Vista de detalle de Walleat
 
 ## [0.2.3] - 2021-06-21
 - [NEW] Menu para mobile que se muestra en la parte inferior de la pantalla.

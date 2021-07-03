@@ -21,11 +21,18 @@
               size="lg"
             />
           </div>
-          <div class="walleat-name">
+          <div
+            class="walleat-name"
+          >
             {{ walleat.name }}
           </div>
-          <div class="d-flex align-items-center justify-content-center">
-            <feather-icon icon="SlidersIcon" class="mr-1" />
+          <div
+            class="d-flex align-items-center justify-content-center"
+          >
+            <feather-icon
+              icon="SlidersIcon"
+              class="mr-1"
+            />
             $ {{ walleat.daily_limit | money }}
           </div>
         </b-card>
@@ -38,19 +45,25 @@
       >
         <b-card
           class="mt-1 text-center"
-          @click="$router.push({ name: 'walleat-add' })"
+          @click="$router.push({ name: 'walleat-new' })"
         >
-          <div class="d-flex justify-content-center mt--5 mb-1">
+          <div
+            class="d-flex justify-content-center mt--5 mb-1"
+          >
             <b-avatar
               text="+"
               size="lg"
               variant="success"
             />
           </div>
-          <div class="walleat-name">
+          <div
+            class="walleat-name"
+          >
             Agregar
           </div>
-          <div class="d-flex align-items-center justify-content-center">
+          <div
+            class="d-flex align-items-center justify-content-center"
+          >
             Walleat
           </div>
         </b-card>

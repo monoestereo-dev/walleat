@@ -36,6 +36,12 @@ export default [
     roles: ['admin', 'customer'],
   },
   {
+    title: 'Walleats',
+    route: 'walleats-list',
+    icon: 'DollarSignIcon',
+    roles: ['admin', 'customer'],
+  },
+  {
     title: 'Establecimientos',
     route: 'establishments-list',
     icon: 'ShoppingBagIcon',

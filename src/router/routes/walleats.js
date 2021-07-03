@@ -16,14 +16,6 @@ export default [
     },
   },
   {
-    path: '/walleats/edit/:id',
-    name: 'walleat-edit',
-    component: () => import('@/views/walleats/WalleatEdit.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
     path: '/walleats/add-credit/',
     name: 'walleat-add-credit',
     component: () => import('@/views/walleats/add-credit/AddCredit.vue'),
@@ -32,9 +24,9 @@ export default [
     },
   },
   {
-    path: '/walleats/daily-limit/:id',
-    name: 'walleat-daily-limit',
-    component: () => import('@/views/walleats/add-credit/AddCredit.vue'),
+    path: '/walleats/new',
+    name: 'walleat-new',
+    component: () => import('@/views/walleats/walleat-new/WalleatNew.vue'),
     meta: {
       requiresAuth: true,
     },

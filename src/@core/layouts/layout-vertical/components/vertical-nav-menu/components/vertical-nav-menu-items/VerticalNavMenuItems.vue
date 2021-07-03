@@ -1,11 +1,11 @@
 <template>
   <ul>
-      <component
-        v-for="item in items"
-        :key="item.header || item.title"
-        :is="resolveNavItemComponent(item)"
-        :item="item"
-      />
+    <component
+      :is="resolveNavItemComponent(item)"
+      v-for="item in items"
+      :key="item.header || item.title"
+      :item="item"
+    />
   </ul>
 </template>
 

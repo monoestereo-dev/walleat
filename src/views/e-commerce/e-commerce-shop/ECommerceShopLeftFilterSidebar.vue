@@ -17,7 +17,7 @@
         <b-card>
 
           <!-- Price Slider -->
-          <div class="price-slider">
+          <!-- <div class="price-slider">
             <h6 class="filter-title mt-0">
               Rango de precio
             </h6>
@@ -25,11 +25,11 @@
               v-model="filters.priceRange"
               :direction="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
             />
-          </div>
+          </div> -->
 
           <!-- Categories -->
           <div class="product-categories">
-            <h6 class="filter-title">
+            <h6 class="filter-title mt-0">
               Categorías
             </h6>
             <b-form-checkbox-group
@@ -78,7 +78,7 @@
 import {
   BRow, BCol, BCard, BFormCheckboxGroup, BLink,
 } from 'bootstrap-vue'
-import VueSlider from 'vue-slider-component'
+// import VueSlider from 'vue-slider-component'
 import NutriScore from '@/@core/components/NutriScore.vue'
 
 export default {
@@ -90,7 +90,7 @@ export default {
     BCard,
     NutriScore,
     // 3rd Party
-    VueSlider,
+    // VueSlider,
   },
   props: {
     filters: {
