@@ -8,12 +8,22 @@
         Balance total
         <feather-icon
           class="ml-1"
-          icon="EyeIcon"
+          :icon=" isBalanceVisible ? 'EyeIcon' : 'EyeOffIcon'"
+          @click="isBalanceVisible = !isBalanceVisible"
         />
       </div>
       <div class="d-flex">
-        <h1 class="display-4">
-          $ {{ userData.customer.current_balance }}
+        <h1
+          v-if="isBalanceVisible"
+          class="display-4"
+        >
+          $ {{ userData.customer.current_balance | money }}
+        </h1>
+        <h1
+          v-else
+          class="display-4"
+        >
+          $ *****
         </h1>
         <feather-icon
           icon="InfoIcon"
@@ -57,6 +67,11 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      isBalanceVisible: true,
+    }
   },
 }
 </script>

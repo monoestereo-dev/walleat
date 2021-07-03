@@ -9,7 +9,9 @@
         xl="4"
       >
         <current-balance :user-data="userData" />
-        <add-your-first-bracelet :data="congratulations" />
+        <add-your-first-bracelet
+          v-if="userData.customer && userData.customer.bracelets_count === 0"
+        />
       </b-col>
       <b-col
         cols="12"
@@ -44,54 +46,10 @@ export default {
   data() {
     return {
       userData: {},
-      congratulations: {
-        name: 'John',
-        saleToday: '48900',
-      },
-      statisticsItems: [
-        {
-          icon: 'TrendingUpIcon',
-          color: 'light-primary',
-          title: '230k',
-          subtitle: 'Sales',
-          customClass: 'mb-2 mb-xl-0',
-        },
-        {
-          icon: 'UserIcon',
-          color: 'light-info',
-          title: '8.549k',
-          subtitle: 'Customers',
-          customClass: 'mb-2 mb-xl-0',
-        },
-        {
-          icon: 'BoxIcon',
-          color: 'light-danger',
-          title: '1.423k',
-          subtitle: 'Products',
-          customClass: 'mb-2 mb-sm-0',
-        },
-        {
-          icon: 'DollarSignIcon',
-          color: 'light-success',
-          title: '$9745',
-          subtitle: 'Revenue',
-          customClass: '',
-        },
-      ],
       orders: [],
     }
   },
   created() {
-    // data
-    // this.$http.get('/ecommerce/data')
-    //   .then(response => {
-    //     this.data = response.data
-
-    //     // ? Your API will return name of logged in user or you might just directly get name of logged in user
-    //     // ? This is just for demo purpose
-    //     const userData = getUserData()
-    //     this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
-    //   })
     this.userData = getUserData()
     this.fetchOrders()
       .then(response => {

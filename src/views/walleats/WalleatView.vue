@@ -37,16 +37,6 @@
             "
             @click="changeDailyLimit()"
           >
-            <b-avatar
-              size="48"
-              variant="light-danger"
-              class="mr-1"
-            >
-              <feather-icon
-                size="24"
-                icon="OctagonIcon"
-              />
-            </b-avatar>
             <div>
               <h2 class="display-5 mb-0">
                 $ {{ walleat.daily_limit }}

@@ -1,13 +1,12 @@
 # App
 
->“Talk is cheap. Show me the code.”\
-> -- <cite>Linus Torvalds.</cite>
+## [0.2.9] - 2021-07-02
+- [NEW] Se puede vincular un Walleat a un customer.
+- [ENH] Se puede ocultar el Saldo actual de la vista home, presionando el icono de `ojo`
+- [NEW] Componente de agrega tu primer walleat solo aparece cuando no tienes ningun walleat vinculado.
+- [NEW] Se oculto el `buscador` y `i18n` de el menu horizontal superior.
 
 ## [0.2.8] - 2021-07-01
-- [NEW] Se puede vincular un Walleat a un customer.
-
-
-## [0.2.7] - 2021-06-30
 - [ENH] Se pueden seleccionar multiples categorias en los filtros de productos.
 - [NEW] Se ocultan los menús dependiendo el role_name del usuario.
 
@@ -53,5 +52,10 @@
 - Se implemento la libreria `JWT`.
 - Pagina `Users` importada de `seed`.
 - Pagina `Profile` importada de `seed`.
+
+---
+
+>“Talk is cheap. Show me the code.”\
+> -- <cite>Linus Torvalds.</cite>
 
 #### _powered by_ monoestereo.

@@ -1,6 +1,5 @@
 <template>
   <b-card
-    v-if="data"
     class="card-congratulation-medal"
   >
     <h5>
@@ -46,12 +45,7 @@ export default {
   directives: {
     Ripple,
   },
-  props: {
-    data: {
-      type: Object,
-      default: () => {},
-    },
-  },
+  props: {},
   methods: {
     kFormatter,
   },
