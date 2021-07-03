@@ -58,7 +58,7 @@
         </b-card>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="orders.length">
       <b-col
         sm="12"
         md="6"
@@ -79,6 +79,23 @@
           </b-card-header>
           <orders-table :orders="orders" />
         </b-card>
+      </b-col>
+    </b-row>
+    <b-row
+      v-if="walleat.orders_count === 0"
+    >
+      <b-col class="mt-3 text-center">
+        <h1 class="display-3">
+          🙃
+        </h1>
+        <p class="h1">
+          No has realizado ninguna compra.
+        </p>
+        <p
+          class="text-muted"
+        >
+          Realiza una compra para ver el historial y detalle de consumo.
+        </p>
       </b-col>
     </b-row>
   </div>
