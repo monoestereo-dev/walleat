@@ -113,5 +113,19 @@ export default {
           })
       })
     },
+    fetchTransactions(ctx, params) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/v1/balance_transactions', {
+            params,
+          })
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
   },
 }

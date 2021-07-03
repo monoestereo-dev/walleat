@@ -1,11 +1,11 @@
 <template>
   <b-card
-    v-if="data"
+    v-if="transactions"
     class="card-transaction"
     no-body
   >
     <b-card-header>
-      <b-card-title>Transactions</b-card-title>
+      <b-card-title>Transacciones</b-card-title>
 
       <b-dropdown
         variant="link"
@@ -35,8 +35,8 @@
 
     <b-card-body>
       <div
-        v-for="transaction in data"
-        :key="transaction.mode"
+        v-for="transaction in transactions"
+        :key="transaction.id"
         class="transaction-item"
       >
         <b-media no-body>
@@ -44,26 +44,35 @@
             <b-avatar
               rounded
               size="42"
-              :variant="transaction.avatarVariant"
+              :variant="`light-${transactionIconVariant(transaction.transactable.payment_status)}`"
             >
               <feather-icon
                 size="18"
-                :icon="transaction.avatar"
+                :icon="transactionIcon(transaction.transactable.payment_status)"
               />
             </b-avatar>
           </b-media-aside>
           <b-media-body>
-            <h6 class="transaction-title">
-              {{ transaction.mode }}
+            <h6
+              v-if="transaction.transactable.payment_status"
+              class="transaction-title"
+            >
+              {{ transactionName(transaction.transactable.payment_status) }}
             </h6>
-            <small>{{ transaction.types }}</small>
+            <h6
+              v-else
+              class="transaction-title"
+            >
+              {{ transactionName(transaction.transactable.order_type) }}
+            </h6>
+            <small>{{ transaction.transactable.created_at | date }}</small>
           </b-media-body>
         </b-media>
         <div
           class="font-weight-bolder"
-          :class="transaction.deduction ? 'text-danger':'text-success'"
+          :class="`text-${transactionIconVariant(transaction.transactable.payment_status)}`"
         >
-          {{ transaction.payment }}
+          {{ transaction.transactable.amount ? '+' : '-' }} ${{ transaction.transactable.amount || transaction.transactable.total | money}}
         </div>
       </div>
     </b-card-body>
@@ -89,9 +98,36 @@ export default {
     BDropdownItem,
   },
   props: {
-    data: {
+    transactions: {
       type: Array,
       default: () => [],
+    },
+  },
+  methods: {
+    transactionIconVariant(status) {
+      const statusList = {
+        pending: 'warning',
+        payed: 'success',
+        cancelled: 'danger',
+      }
+      return statusList[status] ? statusList[status] : 'primary'
+    },
+    transactionIcon(status) {
+      const statusList = {
+        pending: 'ClockIcon',
+        payed: 'DollarSignIcon',
+        cancelled: 'XCircleIcon',
+      }
+      return statusList[status] ? statusList[status] : 'ShoppingBagIcon'
+    },
+    transactionName(status) {
+      const statusList = {
+        payed: 'Deposito exitoso',
+        pending: 'Operación pendiente',
+        cancelled: 'Operación cancelada',
+        sell: 'Realizaste una compra',
+      }
+      return statusList[status] ? statusList[status] : 'Error'
     },
   },
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row class="">
+    <b-row class="match-height">
       <b-col
         v-if="userData.customer"
         sm="12"
@@ -12,6 +12,7 @@
         <add-your-first-bracelet
           v-if="userData.customer && userData.customer.bracelets_count === 0"
         />
+        <customer-transactions :transactions="transactions" />
       </b-col>
       <b-col
         cols="12"
@@ -33,6 +34,7 @@ import {
 import { getUserData } from '@/auth/utils'
 import TransactionsTimeline from '@/@core/components/TransactionsTimeline.vue'
 import AddYourFirstBracelet from '@/@core/components/BraceletWizzard.vue'
+import CustomerTransactions from '@/@core/components/CustomerTransactions.vue'
 import CurrentBalance from '@/@core/components/CurrentBalance.vue'
 
 export default {
@@ -41,12 +43,14 @@ export default {
     BCol,
     TransactionsTimeline,
     AddYourFirstBracelet,
+    CustomerTransactions,
     CurrentBalance,
   },
   data() {
     return {
       userData: {},
       orders: [],
+      transactions: [],
     }
   },
   created() {
@@ -55,9 +59,20 @@ export default {
       .then(response => {
         this.orders = response.data
       })
+    this.fetchTransactions({
+      meta: {
+        pagination: {
+          per_page: 14,
+        },
+      },
+    })
+      .then(response => {
+        this.transactions = response.data
+      })
   },
   methods: {
     ...mapActions('orders', ['fetchOrders']),
+    ...mapActions('walleats', ['fetchTransactions']),
   },
 }
 </script>
