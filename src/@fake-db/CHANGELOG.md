@@ -1,5 +1,9 @@
 # App
 
+## [0.2.10] - 2021-07-03
+- [ENH] Se quito el boton de profile del dropdown de usuario del menu superior.
+- [NEW] Se agrego un componente de `Transacciones` en el home
+
 ## [0.2.9] - 2021-07-02
 - [NEW] Se puede vincular un Walleat a un customer.
 - [ENH] Se puede ocultar el Saldo actual de la vista home, presionando el icono de `ojo`

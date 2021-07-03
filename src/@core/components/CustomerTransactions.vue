@@ -43,11 +43,11 @@
           <b-media-aside>
             <b-avatar
               rounded
-              size="42"
+              size="35"
               :variant="`light-${transactionIconVariant(transaction.transactable.payment_status)}`"
             >
               <feather-icon
-                size="18"
+                size="15"
                 :icon="transactionIcon(transaction.transactable.payment_status)"
               />
             </b-avatar>
@@ -72,7 +72,7 @@
           class="font-weight-bolder"
           :class="`text-${transactionIconVariant(transaction.transactable.payment_status)}`"
         >
-          {{ transaction.transactable.amount ? '+' : '-' }} ${{ transaction.transactable.amount || transaction.transactable.total | money}}
+          {{ transaction.transactable.amount ? '+' : '-' }} ${{ transaction.transactable.amount || transaction.transactable.total | money }}
         </div>
       </div>
     </b-card-body>
