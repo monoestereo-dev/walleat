@@ -265,7 +265,6 @@ export default {
               errors.push(y)
             })
           })
-          console.log(errors)
           this.$swal({
             title: '¡ERROR!',
             text: errors,

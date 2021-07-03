@@ -133,7 +133,7 @@ export default {
     ...mapGetters(['apiUrl']),
   },
   beforeMount() {
-    const currentBraceletId = this.$router.currentRoute.params.id
+    const currentBraceletId = this.$route.params.id
     this.fetchWalleat(currentBraceletId).then(response => {
       this.walleat = response
     })
@@ -278,7 +278,7 @@ export default {
     changeDailyLimit() {
       this.$swal({
         title: 'Limite diario',
-        input: 'text',
+        input: 'number',
         customClass: {
           confirmButton: 'btn btn-primary',
           cancelButton: 'btn btn-outline-danger ml-1',
