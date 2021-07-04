@@ -94,11 +94,11 @@
             <div class="item-rating">
               <nutri-score :nutritional-info="product.nutritional_info" />
             </div>
-            <div>
+            <!-- <div>
               <h6 class="item-price">
                 ${{ product.price }}
               </h6>
-            </div>
+            </div> -->
           </div>
           <h6 class="item-name">
             <b-link
@@ -127,11 +127,11 @@
         <!-- Product Actions -->
         <div class="item-options text-center">
           <div class="item-wrapper">
-            <div class="item-cost">
+            <!-- <div class="item-cost">
               <h4 class="item-price">
                 ${{ product.price }}
               </h4>
-            </div>
+            </div> -->
           </div>
           <b-button
             v-if="$route.name === 'ban-products'"
