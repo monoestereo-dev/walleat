@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { isUserLoggedIn, getUserData, getHomeRouteForLoggedInUser } from '@/auth/utils'
 // import { canNavigate } from '@/libs/acl/routeProtection'
+import jwt from 'jsonwebtoken'
 
 // Routes
 import pages from './routes/pages'
@@ -41,16 +42,30 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, _, next) => {
+  const userData = getUserData()
   const isLoggedIn = isUserLoggedIn()
+
   if (to.meta.requiresAuth) {
     // Redirect to login if not logged in
     if (!isLoggedIn) return next({ name: 'auth-login' })
   }
 
+  // TODO: Mandar a vista de token expired no login.
+  if (isLoggedIn) {
+    const decodedToken = jwt.decode(userData.token)
+    if (decodedToken.exp < Math.floor(Date.now() / 1000)) {
+      console.log('token expired')
+      /* Remove userData from localStorage */
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
+      localStorage.removeItem('userData')
+      return next({ name: 'auth-login' })
+    }
+  }
+
   // Redirect if logged in
   if (to.meta.redirectIfLoggedIn && isLoggedIn) {
-    const userData = getUserData()
-    next(getHomeRouteForLoggedInUser(userData ? userData.role : null))
+    next(getHomeRouteForLoggedInUser(userData ? userData.role_name : null))
   }
 
   return next()
