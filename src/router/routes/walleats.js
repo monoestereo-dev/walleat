@@ -31,4 +31,12 @@ export default [
       requiresAuth: true,
     },
   },
+  {
+    path: '/bracelet/pair',
+    name: 'walleat-pair',
+    component: () => import('@/views/walleats/walleat-new/WalleatNew.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
