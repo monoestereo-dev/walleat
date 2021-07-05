@@ -92,28 +92,6 @@
           </b-form-group>
         </b-col>
 
-        <!-- alert -->
-        <b-col
-          cols="12"
-          class="mt-75"
-        >
-          <b-alert
-            show
-            variant="warning"
-            class="mb-50"
-          >
-            <h4 class="alert-heading">
-              Your email is not confirmed. Please check your inbox.
-            </h4>
-            <div class="alert-body">
-              <b-link class="alert-link">
-                Resend confirmation
-              </b-link>
-            </div>
-          </b-alert>
-        </b-col>
-        <!--/ alert -->
-
         <b-col cols="12">
           <b-button
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -139,7 +117,7 @@
 
 <script>
 import {
-  BFormFile, BButton, BForm, BFormGroup, BFormInput, BRow, BCol, BAlert, BCard, BCardText, BMedia, BMediaAside, BMediaBody, BLink, BImg,
+  BFormFile, BButton, BForm, BFormGroup, BFormInput, BRow, BCol, BCard, BCardText, BMedia, BMediaAside, BMediaBody, BLink, BImg,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
@@ -156,7 +134,6 @@ export default {
     BFormInput,
     BRow,
     BCol,
-    BAlert,
     BCard,
     BCardText,
     BMedia,
