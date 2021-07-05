@@ -21,8 +21,7 @@
       </template>
 
       <account-setting-general
-        v-if="options.general"
-        :general-data="options.general"
+        :general-data="userData"
       />
     </b-tab>
     <!--/ general tab -->
@@ -124,6 +123,7 @@ export default {
   data() {
     return {
       options: {},
+      userData: JSON.parse(localStorage.getItem('userData')),
     }
   },
   beforeCreate() {

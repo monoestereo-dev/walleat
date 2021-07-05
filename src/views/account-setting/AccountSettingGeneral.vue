@@ -8,7 +8,7 @@
           <b-img
             ref="previewEl"
             rounded
-            :src="optionsLocal.avatar"
+            :src="`${apiUrl}${optionsLocal.logo}`"
             height="80"
           />
         </b-link>
@@ -60,21 +60,9 @@
             label-for="account-username"
           >
             <b-form-input
-              v-model="optionsLocal.username"
+              v-model="optionsLocal.name"
               placeholder="Username"
               name="username"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col sm="6">
-          <b-form-group
-            label="Name"
-            label-for="account-name"
-          >
-            <b-form-input
-              v-model="optionsLocal.fullName"
-              name="name"
-              placeholder="Name"
             />
           </b-form-group>
         </b-col>
@@ -93,13 +81,13 @@
         </b-col>
         <b-col sm="6">
           <b-form-group
-            label="Company"
-            label-for="account-company"
+            label="Role"
+            label-for="role"
           >
             <b-form-input
-              v-model="optionsLocal.company"
-              name="company"
-              placeholder="Company name"
+              v-model="optionsLocal.role_name"
+              name="role"
+              disabled
             />
           </b-form-group>
         </b-col>
@@ -156,6 +144,7 @@ import {
 import Ripple from 'vue-ripple-directive'
 import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
 import { ref } from '@vue/composition-api'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -189,6 +178,9 @@ export default {
       optionsLocal: JSON.parse(JSON.stringify(this.generalData)),
       profileFile: null,
     }
+  },
+  computed: {
+    ...mapGetters(['apiUrl']),
   },
   methods: {
     resetForm() {
