@@ -22,7 +22,7 @@
             class="mb-2"
           >
             <h5 class="mb-0">
-              ¿Cuantos creditos quieres agregar?
+              ¿Cuántos creditos quieres agregar?
             </h5>
             <small class="text-muted">
               El minimo es $25.
