@@ -1,5 +1,8 @@
 # App
 
+## [0.2.11] - 2021-07-05
+- [FIX] 
+
 ## [0.2.10] - 2021-07-03
 - [ENH] Se quito el boton de profile del dropdown de usuario del menu superior.
 - [NEW] Se agrego un componente de `Transacciones` en el home

@@ -16,37 +16,49 @@
 
       <!-- Cantidad -->
       <tab-content title="Cantidad">
-        <b-row>
-          <b-col
-            cols="12"
-            class="mb-2"
-          >
-            <h5 class="mb-0">
-              ¿Cuantos creditos quieres agregar?
-            </h5>
-            <small class="text-muted">
-              El minimo es $25.
-            </small>
-          </b-col>
-          <b-col>
-            <b-form-group
-              label-for="v-ammount"
+        <validation-observer
+          ref="accountRules"
+          tag="form"
+        >
+          <b-row>
+            <b-col
+              cols="12"
+              class="mb-2"
             >
-              <b-input-group
-                prepend="$"
-                class="input-group-merge"
+              <h5 class="mb-0">
+                ¿Cuantos creditos quieres agregar?
+              </h5>
+              <small class="text-muted">
+                El minimo es $25.
+              </small>
+            </b-col>
+            <b-col>
+              <b-form-group
+                label-for="v-ammount"
               >
-                <b-form-input
-                  id="v-ammount"
-                  v-model="credits"
-                  placeholder="25"
-                  size="lg"
-                  type="number"
-                />
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-        </b-row>
+                <validation-provider
+                  #default="{ errors }"
+                  name="Nombre"
+                  rules="required"
+                >
+                  <b-input-group
+                    prepend="$"
+                    class="input-group-merge"
+                  >
+                    <b-form-input
+                      id="v-ammount"
+                      v-model="credits"
+                      placeholder="25"
+                      size="lg"
+                      type="number"
+                    />
+                  </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </validation-observer>
       </tab-content>
 
       <!-- personal info tab -->
@@ -123,6 +135,8 @@
 <script>
 import { mapActions } from 'vuex'
 import { FormWizard, TabContent } from 'vue-form-wizard'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { required, email } from '@validations'
 import '@/@core/scss/vue/libs/vue-wizard.scss'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import {
@@ -147,6 +161,8 @@ export default {
     BInputGroup,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
+    ValidationProvider,
+    ValidationObserver,
   },
   data() {
     return {
@@ -154,6 +170,8 @@ export default {
       payment: {
         cel_number: null,
       },
+      required,
+      email,
     }
   },
   methods: {
