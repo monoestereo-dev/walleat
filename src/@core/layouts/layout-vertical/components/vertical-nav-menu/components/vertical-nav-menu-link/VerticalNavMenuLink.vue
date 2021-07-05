@@ -1,6 +1,6 @@
 <template>
   <li
-    v-if="canViewVerticalNavMenuLink(item)"
+    v-if="canViewVerticalNavMenuLink(item) && item.roles.includes(userData.role_name)"
     class="nav-item"
     :class="{
       'active': isActive,
@@ -12,7 +12,7 @@
       class="d-flex align-items-center"
     >
       <feather-icon :icon="item.icon || 'CircleIcon'" />
-      <span class="menu-title text-truncate">{{ t(item.title) }}</span>
+      <span class="menu-title text-truncate">{{ item.title }}</span>
       <b-badge
         v-if="item.tag"
         pill
@@ -29,6 +29,7 @@
 import { useUtils as useAclUtils } from '@core/libs/acl'
 import { BLink, BBadge } from 'bootstrap-vue'
 import { useUtils as useI18nUtils } from '@core/libs/i18n'
+import { getUserData } from '@/auth/utils'
 import useVerticalNavMenuLink from './useVerticalNavMenuLink'
 import mixinVerticalNavMenuLink from './mixinVerticalNavMenuLink'
 
@@ -61,6 +62,13 @@ export default {
       t,
     }
   },
-
+  data() {
+    return {
+      userData: {},
+    }
+  },
+  created() {
+    this.userData = getUserData()
+  },
 }
 </script>

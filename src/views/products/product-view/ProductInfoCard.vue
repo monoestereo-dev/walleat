@@ -102,7 +102,7 @@
             <hr>
 
             <div class="d-flex flex-column flex-sm-row pt-1">
-              <b-button
+              <!-- <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="primary"
                 class="btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0"
@@ -113,19 +113,7 @@
                   class="mr-50"
                 />
                 <span>{{ product.isInCart ? 'View In Cart' : 'Add to Cart' }}</span>
-              </b-button>
-              <b-button
-                variant="outline-secondary"
-                class="btn-wishlist mr-0 mr-sm-1 mb-1 mb-sm-0"
-                @click="toggleProductInWishlist(product)"
-              >
-                <feather-icon
-                  icon="HeartIcon"
-                  class="mr-50"
-                  :class="{'text-danger': product.isInWishlist}"
-                />
-                <span>Wishlist</span>
-              </b-button>
+              </b-button> -->
               <b-dropdown
                 variant="outline-secondary"
                 no-caret
@@ -149,18 +137,18 @@
       </b-card-body>
 
       <!-- Static Content -->
-      <e-commerce-product-details-item-features />
+      <!-- <e-commerce-product-details-item-features /> -->
 
       <!-- Static Content -->
       <!-- Slider: Related Products -->
-      <e-commerce-product-details-related-products />
+      <!-- <e-commerce-product-details-related-products /> -->
     </b-card>
   </section>
 </template>
 
 <script>
 import {
-  BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BButton, BDropdown, BDropdownItem, BAlert, BBadge,
+  BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BDropdown, BDropdownItem, BAlert, BBadge,
 } from 'bootstrap-vue'
 import { mapGetters } from 'vuex'
 import NutriScore from '@/@core/components/NutriScore.vue'
@@ -179,7 +167,6 @@ export default {
     BImg,
     BCardText,
     BLink,
-    BButton,
     BDropdown,
     BDropdownItem,
     BAlert,

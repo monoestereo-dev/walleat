@@ -10,7 +10,18 @@
         <p class="user-name font-weight-bolder mb-0">
           {{ userData.name || userData.email }}
         </p>
-        <span class="user-status">{{ userData.role }}</span>
+        <span
+          v-if="userData.customer"
+          class="user-status text-success"
+        >
+          $ {{ userData.customer.current_balance | money }}
+        </span>
+        <span
+          v-else
+          class="user-status text-success"
+        >
+          {{ userData.role_name }}
+        </span>
       </div>
       <b-avatar
         size="40"
@@ -27,20 +38,6 @@
         />
       </b-avatar>
     </template>
-
-    <b-dropdown-item
-      :to="{ name: 'pages-profile'}"
-      link-class="d-flex align-items-center"
-    >
-      <feather-icon
-        size="16"
-        icon="UserIcon"
-        class="mr-50"
-      />
-      <span>Profile</span>
-    </b-dropdown-item>
-
-    <b-dropdown-divider />
 
     <b-dropdown-item
       :to="{ name: 'pages-account-setting' }"

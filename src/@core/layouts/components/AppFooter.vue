@@ -19,7 +19,7 @@
         />
       </span>
     </p>
-    <menu-bottom-mobile class="d-block d-sm-none" />
+    <menu-bottom-mobile class="d-block d-md-none" />
   </div>
 </template>
 

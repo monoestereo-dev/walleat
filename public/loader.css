@@ -3,23 +3,24 @@ body {
 }
 
 #loading-bg {
+  z-index: 100;
   width: 100%;
   height: 100%;
-  background: #fff;
-  display: block;
+  background: #161D31;
+  display: flex;
   position: absolute;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .loading-logo {
-  position: absolute;
-  left: calc(50% - 45px);
-  top: 40%;
+  position: relative;
 }
 .loading {
-  position: absolute;
-  left: calc(50% - 35px);
-  top: 50%;
-  width: 55px;
-  height: 55px;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-top: -125px;
   border-radius: 50%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -30,8 +31,8 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 3px solid transparent;
-  border-left: 3px solid rgba(121, 97, 249, 1);
+  border: 0 solid transparent;
+  border-left: 3px solid rgba(255,255,255, 1);
   border-radius: 50%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -48,7 +49,7 @@ body {
   width: 100%;
   height: 100%;
   border: 3px solid transparent;
-  border-left: 3px solid rgba(121, 97, 249, 1);
+  border-left: 3px solid rgb(255, 255, 255);
   -webkit-animation: rotateOpacity 1s ease infinite 0.2s;
   animation: rotateOpacity 1s ease infinite 0.2s;
   border-radius: 50%;

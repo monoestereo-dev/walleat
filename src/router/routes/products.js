@@ -8,20 +8,13 @@ export default [
     },
   },
   {
-    path: '/apps/e-commerce/shop',
+    path: '/products',
     name: 'ecommerce',
     component: () => import('@/views/e-commerce/e-commerce-shop/ECommerceShop.vue'),
     meta: {
       requiresAuth: true,
       contentRenderer: 'sidebar-left-detached',
       contentClass: 'ecommerce-application',
-      pageTitle: 'Productos',
-      breadcrumb: [
-        {
-          text: 'Productos',
-          active: true,
-        },
-      ],
     },
   },
   {
@@ -30,16 +23,23 @@ export default [
     component: () => import('@/views/products/product-view/ProductView.vue'),
     meta: {
       requiresAuth: true,
+      breadcrumb: [
+        {
+          text: 'Productos',
+          to: { name: 'ecommerce' },
+        },
+      ],
     },
-    breadcrumb: [
-      {
-        text: 'Productos',
-      },
-      {
-        text: 'xxx',
-        active: true,
-      },
-    ],
+  },
+  {
+    path: '/products/ban/:id',
+    name: 'ban-products',
+    component: () => import('@/views/e-commerce/e-commerce-shop/ECommerceShop.vue'),
+    meta: {
+      requiresAuth: true,
+      contentRenderer: 'sidebar-left-detached',
+      contentClass: 'ecommerce-application',
+    },
   },
   {
     path: '/products/edit/:id',

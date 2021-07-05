@@ -11,11 +11,19 @@
           <span class="walleat-name">{{ walleat.name }}</span>
         </div>
       </div>
-      <feather-icon
-        class="m-1 cursor-pointer"
-        icon="SettingsIcon"
-        size="28"
-      />
+      <div>
+        <feather-icon
+          class="m-1 cursor-pointer"
+          icon="PowerIcon"
+          size="28"
+          :class="walleat.active_status ? 'text-success' : 'text-danger'"
+          @click="changeWalleatActiveStatus()"
+        />
+        <walleat-settings
+          :data="walleat"
+          @success="updateWalleat($event)"
+        />
+      </div>
     </div>
     <b-row class="match-height">
       <b-col class="text-center">
@@ -23,33 +31,34 @@
           <b-card-body
             class="
               d-flex
-              flex-column
               justify-content-center
               align-items-center
               cursor-pointer
             "
-            @click="$router.push({ name: 'walleat-add-credit', params: { id: walleat.id } })"
+            @click="changeDailyLimit()"
           >
-            <h2 class="display-5">
-              $ {{ walleat.daily_limit }}
-            </h2>
-            Limite diario
+            <div>
+              <h2 class="display-5 mb-0">
+                $ {{ walleat.daily_limit }}
+              </h2>
+              Limite diario
+            </div>
           </b-card-body>
         </b-card>
       </b-col>
       <b-col>
         <b-card
           class="text-center cursor-pointer"
-          @click="$router.push({ name: 'products-list', params: { id: walleat.id } })"
+          @click="$router.push({ name: 'ban-products', params: { id: $route.params.id } })"
         >
-          <h2 class="lock-icon">
+          <h2 class="lock-icon mb-0">
             🔒
           </h2>
           Administrar consumo
         </b-card>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="orders.length">
       <b-col
         sm="12"
         md="6"
@@ -72,12 +81,30 @@
         </b-card>
       </b-col>
     </b-row>
+    <b-row
+      v-if="walleat.orders_count === 0"
+    >
+      <b-col class="mt-3 text-center">
+        <h1 class="display-3">
+          🙃
+        </h1>
+        <p class="h1">
+          No has realizado ninguna compra.
+        </p>
+        <p
+          class="text-muted"
+        >
+          Realiza una compra para ver el historial y detalle de consumo.
+        </p>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
 import ChartjsDoughnutChart from '@/@core/components/charts/chartjs/ChartjsDoughnutChart.vue'
 import OrdersTable from '@/@core/components/OrdersTable.vue'
+import WalleatSettings from '@/views/walleats/WalleatSettings.vue'
 import {
   BAvatar,
   BRow,
@@ -92,6 +119,7 @@ export default {
   components: {
     ChartjsDoughnutChart,
     OrdersTable,
+    WalleatSettings,
     BAvatar,
     BRow,
     BCol,
@@ -101,7 +129,9 @@ export default {
   },
   data() {
     return {
-      walleat: {},
+      walleat: {
+        name: 'test',
+      },
       orders: [],
       doughnutData: {},
     }
@@ -110,7 +140,7 @@ export default {
     ...mapGetters(['apiUrl']),
   },
   beforeMount() {
-    const currentBraceletId = this.$router.currentRoute.params.id
+    const currentBraceletId = this.$route.params.id
     this.fetchWalleat(currentBraceletId).then(response => {
       this.walleat = response
     })
@@ -130,10 +160,23 @@ export default {
         '#299AFF',
         '#4F5D70',
         '#2c9aff',
+        '#666ee8',
         '#84D0FF',
         '#EDF1F4',
-        '#666ee8',
         '#ff4961',
+        '#4F5D70',
+        '#2c9aff',
+        '#836AF9',
+        '#84D0FF',
+        '#ffe800',
+        '#ff4961',
+        '#6e6b7b',
+        '#ffe802',
+        '#FDAC34',
+        '#299AFF',
+        '#EDF1F4',
+        '#666ee8',
+        '#28dac6',
         '#6e6b7b',
       ]
       this.doughnutData = {
@@ -150,7 +193,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions('walleats', ['fetchWalleat', 'fetchWalleatGraph']),
+    ...mapActions('walleats', ['fetchWalleat', 'fetchWalleatGraph', 'editWalleat']),
     ...mapActions('orders', ['fetchOrders']),
     getcurrentDayData() {
       const date = new Date()
@@ -204,11 +247,76 @@ export default {
         by_date: { end_date: endDate, start_date: startDate },
       })
     },
+    changeWalleatActiveStatus() {
+      this.$swal({
+        title: '¿Estás seguro?',
+        text: this.walleat.active_status ? 'No podras realizar compras con este Walleat!' : 'Si lo reactivas, se podran realizar compras con este Walleat.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          this.editWalleat({
+            ...this.walleat,
+            active_status: !this.walleat.active_status,
+          })
+            .then(response => {
+              this.updateWalleat(response)
+              this.$swal({
+                icon: 'success',
+                title: response.active_status ? 'Reactivado' : 'Bloqueado',
+                text: response.active_status ? 'Walleat Activo.' : 'Walleat Deshabilitado',
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                },
+              })
+            })
+        }
+      })
+    },
+    updateWalleat(walleat) {
+      this.walleat = walleat
+    },
+    changeDailyLimit() {
+      this.$swal({
+        title: 'Limite diario',
+        input: 'number',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+          container: 'dark-layout',
+        },
+        buttonsStyling: false,
+        inputAttributes: {
+          autocapitalize: 'off',
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        showLoaderOnConfirm: true,
+        preConfirm: dailyLimit => {
+          if (!dailyLimit) return null
+          return this.editWalleat({
+            ...this.walleat,
+            daily_limit: dailyLimit,
+          })
+            .then(response => response)
+        },
+      })
+        .then(response => {
+          this.updateWalleat(response.value)
+        })
+    },
   },
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-sweetalert.scss';
 .walleat-name {
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -219,7 +327,7 @@ export default {
   font-weight: 600;
 }
 .lock-icon {
-  font-size: 32px;
+  font-size: 25px;
 }
 .cursor-pointer {
   cursor: pointer;
