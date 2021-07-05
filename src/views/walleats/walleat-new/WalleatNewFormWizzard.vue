@@ -123,6 +123,7 @@
 
       <!-- Walleat id  -->
       <tab-content
+        v-if="!$route.query.enc"
         title="Vincular Walleat"
         :before-change="validationFormAddress"
       >
@@ -241,8 +242,20 @@ export default {
     ...mapActions('establishments', ['fetchEstablishments']),
     formSubmitted() {
       const userData = JSON.parse(localStorage.getItem('userData'))
+      let walleat = {}
+      if (this.$route.query.enc) {
+        walleat = {
+          ...this.walleat,
+          bracelet_number: this.$route.query.enc,
+        }
+      } else {
+        walleat = {
+          ...this.walleat,
+        }
+      }
+
       this.addWalleat({
-        ...this.walleat,
+        ...walleat,
         customer_id: userData.customer.id,
       })
         .then(() => {

@@ -52,9 +52,9 @@ router.beforeEach((to, _, next) => {
 
   // TODO: Mandar a vista de token expired no login.
   if (isLoggedIn) {
+    // const decodedToken = jwt.decode('eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjU0MjU3NzIsInN1YiI6ImU3NjUyNTYyLTNlMGUtNGU0ZC1iNjlmLTM1ZDI4M2MzNGEwYSJ9.bM5UTr8TbSihHlRvRlvW-_9cm25VFWv6knzspwL5x78')
     const decodedToken = jwt.decode(userData.token)
     if (decodedToken.exp < Math.floor(Date.now() / 1000)) {
-      console.log('token expired')
       /* Remove userData from localStorage */
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')
