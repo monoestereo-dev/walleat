@@ -53,7 +53,7 @@
                       type="number"
                     />
                   </b-input-group>
-                    <small class="text-danger">{{ errors[0] }}</small>
+                  <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
             </b-col>
