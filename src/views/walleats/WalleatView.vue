@@ -74,9 +74,6 @@
         lg="8"
       >
         <b-card no-body>
-          <b-card-header>
-            <h2>consumo</h2>
-          </b-card-header>
           <orders-table :orders="orders" />
         </b-card>
       </b-col>
@@ -103,7 +100,7 @@
 
 <script>
 import ChartjsDoughnutChart from '@/@core/components/charts/chartjs/ChartjsDoughnutChart.vue'
-import OrdersTable from '@/@core/components/OrdersTable.vue'
+import OrdersTable from '@/@core/components/TransactionsTimeline.vue'
 import WalleatSettings from '@/views/walleats/WalleatSettings.vue'
 import {
   BAvatar,
@@ -111,7 +108,6 @@ import {
   BCol,
   BCard,
   BCardBody,
-  BCardHeader,
 } from 'bootstrap-vue'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -125,7 +121,6 @@ export default {
     BCol,
     BCard,
     BCardBody,
-    BCardHeader,
   },
   data() {
     return {
