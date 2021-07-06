@@ -19,22 +19,6 @@
             </div>
             <div class="view-options d-flex">
 
-              <!-- Sort Button -->
-              <b-dropdown
-                v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                :text="sortBy.text"
-                right
-                variant="outline-primary"
-              >
-                <b-dropdown-item
-                  v-for="sortOption in sortByOptions"
-                  :key="sortOption.value"
-                  @click="sortBy=sortOption"
-                >
-                  {{ sortOption.text }}
-                </b-dropdown-item>
-              </b-dropdown>
-
               <!-- Item View Radio Button Group  -->
               <b-form-radio-group
                 v-model="itemView"
@@ -110,16 +94,16 @@
             <div class="item-rating">
               <nutri-score :nutritional-info="product.nutritional_info" />
             </div>
-            <div>
+            <!-- <div>
               <h6 class="item-price">
                 ${{ product.price }}
               </h6>
-            </div>
+            </div> -->
           </div>
           <h6 class="item-name">
             <b-link
               class="text-body"
-              :to="{ name: 'apps-e-commerce-product-details', params: { slug: product.slug } }"
+              :to="{ name: 'product-view', params: { id: product.id } }"
             >
               {{ product.name }}
             </b-link>
@@ -143,36 +127,37 @@
         <!-- Product Actions -->
         <div class="item-options text-center">
           <div class="item-wrapper">
-            <div class="item-cost">
+            <!-- <div class="item-cost">
               <h4 class="item-price">
                 ${{ product.price }}
               </h4>
-            </div>
+            </div> -->
           </div>
           <b-button
+            v-if="$route.name === 'ban-products'"
             variant="light"
             tag="a"
             class="btn-wishlist"
-            @click="toggleProductInWishlist(product)"
+            @click="handleBanProduct(product)"
           >
             <feather-icon
-              icon="HeartIcon"
+              :icon="product.is_banned? 'SlashIcon' : 'CheckCircleIcon'"
               class="mr-50"
-              :class="{'text-danger': product.isInWishlist}"
+              :stroke="product.is_banned ? '#ea5455' : '#28c76f'"
             />
-            <span>Wishlist</span>
+            <span :class="product.is_banned ? 'text-danger' : 'text-success'">{{ product.is_banned ? 'No permitido' : 'Permitido' }}</span>
           </b-button>
           <b-button
             variant="primary"
             tag="a"
             class="btn-cart"
-            @click="handleCartActionClick(product)"
+            :to="{ name: 'product-view', params: { id: product.id } }"
           >
             <feather-icon
-              icon="ShoppingCartIcon"
+              icon="EyeIcon"
               class="mr-50"
             />
-            <span>{{ product.isInCart ? 'View In Cart' : 'Add to Cart' }}</span>
+            <span>Más detalles</span>
           </b-button>
         </div>
       </b-card>
@@ -224,12 +209,12 @@
 <script>
 import _ from 'underscore'
 import {
-  BDropdown, BDropdownItem, BFormRadioGroup, BFormRadio, BRow, BCol, BInputGroup, BInputGroupAppend,
+  BFormRadioGroup, BFormRadio, BRow, BCol, BInputGroup, BInputGroupAppend,
   BFormInput, BCard, BCardBody, BLink, BImg, BCardText, BButton, BPagination, BBadge,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { watch } from '@vue/composition-api'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
 import NutriScore from '@/@core/components/NutriScore.vue'
 import ShopLeftFilterSidebar from './ECommerceShopLeftFilterSidebar.vue'
@@ -242,8 +227,6 @@ export default {
   },
   components: {
     // BSV
-    BDropdown,
-    BDropdownItem,
     BFormRadioGroup,
     BFormRadio,
     BRow,
@@ -267,7 +250,7 @@ export default {
     NutriScore,
 
   },
-  setup() {
+  setup(x, ctx) {
     const {
       filters, filterOptions, sortBy, sortByOptions,
     } = useShopFiltersSortingAndPagination()
@@ -290,7 +273,10 @@ export default {
       if (/^\d*$/.test(filters.value.q) && filters.value.q !== null && filters.value.q !== '') {
         fetchProducts({
           by_sku: filters.value.q || null,
+          by_category: filters.value.categories || null,
           by_active_status: true,
+          by_bracelet: ctx.root.$route.params.id || null,
+          is_banned: ctx.root.$route.params.id || null,
           meta: {
             pagination: {
               page: filters.value.page,
@@ -305,7 +291,10 @@ export default {
       } else if (filters.value.q !== null && filters.value.q !== '') {
         fetchProducts({
           by_name: filters.value.q || null,
+          by_category: filters.value.categories || null,
           by_active_status: true,
+          by_bracelet: ctx.root.$route.params.id || null,
+          is_banned: ctx.root.$route.params.id || null,
           meta: {
             pagination: {
               page: filters.value.page,
@@ -320,6 +309,9 @@ export default {
       } else if (filters.value.q === null || filters.value.q === '') {
         fetchProducts({
           by_active_status: true,
+          by_category: filters.value.categories || null,
+          by_bracelet: ctx.root.$route.params.id || null,
+          is_banned: ctx.root.$route.params.id || null,
           meta: {
             pagination: {
               page: filters.value.page,
@@ -380,6 +372,34 @@ export default {
   },
   computed: {
     ...mapGetters(['apiUrl']),
+  },
+  methods: {
+    ...mapActions('walleats', ['banItem']),
+    ...mapActions('products', ['fetchProducts']),
+    handleBanProduct(product) {
+      this.banItem({
+        bracelet_id: this.$route.params.id,
+        banneable_id: product.id,
+        banneable_type: 'Product',
+        _delete: product.is_banned ? 'true' : 'false',
+      })
+        .then(() => {
+          this.fetchProducts({
+            by_active_status: true,
+            by_bracelet: this.$route.params.id || null,
+            is_banned: this.$route.params.id || null,
+            meta: {
+              pagination: {
+                page: this.filters.page,
+                per_page: this.filters.perPage,
+              },
+            },
+          })
+            .then(response => {
+              this.products = response.data
+            })
+        })
+    },
   },
 }
 </script>

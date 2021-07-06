@@ -1,6 +1,6 @@
 <template>
   <b-card
-    title="Sessions By Device"
+    title="Resumen por categorías"
   >
     <!-- chart -->
     <chartjs-component-doughnut-chart
@@ -12,36 +12,21 @@
     />
     <!--/ chart -->
 
-    <!-- stocks -->
-    <div
-      v-for="(stock,index) in stockData"
-      :key="stock.device"
-      :class="index < stockData.length-1 ? 'mb-1':''"
-      class="d-flex justify-content-between"
+    <!-- labels -->
+    <b-badge
+      v-for="(label,index) in graphData.datasets[0].labels"
+      :key="`label-${index}`"
+      class="mr-1 mt-1"
+      :style="{ backgroundColor: backgroundWithOpacity(graphData.datasets[0].backgroundColor[index], 0.1), color: graphData.datasets[0].backgroundColor[index] }"
     >
-      <div class="d-flex align-items-center">
-        <feather-icon
-          :icon="stock.symbol"
-          size="16"
-          :class="stock.color"
-        />
-        <span class="font-weight-bold ml-75 mr-25">{{ stock.device }}</span>
-        <span>- {{ stock.percentage }}%</span>
-      </div>
-      <div>
-        <span>{{ stock.upDown }}%</span>
-        <feather-icon
-          :icon="stock.upDown > 0 ? 'ArrowUpIcon':'ArrowDownIcon'"
-          :class="stock.upDown > 0 ? 'text-success':'text-danger'"
-        />
-      </div>
-    </div>
+      {{ label }}
+    </b-badge>
     <!--/ stocks -->
   </b-card>
 </template>
 
 <script>
-import { BCard } from 'bootstrap-vue'
+import { BCard, BBadge } from 'bootstrap-vue'
 import ChartjsComponentDoughnutChart from './charts-components/ChartjsComponentDoughnutChart.vue'
 import chartjsData from './chartjsData'
 
@@ -49,21 +34,21 @@ export default {
   components: {
     ChartjsComponentDoughnutChart,
     BCard,
+    BBadge,
   },
   props: {
     graphData: {
       type: Object,
-      default: () => {
-        const data = {
+      default: () => ({
+        data: {
           labels: [],
           datasets: [
             {
               data: [],
             },
           ],
-        }
-        return data
-      },
+        },
+      }),
     },
   },
   data() {
@@ -87,6 +72,18 @@ export default {
       this.$refs.doughnut.reRenderChart()
     },
   },
-  methods: {},
+  methods: {
+    backgroundWithOpacity(hex, opacity) {
+      if (hex) {
+        const color = hex.replace('#', '')
+        const r = parseInt(color.substring(0, 2), 16)
+        const g = parseInt(color.substring(2, 4), 16)
+        const b = parseInt(color.substring(4, 6), 16)
+        return `rgba(${r}, ${g}, ${b}, ${opacity})`
+      }
+
+      return 'rgba(0, 0, 0, 0)'
+    },
+  },
 }
 </script>

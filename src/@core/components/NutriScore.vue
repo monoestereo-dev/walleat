@@ -4,31 +4,31 @@
   >
     <div
       class="score score-1"
-      :class="{ active: nutritionalInfo == 0 }"
+      :class="{ active: nutritionalInfo == 'a' || nutritionalInfo == 0}"
     >
       A
     </div>
     <div
       class="score score-2"
-      :class="{ active: nutritionalInfo == 1 }"
+      :class="{ active: nutritionalInfo == 'b' || nutritionalInfo == 1}"
     >
       B
     </div>
     <div
       class="score score-3"
-      :class="{ active: nutritionalInfo == 2 }"
+      :class="{ active: nutritionalInfo == 'c' || nutritionalInfo == 2}"
     >
       C
     </div>
     <div
       class="score score-4"
-      :class="{ active: nutritionalInfo == 3 }"
+      :class="{ active: nutritionalInfo == 'd' || nutritionalInfo == 3}"
     >
       D
     </div>
     <div
       class="score score-5"
-      :class="{ active: nutritionalInfo == 4 }"
+      :class="{ active: nutritionalInfo == 'e' || nutritionalInfo == 4}"
     >
       E
     </div>

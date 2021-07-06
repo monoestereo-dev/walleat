@@ -8,6 +8,7 @@ Vue.filter('money', value => {
 })
 
 Vue.filter('date', value => dayjs(value).format('DD MMM'))
+Vue.filter('dateNtime', value => dayjs(value).format('DD MMM - HH:mm'))
 
 export const kFormatter = num => (num > 999 ? `${(num / 1000).toFixed(1)}k` : num)
 

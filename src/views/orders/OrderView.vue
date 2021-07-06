@@ -1,15 +1,15 @@
 <template>
   <div>
-    {{ key }}
+    <invoice />
   </div>
 </template>
 
 <script>
+import Invoice from '@/@core/components/Invoice.vue'
+
 export default {
-  data() {
-    return {
-      key: 'wer',
-    }
+  components: {
+    Invoice,
   },
 }
 </script>

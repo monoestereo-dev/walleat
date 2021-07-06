@@ -20,6 +20,18 @@ export default {
           })
       })
     },
+    fetchOrder(ctx, id) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/v1/orders/${id}`)
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
     fetchBraceletReport(ctx, id) {
       return new Promise((resolve, reject) => {
         axios

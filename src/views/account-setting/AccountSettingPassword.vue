@@ -1,103 +1,21 @@
 <template>
   <b-card>
     <!-- form -->
-    <b-form>
+    <b-form @submit.prevent="handleSubmit()">
       <b-row>
-        <!-- old password -->
-        <b-col md="6">
-          <b-form-group
-            label="Old Password"
-            label-for="account-old-password"
-          >
-            <b-input-group class="input-group-merge">
-              <b-form-input
-                id="account-old-password"
-                v-model="passwordValueOld"
-                name="old-password"
-                :type="passwordFieldTypeOld"
-                placeholder="Old Password"
-              />
-              <b-input-group-append is-text>
-                <feather-icon
-                  :icon="passwordToggleIconOld"
-                  class="cursor-pointer"
-                  @click="togglePasswordOld"
-                />
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-        </b-col>
-        <!--/ old password -->
-      </b-row>
-      <b-row>
-        <!-- new password -->
-        <b-col md="6">
-          <b-form-group
-            label-for="account-new-password"
-            label="New Password"
-          >
-            <b-input-group class="input-group-merge">
-              <b-form-input
-                id="account-new-password"
-                v-model="newPasswordValue"
-                :type="passwordFieldTypeNew"
-                name="new-password"
-                placeholder="New Password"
-              />
-              <b-input-group-append is-text>
-                <feather-icon
-                  :icon="passwordToggleIconNew"
-                  class="cursor-pointer"
-                  @click="togglePasswordNew"
-                />
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-        </b-col>
-        <!--/ new password -->
-
-        <!-- retype password -->
-        <b-col md="6">
-          <b-form-group
-            label-for="account-retype-new-password"
-            label="Retype New Password"
-          >
-            <b-input-group class="input-group-merge">
-              <b-form-input
-                id="account-retype-new-password"
-                v-model="RetypePassword"
-                :type="passwordFieldTypeRetype"
-                name="retype-password"
-                placeholder="New Password"
-              />
-              <b-input-group-append is-text>
-                <feather-icon
-                  :icon="passwordToggleIconRetype"
-                  class="cursor-pointer"
-                  @click="togglePasswordRetype"
-                />
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-        </b-col>
-        <!--/ retype password -->
-
         <!-- buttons -->
+        <b-col cols="12">
+          <h2>Cambiar contraseña</h2>
+          <p>Para cambiar tu contraseña has click en el boton de abajo y te enviaremos un correo electronico con las instrucciones.</p>
+        </b-col>
         <b-col cols="12">
           <b-button
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="primary"
             class="mt-1 mr-1"
+            type="submit"
           >
-            Save changes
-          </b-button>
-          <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-            type="reset"
-            variant="outline-secondary"
-            class="mt-1"
-          >
-            Reset
+            Cambiar contraseña
           </b-button>
         </b-col>
         <!--/ buttons -->
@@ -108,21 +26,18 @@
 
 <script>
 import {
-  BButton, BForm, BFormGroup, BFormInput, BRow, BCol, BCard, BInputGroup, BInputGroupAppend,
+  BButton, BForm, BRow, BCol, BCard,
 } from 'bootstrap-vue'
+import { mapActions } from 'vuex'
 import Ripple from 'vue-ripple-directive'
 
 export default {
   components: {
     BButton,
     BForm,
-    BFormGroup,
-    BFormInput,
     BRow,
     BCol,
     BCard,
-    BInputGroup,
-    BInputGroupAppend,
   },
   directives: {
     Ripple,
@@ -149,6 +64,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('auth', ['requestPassword']),
     togglePasswordOld() {
       this.passwordFieldTypeOld = this.passwordFieldTypeOld === 'password' ? 'text' : 'password'
     },
@@ -157,6 +73,24 @@ export default {
     },
     togglePasswordRetype() {
       this.passwordFieldTypeRetype = this.passwordFieldTypeRetype === 'password' ? 'text' : 'password'
+    },
+    handleSubmit() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      this.requestPassword({
+        email: userData.email,
+        redirect: false,
+      })
+        .then(() => {
+          this.$swal({
+            title: '¡Genial!',
+            text: 'Hemos enviado un correo con las instrucciones!',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+        })
     },
   },
 }

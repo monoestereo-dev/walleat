@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import FormWizardVertical from '@/views/walleats/add-credit/FormWizardVertical.vue'
+import FormWizardVertical from '@/views/walleats/add-credit/AddCreditFormWizard.vue'
 import { BRow, BCol } from 'bootstrap-vue'
 
 export default {
@@ -19,7 +19,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  @import '@core/scss/vue/libs/vue-wizard.scss';
-  @import '@core/scss/vue/libs/vue-select.scss';
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-sweetalert.scss';
+@import '@core/scss/vue/libs/vue-wizard.scss';
+@import '@core/scss/vue/libs/vue-select.scss';
 </style>
