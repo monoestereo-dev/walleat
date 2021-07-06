@@ -1,7 +1,7 @@
 <template>
   <b-card>
     <!-- form -->
-    <b-form @submit.prevent="">
+    <b-form @submit.prevent="handleSubmit()">
       <b-row>
         <!-- buttons -->
         <b-col cols="12">
@@ -13,6 +13,7 @@
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="primary"
             class="mt-1 mr-1"
+            type="submit"
           >
             Cambiar contraseña
           </b-button>
@@ -27,6 +28,7 @@
 import {
   BButton, BForm, BRow, BCol, BCard,
 } from 'bootstrap-vue'
+import { mapActions } from 'vuex'
 import Ripple from 'vue-ripple-directive'
 
 export default {
@@ -62,6 +64,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('auth', ['requestPassword']),
     togglePasswordOld() {
       this.passwordFieldTypeOld = this.passwordFieldTypeOld === 'password' ? 'text' : 'password'
     },
@@ -70,6 +73,24 @@ export default {
     },
     togglePasswordRetype() {
       this.passwordFieldTypeRetype = this.passwordFieldTypeRetype === 'password' ? 'text' : 'password'
+    },
+    handleSubmit() {
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      this.requestPassword({
+        email: userData.email,
+        redirect: false,
+      })
+        .then(() => {
+          this.$swal({
+            title: '¡Genial!',
+            text: 'Hemos enviado un correo con las instrucciones!',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+        })
     },
   },
 }
