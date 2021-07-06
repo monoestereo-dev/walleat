@@ -25,9 +25,6 @@
         >
           $ *****
         </h1>
-        <feather-icon
-          icon="InfoIcon"
-        />
       </div>
       <b-row class="d-flex justify-content-around mt-1">
         <b-col>
@@ -77,5 +74,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.display-5 {
+  font-size: 2.9rem;
+}
 </style>
