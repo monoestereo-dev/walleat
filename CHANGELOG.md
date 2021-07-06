@@ -7,6 +7,8 @@
 - [ENH] Validacion de form cuando se agregan creditos, esto hace que no te permita continuar si no has ingresado el numero de creditos y teléfono.
 - [NEW] Se cambio la `tabla de consumo` en la vista de detalle de brazalete por el `timeline de consumo`.
 - [ENH] Ya se puede cambiar el establecimiento asignado a un walleat desde la opcion de settings del walleat.
+- [ENH] Se agrego la hora en la fecha de operaciones de `Orders timeline`.
+- [ENH] Se borro el `boton de info` en balance total de la vista home.
 
 ## [0.2.10] - 2021-07-03
 - [ENH] Se quito el boton de profile del dropdown de usuario del menu superior.

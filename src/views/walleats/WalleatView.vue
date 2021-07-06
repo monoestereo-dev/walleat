@@ -74,7 +74,7 @@
         lg="8"
       >
         <b-card no-body>
-          <orders-table :orders="orders" />
+          <transactions-timeline :orders="orders" />
         </b-card>
       </b-col>
     </b-row>
@@ -100,7 +100,7 @@
 
 <script>
 import ChartjsDoughnutChart from '@/@core/components/charts/chartjs/ChartjsDoughnutChart.vue'
-import OrdersTable from '@/@core/components/TransactionsTimeline.vue'
+import TransactionsTimeline from '@/@core/components/TransactionsTimeline.vue'
 import WalleatSettings from '@/views/walleats/WalleatSettings.vue'
 import {
   BAvatar,
@@ -114,7 +114,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     ChartjsDoughnutChart,
-    OrdersTable,
+    TransactionsTimeline,
     WalleatSettings,
     BAvatar,
     BRow,

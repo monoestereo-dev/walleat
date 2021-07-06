@@ -13,6 +13,7 @@ import users from './routes/users'
 import categories from './routes/categories'
 import products from './routes/products'
 import walleats from './routes/walleats'
+import orders from './routes/orders'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,7 @@ const router = new VueRouter({
     ...categories,
     ...products,
     ...walleats,
+    ...orders,
 
     {
       path: '*',
