@@ -102,7 +102,7 @@
               rules="required"
             >
               <b-form-group
-                label="Limite diario"
+                label="Límite diario"
                 label-for="daily-limit"
               >
                 <b-form-input

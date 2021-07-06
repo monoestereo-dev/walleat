@@ -128,7 +128,7 @@ export default {
     },
     transactionName(status) {
       const statusList = {
-        payed: 'Deposito exitoso',
+        payed: 'Depósito exitoso',
         pending: 'Operación pendiente',
         cancelled: 'Operación cancelada',
         sell: 'Realizaste una compra',

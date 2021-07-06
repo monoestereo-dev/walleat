@@ -41,10 +41,10 @@
               class="mb-2"
             >
               <h5 class="mb-0">
-                ¿Cuantos creditos quieres agregar?
+                ¿Cuántos créditos quieres agregar?
               </h5>
               <small class="text-muted">
-                El minimo es $25.
+                La cantidad mínima es de $25
               </small>
             </b-col>
             <b-col>
@@ -53,7 +53,7 @@
               >
                 <validation-provider
                   #default="{ errors }"
-                  name="Creditos"
+                  name="Créditos"
                   rules="required"
                 >
                   <b-input-group
@@ -85,7 +85,7 @@
 
       <!-- personal info tab -->
       <tab-content
-        title="Metodo de pago"
+        title="Método de pago"
         :before-change="validationCelForm"
       >
         <validation-observer
@@ -102,9 +102,9 @@
                 width="150"
               />
               <h5 class="mb-0">
-                Numero de teléfono
+                Número de teléfono
               </h5>
-              <small class="text-muted">Agrega tu numero de telefono para confirmar la operación.</small>
+              <small class="text-muted">Agrega tu número de teléfono para confirmar la operación</small>
             </b-col>
             <b-col>
               <b-form-group
@@ -147,7 +147,7 @@
               <b-col>
                 <p class="d-flex flex-column">
                   <span class="text-muted">
-                    Creditos:
+                    Créditos:
                   </span>
                   ${{ credits | money }}
                 </p>
