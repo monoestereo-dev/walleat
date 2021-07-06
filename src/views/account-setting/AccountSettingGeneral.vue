@@ -52,66 +52,91 @@
     <!--/ media -->
 
     <!-- form -->
-    <b-form class="mt-2">
-      <b-row>
-        <b-col sm="6">
-          <b-form-group
-            label="Username"
-            label-for="account-username"
-          >
-            <b-form-input
-              v-model="optionsLocal.name"
-              placeholder="Username"
-              name="username"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col sm="6">
-          <b-form-group
-            label="E-mail"
-            label-for="account-e-mail"
-          >
-            <b-form-input
-              v-model="optionsLocal.email"
-              name="email"
-              placeholder="Email"
-            />
+    <validation-observer
+      ref="accountRules"
+      v-slot="{ invalid }"
+    >
+      <b-form
+        class="mt-2"
+        @submit.prevent="handleSubmit()"
+      >
+        <b-row>
+          <b-col sm="6">
+            <b-form-group
+              label="Username"
+              label-for="account-username"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="Nombre"
+                rules="required"
+              >
+                <b-form-input
+                  v-model="optionsLocal.name"
+                  :state="errors.length > 0 ? false:null"
+                  placeholder="Username"
+                  name="username"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+          <b-col sm="6">
+            <b-form-group
+              label="E-mail"
+              label-for="account-e-mail"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="Email"
+                rules="required|email"
+              >
+                <b-form-input
+                  v-model="optionsLocal.email"
+                  :state="errors.length > 0 ? false:null"
+                  name="Email"
+                  placeholder="Email"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+          <b-col sm="6">
+            <b-form-group
+              label="Celular"
+              label-for="cel"
+            >
+              <b-form-input
+                v-model="optionsLocal.customer.cel_number"
+                name="cel"
+                placeholder=""
+              />
 
-          </b-form-group>
-        </b-col>
-        <b-col sm="6">
-          <b-form-group
-            label="Role"
-            label-for="role"
-          >
-            <b-form-input
-              v-model="optionsLocal.role_name"
-              name="role"
-              disabled
-            />
-          </b-form-group>
-        </b-col>
-
-        <b-col cols="12">
-          <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-            variant="primary"
-            class="mt-2 mr-1"
-          >
-            Save changes
-          </b-button>
-          <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-            variant="outline-secondary"
-            type="reset"
-            class="mt-2"
-            @click.prevent="resetForm"
-          >
-            Reset
-          </b-button>
-        </b-col>
-      </b-row>
-    </b-form>
+            </b-form-group>
+          </b-col>
+          <b-col cols="12">
+            <b-button
+              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+              variant="primary"
+              class="mt-2 mr-1"
+              type="submit"
+              :disabled="invalid"
+            >
+              Save changes
+            </b-button>
+            <b-button
+              v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+              variant="outline-secondary"
+              type="reset"
+              class="mt-2"
+              @click.prevent="resetForm"
+            >
+              Reset
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-form>
+    </validation-observer>
   </b-card>
 </template>
 
@@ -122,7 +147,9 @@ import {
 import Ripple from 'vue-ripple-directive'
 import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
 import { ref } from '@vue/composition-api'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { required, email } from '@validations'
 
 export default {
   components: {
@@ -140,6 +167,8 @@ export default {
     BMediaAside,
     BMediaBody,
     BLink,
+    ValidationProvider,
+    ValidationObserver,
   },
   directives: {
     Ripple,
@@ -154,14 +183,54 @@ export default {
     return {
       optionsLocal: JSON.parse(JSON.stringify(this.generalData)),
       profileFile: null,
+      required,
+      email,
     }
   },
   computed: {
     ...mapGetters(['apiUrl']),
   },
   methods: {
+    ...mapActions('users', ['editUser']),
+    ...mapMutations('users', ['updateUserData']),
     resetForm() {
       this.optionsLocal = JSON.parse(JSON.stringify(this.generalData))
+    },
+    handleSubmit() {
+      this.$refs.accountRules.validate().then(success => {
+        if (success) {
+          this.editUser({
+            id: this.optionsLocal.id,
+            user: {
+              name: this.optionsLocal.name,
+              email: this.optionsLocal.email,
+              cel_number: this.optionsLocal.customer.cel_number,
+            },
+          })
+            .then(response => {
+              this.updateUserData(response)
+              this.$swal({
+                title: 'Yeah!',
+                text: 'Usuario editado!',
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                },
+                buttonsStyling: false,
+              })
+            })
+        } else {
+          this.$swal({
+            title: 'Oops! 😣',
+            text: 'Algo salio mal, intenta de nuevo.',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+        }
+      })
     },
   },
   setup() {
