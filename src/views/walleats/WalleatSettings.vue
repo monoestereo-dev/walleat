@@ -83,19 +83,15 @@
             >
               <b-form-group
                 label="Establecimiento"
-                label-for="establishment"
+                label-for="last-name"
               >
-                <b-form-input
-                  id="establishment"
+                <v-select
                   v-model="walleat.establishment_id"
-                  autofocus
-                  :state="getValidationState(validationContext)"
-                  trim
-                  placeholder="John Doe"
+                  :options="establishments"
+                  :reduce="val => val.id"
+                  label="name"
                 />
-                <b-form-invalid-feedback>
-                  {{ validationContext.errors[0] }}
-                </b-form-invalid-feedback>
+                <small class="text-danger">{{ validationContext[0] }}</small>
               </b-form-group>
             </validation-provider>
 
@@ -167,6 +163,7 @@ import { avatarText } from '@core/utils/filter'
 import { required, integer } from '@validations'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import Ripple from 'vue-ripple-directive'
+import vSelect from 'vue-select'
 
 export default {
   components: {
@@ -180,6 +177,7 @@ export default {
     // Form Validation
     ValidationProvider,
     ValidationObserver,
+    vSelect,
   },
   directives: {
     'b-toggle': VBToggle,
@@ -217,15 +215,30 @@ export default {
     },
   },
   data() {
-    return {}
+    return {
+      establishments: [],
+    }
   },
   computed: {
     ...mapGetters(['apiUrl']),
     ...mapGetters('walleats', ['walleat']),
   },
+  beforeMount() {
+    this.fetchEstablishments({
+      meta: {
+        pagination: {
+          per_page: 1000,
+        },
+      },
+    })
+      .then(response => {
+        this.establishments = response.data
+      })
+  },
   mounted() {},
   methods: {
     ...mapActions('walleats', ['editWalleat']),
+    ...mapActions('establishments', ['fetchEstablishments']),
     handleSubmit() {
       this.$refs.refFormObserver.validate().then(success => {
         if (success) {
