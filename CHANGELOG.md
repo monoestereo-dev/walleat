@@ -1,6 +1,6 @@
 # App
 
-## [0.2.11] - 2021-07-05
+## [0.2.12] - 2021-07-06
 - [NEW] vista de detalle de orden
 - [NEW] Filtro para ocultar correo electronico.
 
