@@ -64,8 +64,6 @@ export default {
       userData: JSON.parse(localStorage.getItem('userData')),
     }
   },
-  beforeCreate() {
-    this.$http.get('/account-setting/data').then(res => { this.options = res.data })
-  },
+  beforeCreate() {},
 }
 </script>
