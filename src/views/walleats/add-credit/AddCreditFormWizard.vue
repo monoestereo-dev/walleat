@@ -219,6 +219,10 @@ export default {
       loading: false,
     }
   },
+  mounted() {
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    this.payment.cel_number = userData.customer.cel_number
+  },
   methods: {
     ...mapActions('walleats', ['addCredit']),
     formSubmitted() {
@@ -240,6 +244,7 @@ export default {
             },
             buttonsStyling: false,
           })
+          this.$router.push({ name: 'home' })
         })
         .catch(error => {
           this.$swal({
