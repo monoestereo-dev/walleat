@@ -12,7 +12,6 @@
         <add-your-first-bracelet
           v-if="userData.customer && userData.customer.bracelets_count === 0"
         />
-        <customer-transactions :transactions="transactions" />
       </b-col>
       <b-col
         cols="12"
@@ -20,7 +19,8 @@
         lg="7"
         xl="8"
       >
-        <transactions-timeline :orders="orders" />
+        <customer-transactions :transactions="transactions" />
+        <!-- <transactions-timeline :orders="orders" /> -->
       </b-col>
     </b-row>
   </div>
@@ -32,7 +32,7 @@ import {
   BRow, BCol,
 } from 'bootstrap-vue'
 import { getUserData } from '@/auth/utils'
-import TransactionsTimeline from '@/@core/components/TransactionsTimeline.vue'
+// import TransactionsTimeline from '@/@core/components/TransactionsTimeline.vue'
 import AddYourFirstBracelet from '@/@core/components/BraceletWizzard.vue'
 import CustomerTransactions from '@/@core/components/CustomerTransactions.vue'
 import CurrentBalance from '@/@core/components/CurrentBalance.vue'
@@ -41,7 +41,7 @@ export default {
   components: {
     BRow,
     BCol,
-    TransactionsTimeline,
+    // TransactionsTimeline,
     AddYourFirstBracelet,
     CustomerTransactions,
     CurrentBalance,
