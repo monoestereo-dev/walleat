@@ -59,12 +59,16 @@
             >
               {{ transactionName(transaction.transactable.payment_status) }}
             </h6>
-            <h6
+            <b-link
               v-else
-              class="transaction-title"
+              :to="{ name: 'order-view', params: { id: transaction.transactable.id } }"
             >
-              {{ transactionName(transaction.transactable.order_type) }}
-            </h6>
+              <h6
+                class="transaction-title"
+              >
+                {{ transactionName(transaction.transactable.order_type) }}
+              </h6>
+            </b-link>
             <small>{{ transaction.transactable.created_at | date }}</small>
           </b-media-body>
         </b-media>
@@ -82,6 +86,7 @@
 <script>
 import {
   BCard, BCardHeader, BCardTitle, BCardBody, BMediaBody, BMedia, BMediaAside, BAvatar, BDropdown, BDropdownItem,
+  BLink,
 } from 'bootstrap-vue'
 
 export default {
@@ -96,6 +101,7 @@ export default {
     BAvatar,
     BDropdown,
     BDropdownItem,
+    BLink,
   },
   props: {
     transactions: {
