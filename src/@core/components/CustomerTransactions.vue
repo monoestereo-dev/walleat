@@ -43,11 +43,11 @@
           <b-media-aside>
             <b-avatar
               rounded
-              size="35"
+              size="41"
               :variant="`light-${transactionIconVariant(transaction.transactable.payment_status)}`"
             >
               <feather-icon
-                size="15"
+                size="18"
                 :icon="transactionIcon(transaction.transactable.payment_status)"
               />
             </b-avatar>
