@@ -46,21 +46,21 @@ const actions = {
         })
     })
   },
-
   signOut: context => {
     context.commit('clearCurrentUser')
     router.push('/')
   },
-
-  requestPassword(context, { email }) {
+  requestPassword(context, { email, redirect = true }) {
     return new Promise((resolve, reject) => {
       axios
         .post('/v1/request_password', {
           email,
         })
         .then(response => {
-          router.push('/login')
           resolve(response)
+          if (redirect) {
+            router.push('/login')
+          }
           // TODO: show toast with message 'You have recieved an email to change your password'
         })
         .catch(error => {
