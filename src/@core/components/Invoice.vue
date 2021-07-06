@@ -1,10 +1,9 @@
 <template>
   <section class="invoice-preview-wrapper">
-    {{ order }}
     <!-- Alert: No item found -->
     <b-alert
       variant="danger"
-      :show="order === undefined"
+      :show="!order"
     >
       <h4 class="alert-heading">
         Error fetching invoice data
@@ -44,34 +43,41 @@
               <!-- Header: Left Content -->
               <div>
                 <div class="logo-wrapper">
-                  <logo />
-                  <h3 class="text-primary invoice-logo">
-                    Walleat
-                  </h3>
+                  <b-img
+                    id="logo"
+                    :src="appLogoImage"
+                    height="50"
+                    alt="logo"
+                  />
                 </div>
                 <p class="card-text mb-25">
-                  Office 149, 450 South Brand Brooklyn
+                  {{ order.store.establishment_attributes.name }}
                 </p>
                 <p class="card-text mb-25">
-                  San Diego County, CA 91905, USA
-                </p>
-                <p class="card-text mb-0">
-                  +1 (123) 456 7891, +44 (876) 543 2198
+                  {{ order.store.name }}
                 </p>
               </div>
 
               <!-- Header: Right Content -->
               <div class="mt-md-0 mt-2">
                 <h4 class="invoice-title">
-                  Invoice
-                  <span class="invoice-number">#{{ invoiceData.id }}</span>
+                  Ticket
+                  <span class="invoice-number">#{{ order.bracelet_attributes.orders_count }}</span>
                 </h4>
                 <div class="invoice-date-wrapper">
                   <p class="invoice-date-title">
-                    Date Issued:
+                    Fecha:
                   </p>
                   <p class="invoice-date">
-                    {{ invoiceData.created_at }}
+                    {{ order.created_at | fullDate }}
+                  </p>
+                </div>
+                <div class="invoice-date-wrapper">
+                  <p class="invoice-date-title">
+                    Hora:
+                  </p>
+                  <p class="invoice-date">
+                    {{ order.created_at | time }}
                   </p>
                 </div>
               </div>
@@ -83,7 +89,7 @@
 
           <!-- Invoice Client & Payment Details -->
           <b-card-body
-            v-if="invoiceData.bracelet_attributes"
+            v-if="order.bracelet_attributes"
             class="invoice-padding pt-0"
           >
             <b-row class="invoice-spacing">
@@ -95,22 +101,16 @@
                 class="p-0"
               >
                 <h6 class="mb-2">
-                  Invoice To:
+                  Cliente:
                 </h6>
                 <h6 class="mb-25">
-                  {{ invoiceData.bracelet_attributes.name }}
+                  {{ userData.name }}
                 </h6>
                 <p class="card-text mb-25">
-                  {{ invoiceData.client.company }}
-                </p>
-                <p class="card-text mb-25">
-                  {{ invoiceData.client.address }}, {{ invoiceData.client.country }}
-                </p>
-                <p class="card-text mb-25">
-                  {{ invoiceData.client.contact }}
+                  {{ userData.email | hideMail }}
                 </p>
                 <p class="card-text mb-0">
-                  {{ invoiceData.client.companyEmail }}
+                  walleat: {{ order.bracelet_attributes.name }}
                 </p>
               </b-col>
 
@@ -122,39 +122,27 @@
               >
                 <div>
                   <h6 class="mb-2">
-                    Payment Details:
+                    Detalles:
                   </h6>
                   <table>
                     <tbody>
                       <tr>
                         <td class="pr-1">
-                          Total Due:
+                          Total:
                         </td>
-                        <td><span class="font-weight-bold">{{ paymentDetails.totalDue }}</span></td>
+                        <td><span class="font-weight-bold">${{ order.total | money }}</span></td>
                       </tr>
                       <tr>
                         <td class="pr-1">
-                          Bank name:
+                          Tipo:
                         </td>
-                        <td>{{ paymentDetails.bankName }}</td>
+                        <td>{{ order.order_type === 'sell' ? 'Compra':'Venta' }}</td>
                       </tr>
                       <tr>
                         <td class="pr-1">
-                          Country:
+                          Tipo de pago:
                         </td>
-                        <td>{{ paymentDetails.country }}</td>
-                      </tr>
-                      <tr>
-                        <td class="pr-1">
-                          IBAN:
-                        </td>
-                        <td>{{ paymentDetails.iban }}</td>
-                      </tr>
-                      <tr>
-                        <td class="pr-1">
-                          SWIFT code:
-                        </td>
-                        <td>{{ paymentDetails.swiftCode }}</td>
+                        <td>{{ order.payment_type === 'credit' ? 'Walleat':'Efectivo' }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -162,19 +150,35 @@
               </b-col>
             </b-row>
           </b-card-body>
-
+          <!-- Spacer -->
+          <hr class="invoice-spacing">
           <!-- Invoice Description: Table -->
           <b-table-lite
             responsive
-            :items="invoiceDescription"
-            :fields="['taskDescription', 'rate', 'hours', 'total']"
+            :items="order.order_store_products_attributes"
+            :fields="['name', 'unit_price', 'units', 'total']"
           >
-            <template #cell(taskDescription)="data">
-              <b-card-text class="font-weight-bold mb-25">
-                {{ data.item.taskTitle }}
-              </b-card-text>
-              <b-card-text class="text-nowrap">
-                {{ data.item.taskDescription }}
+            <template #cell(name)="data">
+              <b-card-text class="font-weight-bold mb-25 d-flex">
+                <b-img
+                  width="40px"
+                  height="40px"
+                  :src="`${apiUrl}${data.item.store_product_attributes.product_attributes.logo}`"
+                  rounded
+                  class="mr-1"
+                />
+                <div>
+                  {{ data.item.store_product_attributes.product_attributes.name }}
+                  <div>
+                    <b-badge
+                      v-for="category in data.item.store_product_attributes.product_attributes.categories_names"
+                      :key="`category-${category}`"
+                      variant="light-primary"
+                    >
+                      {{ category }}
+                    </b-badge>
+                  </div>
+                </div>
               </b-card-text>
             </template>
           </b-table-lite>
@@ -192,8 +196,8 @@
                 order-md="1"
               >
                 <b-card-text class="mb-0">
-                  <span class="font-weight-bold">Salesperson:</span>
-                  <span class="ml-75">Alfie Solomons</span>
+                  <span class="font-weight-bold">Te atendió:</span>
+                  <span class="ml-75">{{ order.store_clerk.name }}</span>
                 </b-card-text>
               </b-col>
 
@@ -211,23 +215,15 @@
                       Subtotal:
                     </p>
                     <p class="invoice-total-amount">
-                      $1800
+                      ${{ order.subtotal | money }}
                     </p>
                   </div>
                   <div class="invoice-total-item">
                     <p class="invoice-total-title">
-                      Discount:
+                      IVA:
                     </p>
                     <p class="invoice-total-amount">
-                      $28
-                    </p>
-                  </div>
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-title">
-                      Tax:
-                    </p>
-                    <p class="invoice-total-amount">
-                      21%
+                      $ {{ order.iva | money }}
                     </p>
                   </div>
                   <hr class="my-50">
@@ -236,22 +232,17 @@
                       Total:
                     </p>
                     <p class="invoice-total-amount">
-                      $1690
+                      ${{ order.total | money }}
                     </p>
                   </div>
                 </div>
               </b-col>
             </b-row>
           </b-card-body>
-
-          <!-- Spacer -->
-          <hr class="invoice-spacing">
-
           <!-- Note -->
-          <b-card-body class="invoice-padding pt-0">
-            <span class="font-weight-bold">Note: </span>
-            <span>It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance
-              projects. Thank You!</span>
+          <b-card-body class="invoice-padding pt-3">
+            <span class="font-weight-bold">Nota: </span>
+            <span>Gracias por tu preferencia! ✌</span>
           </b-card-body>
         </b-card>
       </b-col>
@@ -273,7 +264,7 @@
             class="mb-75"
             block
           >
-            Send Invoice
+            Enviar por correo
           </b-button>
 
           <!-- Button: DOwnload -->
@@ -283,7 +274,7 @@
             class="mb-75"
             block
           >
-            Download
+            Descargar
           </b-button>
 
           <!-- Button: Print -->
@@ -294,30 +285,9 @@
             block
             @click="printInvoice"
           >
-            Print
+            Imprimir
           </b-button>
 
-          <!-- Button: Edit -->
-          <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-            variant="outline-secondary"
-            class="mb-75"
-            block
-            :to="{ name: 'apps-invoice-edit', params: { id: $route.params.id } }"
-          >
-            Edit
-          </b-button>
-
-          <!-- Button: Add Payment -->
-          <b-button
-            v-b-toggle.sidebar-invoice-add-payment
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-            variant="success"
-            class="mb-75"
-            block
-          >
-            Add Payment
-          </b-button>
         </b-card>
       </b-col>
     </b-row>
@@ -326,11 +296,14 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { ref } from '@vue/composition-api'
 import {
-  BRow, BCol, BCard, BCardBody, BTableLite, BCardText, BButton, BAlert, BLink, VBToggle,
+  BRow, BCol, BCard, BCardBody, BTableLite, BCardText, BButton,
+  BAlert, BLink, VBToggle, BImg, BBadge,
 } from 'bootstrap-vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import { $themeConfig } from '@themeConfig'
 import Logo from '@core/layouts/components/Logo.vue'
 import Ripple from 'vue-ripple-directive'
 
@@ -349,8 +322,9 @@ export default {
     BButton,
     BAlert,
     BLink,
-
+    BImg,
     Logo,
+    BBadge,
   },
   setup() {
     const invoiceData = ref(null)
@@ -379,15 +353,22 @@ export default {
       window.print()
     }
 
+    const {  appLogoImage } = $themeConfig.app
+
     return {
       invoiceData,
       paymentDetails,
       invoiceDescription,
       printInvoice,
+      appLogoImage,
     }
+  },
+  computed: {
+    ...mapGetters(['apiUrl'])
   },
   data() {
     return {
+      userData: JSON.parse(localStorage.getItem('userData')),
       order: undefined,
     }
   },
@@ -409,7 +390,9 @@ export default {
 
 <style lang="scss">
 @media print {
-
+  #logo {
+    filter: invert(1);
+  }
   // Global Styles
   body {
     background-color: transparent !important;

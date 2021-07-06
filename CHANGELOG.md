@@ -1,6 +1,10 @@
 # App
 
 ## [0.2.11] - 2021-07-05
+- [NEW] vista de detalle de orden
+- [NEW] Filtro para ocultar correo electronico.
+
+## [0.2.11] - 2021-07-05
 - [NEW] Ya se pueden editar usuarios en la vista de settings.
 - [NEW] Ya funciona el boton para solicitar un password (cambiarlo) en la vista de settings.
 - [ENH] Spinner cuando se esta porcesando cobro de CoDi.
