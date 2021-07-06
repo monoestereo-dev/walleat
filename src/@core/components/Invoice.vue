@@ -1,25 +1,5 @@
 <template>
   <section class="invoice-preview-wrapper">
-    <!-- Alert: No item found -->
-    <b-alert
-      variant="danger"
-      :show="!order"
-    >
-      <h4 class="alert-heading">
-        Error fetching invoice data
-      </h4>
-      <div class="alert-body">
-        No invoice found with this invoice id. Check
-        <b-link
-          class="alert-link"
-          :to="{ name: 'apps-invoice-list'}"
-        >
-          Invoice List
-        </b-link>
-        for other invoices.
-      </div>
-    </b-alert>
-
     <b-row
       v-if="order"
       class="invoice-preview"
