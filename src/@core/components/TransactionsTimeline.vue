@@ -28,13 +28,16 @@
           <div class="d-flex justify-content-between flex-row mb-0">
             <div>
               <h6 class="mb-0">
-                $ {{ order.total | money }} - {{ order.order_store_products_attributes[0].store_product_attributes.store_attributes.name }}
+                <span class="text-success">
+                  $ {{ order.total | money }}
+                </span>
+                - {{ order.order_store_products_attributes[0].store_product_attributes.store_attributes.name }}
               </h6>
               <p class="text-muted">
                 {{ order.payment_type }}
               </p>
             </div>
-            <small class="timeline-item-time text-nowrap text-muted ml-1">{{ order.created_at | date }}</small>
+            <small class="timeline-item-time text-nowrap text-muted ml-1">{{ order.created_at | dateNtime }}</small>
           </div>
           <b-avatar-group
             v-if="order.order_store_products_attributes.length > 1"
