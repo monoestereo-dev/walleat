@@ -7,7 +7,7 @@ module.exports = {
     appleMobileWebAppCapable: true,
     msTileColor: '#7367f0',
     appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: 'black',
+    appleMobileWebAppStatusBarStyle: '#7367f0',
   },
   css: {
     loaderOptions: {
