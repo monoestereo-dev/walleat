@@ -31,6 +31,7 @@
           <b-button
             block
             pill
+            :to="{ name: 'creditCard-banregio' }"
           >
             Retirar
           </b-button>
