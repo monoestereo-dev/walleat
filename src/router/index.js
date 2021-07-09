@@ -15,7 +15,7 @@ import products from './routes/products'
 import walleats from './routes/walleats'
 import orders from './routes/orders'
 import establishments from './routes/establishments'
-import paymentGateway from './routes/banregio'
+import paymentGateway from './routes/payment-gateway'
 
 Vue.use(VueRouter)
 
