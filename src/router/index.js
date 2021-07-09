@@ -14,6 +14,8 @@ import categories from './routes/categories'
 import products from './routes/products'
 import walleats from './routes/walleats'
 import orders from './routes/orders'
+import establishments from './routes/establishments'
+import paymentGateway from './routes/banregio'
 
 Vue.use(VueRouter)
 
@@ -35,6 +37,8 @@ const router = new VueRouter({
     ...products,
     ...walleats,
     ...orders,
+    ...establishments,
+    ...paymentGateway,
 
     {
       path: '*',
