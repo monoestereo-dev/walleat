@@ -1,7 +1,9 @@
 <template>
   <!-- eslint-disable -->
-  <div align="center">
-    <div id="mainForm">
+  <div>
+    <b-card
+      v-show="!isHidden"
+    >
       <form
         method="POST"
         id="transForm"
@@ -9,9 +11,32 @@
         name="colectoForm"
         action="https://testcolecto.banregio.com/ecm/"
       >
-        <!-- https://testcolecto.banregio.com/ecm/-->
-        <label for="">Cantidad</label>
-        <b-form-input type="text" name="monto" requiered> </b-form-input>
+        <h3 class="text-center display-1 mb-2">🤑</h3>
+        <h4 class="text-center">¿Cuánto quieres depositar?</h4>
+        <b-form-input
+          type="number"
+          requiered
+          size="lg"
+          v-model="amount"
+          class="text-center"
+        />
+        <input
+          type="text"
+          name="monto"
+          requiered
+          size="lg"
+          v-model="amountWithFee"
+          v-show="false"
+          class="text-center"
+        />
+        <b-row v-if="amount" class="mt-1">
+          <b-col>
+            Comision: ${{ fee(amount) | money }}
+          </b-col>
+          <b-col>
+            Total: ${{ Number(amount) + Number(fee(amount)) | money }}
+          </b-col>
+        </b-row>
 
         <div class="formData" style="display: none">
           <select id="transType" onchange="transTypeCombo()">
@@ -47,16 +72,20 @@
         />
         <input type="hidden" name="folio" id="folio" value="folio180919" />
         <input type="hidden" name="3dSecure" value="true" />
-        <input
+        <b-button
+          class="mt-1"
           type="submit"
-          value="Procesar"
-          class="enviar btn btn-primary"
-        />
+          @click="isHidden = true"
+          variant="primary"
+          block
+        >
+          Continuar
+        </b-button>
       </form>
-      <b-card variant="light" bg-variant="white" no-body>
-        <iframe name="trans_iframe" width="100%" height="500" src="" frameBorder="0"></iframe>
-      </b-card>
-    </div>
+    </b-card>
+    <b-card v-show="isHidden" variant="light" bg-variant="white" no-body>
+      <iframe name="trans_iframe" width="100%" height="500" src="" frameBorder="0"></iframe>
+    </b-card>
   </div>
 </template>
 
@@ -66,15 +95,32 @@ import {
   BButton,
   BFormInput,
   BCard,
+  BRow,
+  BCol,
 } from "bootstrap-vue";
 export default {
   components: {
     BButton,
     BFormInput,
     BCard,
+    BRow,
+    BCol,
   },
-  mounted() {},
-  methods: {},
+  data() {
+    return {
+      isHidden: false,
+      amount: null,
+      amountWithFee: null,
+    }
+  },
+  methods: {
+    fee(amount) {
+      const min = 2
+      const max = 20
+      this.amountWithFee = Number(Math.min(Math.max(min, 0.01 * amount), max)) + Number(amount)
+      return Math.min(Math.max(min, 0.01 * amount), max)
+    },
+  },
 };
 </script>
 
