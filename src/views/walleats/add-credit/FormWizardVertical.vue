@@ -22,10 +22,10 @@
             class="mb-2"
           >
             <h5 class="mb-0">
-              ¿Cuántos creditos quieres agregar?
+              ¿Cuántos créditos quieres agregar?
             </h5>
             <small class="text-muted">
-              El minimo es $25.
+              La cantidad mínima es de $25
             </small>
           </b-col>
           <b-col>
@@ -43,7 +43,7 @@
       </tab-content>
 
       <!-- personal info tab -->
-      <tab-content title="Metodo de pago">
+      <tab-content title="Método de pago">
         <b-row>
           <b-col
             cols="12"
@@ -54,9 +54,9 @@
               width="150"
             />
             <h5 class="mb-0">
-              Numero de teléfono
+              Número de teléfono
             </h5>
-            <small class="text-muted">Agrega tu numero de telefono para confirmar la operación.</small>
+            <small class="text-muted">Agrega tu número de teléfono para confirmar la operación</small>
           </b-col>
           <b-col>
             <b-form-group

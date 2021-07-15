@@ -29,10 +29,10 @@
               class="mb-2"
             >
               <h5 class="mb-0">
-                Nombre del walleat
+                Nombre del Walleat
               </h5>
               <small class="text-muted">
-                Nombre para identificar tu Walleat.
+                Nombre para identificar tu Walleat
               </small>
             </b-col>
             <b-col>
@@ -73,13 +73,13 @@
               class="mb-2"
             >
               <h5 class="mb-0">
-                Configuración General.
+                Configuración General
               </h5>
-              <small class="text-muted">Ingresa el monto maximo a gastar por dia y la escuela vinculada walleat.</small>
+              <small class="text-muted">Ingresa el monto máximo de gasto diario y selecciona donde utilizar tu Walleat</small>
             </b-col>
             <b-col md="6">
               <b-form-group
-                label="Limite de gasto diario"
+                label="Límite de gasto diario"
                 label-for="first-name"
               >
                 <validation-provider
@@ -137,9 +137,9 @@
               class="mb-2"
             >
               <h5 class="mb-0">
-                Vincula tu Walleat.
+                Vincula tu Walleat
               </h5>
-              <small class="text-muted">Ingresa el numero que se te proporciono junto con tu walleat.</small>
+              <small class="text-muted">Ingresa el número que se te proporcionó junto con tu Walleat</small>
             </b-col>
             <b-col>
               <b-form-group

@@ -32,7 +32,7 @@
         variant="primary"
         block
       >
-        Agregar credito
+        Agregar crédito
       </b-button>
     </b-card-body>
   </b-card>
