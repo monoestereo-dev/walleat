@@ -1,29 +1,35 @@
 <template>
-  <div class="navbar-container d-flex content align-items-center">
-
-    <!-- Nav Menu Toggler -->
-    <ul class="nav navbar-nav d-xl-none">
-      <li class="nav-item">
-        <b-link
-          class="nav-link"
-          @click="toggleVerticalMenuActive"
-        >
-          <feather-icon
-            icon="MenuIcon"
-            size="21"
-          />
-        </b-link>
-      </li>
-    </ul>
-
-    <!-- Left Col -->
-    <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
-
-      <!-- Bookmarks Container -->
-      <bookmarks />
+  <div class="navbar-container d-flex content justify-content-between align-items-center">
+    <div class="d-flex">
+      <!-- Nav Menu Toggler -->
+      <ul class="nav navbar-nav d-xl-none">
+        <li class="nav-item">
+          <b-link
+            class="nav-link"
+            @click="toggleVerticalMenuActive"
+          >
+            <feather-icon
+              icon="MenuIcon"
+              size="21"
+            />
+          </b-link>
+        </li>
+      </ul>
+      <!-- Left Col -->
+      <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
+        <!-- Bookmarks Container -->
+        <bookmarks />
+      </div>
     </div>
 
-    <b-navbar-nav class="nav align-items-center ml-auto">
+    <div class="d-block d-lg-none">
+      <b-img
+        :src="logo"
+        height="25"
+      />
+    </div>
+
+    <b-navbar-nav class="">
       <!-- <locale /> -->
       <dark-Toggler class="d-none d-lg-block" />
       <!-- <search-bar /> -->
@@ -34,8 +40,9 @@
 </template>
 
 <script>
+/* eslint-disable global-require */
 import {
-  BLink, BNavbarNav,
+  BLink, BNavbarNav, BImg,
 } from 'bootstrap-vue'
 import Bookmarks from './components/Bookmarks.vue'
 // import Locale from './components/Locale.vue'
@@ -47,7 +54,7 @@ import UserDropdown from './components/UserDropdown.vue'
 export default {
   components: {
     BLink,
-
+    BImg,
     // Navbar Components
     BNavbarNav,
     Bookmarks,
@@ -62,6 +69,11 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      logo: require('@/assets/images/logo/walleat_logo_white.svg'),
+    }
   },
 }
 </script>

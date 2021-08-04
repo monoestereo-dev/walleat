@@ -80,7 +80,7 @@
                 square
                 rounded="lg"
                 size="32"
-                :src="`${apiUrl}${data.item.logo}`"
+                :src="`${data.item.logo}`"
                 :text="avatarText(data.item.name)"
                 :to="{ name: 'product-view', params: { id: data.item.id } }"
               />
@@ -202,7 +202,7 @@ import _ from 'underscore'
 import vSelect from 'vue-select'
 import { ref } from '@vue/composition-api'
 import { avatarText } from '@core/utils/filter'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import NutriScore from '@/@core/components/NutriScore.vue'
 import useProductsList from './useProductsList'
 import ProductListAddNew from './ProductListAddNew.vue'
@@ -294,9 +294,6 @@ export default {
       products: [],
       pagination: {},
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   watch: {
     // eslint-disable-next-line

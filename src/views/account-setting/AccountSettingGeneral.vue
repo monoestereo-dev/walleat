@@ -8,7 +8,7 @@
           <b-img
             ref="previewEl"
             rounded
-            :src="`${apiUrl}${optionsLocal.logo}`"
+            :src="`${optionsLocal.logo}`"
             height="80"
           />
         </b-link>
@@ -147,7 +147,7 @@ import {
 import Ripple from 'vue-ripple-directive'
 import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
 import { ref } from '@vue/composition-api'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required, email } from '@validations'
 
@@ -186,9 +186,6 @@ export default {
       required,
       email,
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   methods: {
     ...mapActions('users', ['editUser']),
@@ -236,9 +233,7 @@ export default {
   setup() {
     const refInputEl = ref(null)
     const previewEl = ref(null)
-
     const { inputImageRenderer } = useInputImageRenderer(refInputEl, previewEl)
-
     return {
       refInputEl,
       previewEl,

@@ -143,7 +143,7 @@
                 <b-img
                   width="40px"
                   height="40px"
-                  :src="`${apiUrl}${data.item.store_product_attributes.product_attributes.logo}`"
+                  :src="`${data.item.store_product_attributes.product_attributes.logo}`"
                   rounded
                   class="mr-1"
                 />
@@ -282,7 +282,7 @@ import {
   BRow, BCol, BCard, BCardBody, BTableLite, BCardText, BButton,
   BAlert, BLink, VBToggle, BImg, BBadge,
 } from 'bootstrap-vue'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { $themeConfig } from '@themeConfig'
 import Logo from '@core/layouts/components/Logo.vue'
 import Ripple from 'vue-ripple-directive'
@@ -342,9 +342,6 @@ export default {
       printInvoice,
       appLogoImage,
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl'])
   },
   data() {
     return {

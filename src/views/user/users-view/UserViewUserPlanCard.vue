@@ -5,7 +5,7 @@
   >
     <b-card-header class="d-flex justify-content-between align-items-center pt-75 pb-25">
       <h5 class="mb-0">
-        Credito actual
+        Crédito actual
       </h5>
       <b-badge variant="light-primary">
         Basic
@@ -21,7 +21,7 @@
         variant="primary"
         block
       >
-        Agregar credito
+        Agregar crédito
       </b-button>
     </b-card-body>
   </b-card>

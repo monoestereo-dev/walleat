@@ -72,5 +72,20 @@ export default {
           })
       })
     },
+    completeAndroidOrder() {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/v1/android_app_callback', {
+            android_app_room: '',
+            bracelet_url: '',
+          })
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
   },
 }

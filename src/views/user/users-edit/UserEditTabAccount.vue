@@ -6,7 +6,7 @@
       <template #aside>
         <b-avatar
           ref="previewEl"
-          :src="`${apiUrl}${userData.logo}`"
+          :src="`${userData.logo}`"
           :text="avatarText(userData.name)"
           :variant="`light-${resolveUserRoleVariant(userData.role_name)}`"
           size="90px"
@@ -197,7 +197,6 @@ import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
 import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
 import { ref } from '@vue/composition-api'
-import { mapGetters } from 'vuex'
 import useUsersList from '../users-list/useUsersList'
 
 export default {
@@ -222,9 +221,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   setup(props) {
     const { resolveUserRoleVariant } = useUsersList()

@@ -1,7 +1,16 @@
 # App
 
+## [0.2.14] - 2021-07-31
+- [NEW] Se implementaron las nuevas imágenes de producto que están hosteadas en el `CDN`
+
+## [0.2.13] - 2021-07-08
+- [NEW] Integración con `Banregio` payment gateway.
+- [NEW] Vistas de establishments y establishment creadas.
+- [NEW] Logotipo en versiones mobiles en el menu superior.
+- [NEW] Vista para escoger metodo de pago.
+
 ## [0.2.12] - 2021-07-06
-- [NEW] vista de detalle de orden
+- [NEW] Vista de detalle de orden
 - [NEW] Filtro para ocultar correo electronico.
 
 ## [0.2.11] - 2021-07-05

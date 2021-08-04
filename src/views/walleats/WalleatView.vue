@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center">
         <b-avatar
           rounded
-          :src="`${apiUrl}${walleat.logo}`"
+          :src="`${walleat.logo}`"
           size="lg"
         />
         <div class="ml-1">
@@ -41,7 +41,7 @@
               <h2 class="display-5 mb-0">
                 $ {{ walleat.daily_limit }}
               </h2>
-              Limite diario
+              Límite diario
             </div>
           </b-card-body>
         </b-card>
@@ -86,12 +86,12 @@
           🙃
         </h1>
         <p class="h1">
-          No has realizado ninguna compra.
+          No se han realizado compras
         </p>
         <p
           class="text-muted"
         >
-          Realiza una compra para ver el historial y detalle de consumo.
+          Haz una compra para ver el historial de consumo
         </p>
       </b-col>
     </b-row>
@@ -109,7 +109,7 @@ import {
   BCard,
   BCardBody,
 } from 'bootstrap-vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -130,9 +130,6 @@ export default {
       orders: [],
       doughnutData: {},
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   beforeMount() {
     const currentBraceletId = this.$route.params.id
@@ -245,10 +242,10 @@ export default {
     changeWalleatActiveStatus() {
       this.$swal({
         title: '¿Estás seguro?',
-        text: this.walleat.active_status ? 'No podras realizar compras con este Walleat!' : 'Si lo reactivas, se podran realizar compras con este Walleat.',
+        text: this.walleat.active_status ? 'No podrás realizar compras con este Walleat!' : 'Si lo reactivas, se podrán realizar compras con este Walleat.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Si!',
+        confirmButtonText: 'Sí!',
         customClass: {
           confirmButton: 'btn btn-primary',
           cancelButton: 'btn btn-outline-danger ml-1',
@@ -279,7 +276,7 @@ export default {
     },
     changeDailyLimit() {
       this.$swal({
-        title: 'Limite diario',
+        title: 'Límite diario',
         input: 'number',
         customClass: {
           confirmButton: 'btn btn-primary',

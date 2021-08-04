@@ -40,7 +40,7 @@
             block
             pill
             variant="success"
-            :to="{ name: 'walleat-add-credit' }"
+            :to="{ name: 'choose-payment-gateway' }"
           >
             Depositar
           </b-button>

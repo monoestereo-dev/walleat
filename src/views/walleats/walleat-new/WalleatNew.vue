@@ -7,7 +7,7 @@
             Escanear Walleat
           </h1>
           <p>
-            acerca el Walleat a tu dispositivo con NFC.
+            acerca el Walleat a tu dispositivo con NFC
           </p>
           <div>
             <b-img
@@ -27,7 +27,7 @@
             ¿No tienes NFC?
           </h5>
           <small>
-            no te preocupes, puedes continuar agregandolo manualmente.
+            no te preocupes, puedes continuar agregándolo manualmente
           </small>
           <div>
             <b-button

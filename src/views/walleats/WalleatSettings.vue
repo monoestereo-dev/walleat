@@ -45,7 +45,7 @@
             <b-avatar
               ref="previewEl"
               class="mb-1"
-              :src="`${apiUrl}${walleat.logo}`"
+              :src="`${walleat.logo}`"
               :text="avatarText(walleat.name)"
               size="90px"
               rounded
@@ -102,7 +102,7 @@
               rules="required"
             >
               <b-form-group
-                label="Limite diario"
+                label="Límite diario"
                 label-for="daily-limit"
               >
                 <b-form-input
@@ -220,7 +220,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['apiUrl']),
     ...mapGetters('walleats', ['walleat']),
   },
   beforeMount() {

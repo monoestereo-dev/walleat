@@ -4,8 +4,8 @@
       class="mt-2"
     >
       <b-col
-        v-for="walleat in walleats"
-        :key="walleat.id"
+        v-for="store in establishment.stores_attributes"
+        :key="store.id"
         cols="6"
         sm="6"
         md="4"
@@ -13,31 +13,33 @@
       >
         <b-card
           class="mt-1 text-center"
-          @click="$router.push({ name: 'walleat-view', params: { id: walleat.id } })"
+          @click="$router.push({ name: 'store-view', params: { id: store.id } })"
         >
           <div class="d-flex justify-content-center mt--5 mb-1">
             <b-avatar
-              :src="`${walleat.logo}`"
+              :src="`${store.logo}`"
               size="lg"
             />
           </div>
           <div
-            class="walleat-name"
+            class="store-name"
           >
-            {{ walleat.name }}
+            {{ store.name }}
           </div>
           <div
             class="d-flex align-items-center justify-content-center"
           >
             <feather-icon
-              icon="SlidersIcon"
+              icon="BoxIcon"
               class="mr-1"
             />
-            $ {{ walleat.daily_limit | money }}
+            {{ store.store_products_count }}
           </div>
+
         </b-card>
       </b-col>
       <b-col
+        v-if="userData.role_name === 'admin'"
         cols="6"
         sm="6"
         md="4"
@@ -45,7 +47,7 @@
       >
         <b-card
           class="mt-1 text-center"
-          @click="$router.push({ name: 'walleat-new' })"
+          @click="$router.push({ name: 'establishment-new' })"
         >
           <div
             class="d-flex justify-content-center mt--5 mb-1"
@@ -57,14 +59,14 @@
             />
           </div>
           <div
-            class="walleat-name"
+            class="establishment-name"
           >
             Agregar
           </div>
           <div
             class="d-flex align-items-center justify-content-center"
           >
-            Walleat
+            Tienda
           </div>
         </b-card>
       </b-col>
@@ -74,9 +76,11 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { getUserData } from '@/auth/utils'
 import {
-  BCard, BRow, BCol, BAvatar,
+  BCard,
+  BRow,
+  BCol,
+  BAvatar,
 } from 'bootstrap-vue'
 
 export default {
@@ -88,21 +92,18 @@ export default {
   },
   data() {
     return {
-      walleats: [],
+      establishment: {},
+      userData: JSON.parse(localStorage.getItem('userData')),
     }
   },
   beforeMount() {
-    const currentUser = getUserData()
-
-    this.fetchWalleats({
-      by_user: currentUser.id,
-    })
+    this.fetchEstablishment(this.$route.params.id)
       .then(response => {
-        this.walleats = response.data
+        this.establishment = response
       })
   },
   methods: {
-    ...mapActions('walleats', ['fetchWalleats']),
+    ...mapActions('establishments', ['fetchEstablishment']),
   },
 }
 </script>
@@ -111,7 +112,7 @@ export default {
 .mt--5 {
   margin-top: -3rem;
 }
-.walleat-name {
+.establishment-name {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;

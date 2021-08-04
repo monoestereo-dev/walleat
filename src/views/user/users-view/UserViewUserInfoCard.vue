@@ -12,7 +12,7 @@
         <!-- User Avatar & Action Buttons -->
         <div class="d-flex justify-content-start">
           <b-avatar
-            :src="`${apiUrl}${userData.logo}`"
+            :src="`${userData.logo}`"
             :text="avatarText(userData.name)"
             :variant="`light-${resolveUserRoleVariant(userData.role)}`"
             size="104px"
@@ -97,7 +97,7 @@ import {
   BCard, BButton, BAvatar, BRow, BCol,
 } from 'bootstrap-vue'
 import { avatarText } from '@core/utils/filter'
-import { mapGetters } from 'vuex'
+
 import useUsersList from '../users-list/useUsersList'
 
 export default {
@@ -109,9 +109,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   setup() {
     const { resolveUserRoleVariant } = useUsersList()
