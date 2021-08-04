@@ -17,7 +17,7 @@
         >
           <div class="d-flex justify-content-center mt--5 mb-1">
             <b-avatar
-              :src="`${apiUrl}${walleat.logo}`"
+              :src="`${walleat.logo}`"
               size="lg"
             />
           </div>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { getUserData } from '@/auth/utils'
 import {
   BCard, BRow, BCol, BAvatar,
@@ -90,9 +90,6 @@ export default {
     return {
       walleats: [],
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   beforeMount() {
     const currentUser = getUserData()

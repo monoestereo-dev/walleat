@@ -17,7 +17,7 @@
         >
           <div class="d-flex justify-content-center mt--5 mb-1">
             <b-avatar
-              :src="`${apiUrl}${store.logo}`"
+              :src="`${store.logo}`"
               size="lg"
             />
           </div>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import {
   BCard,
   BRow,
@@ -95,9 +95,6 @@ export default {
       establishment: {},
       userData: JSON.parse(localStorage.getItem('userData')),
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   beforeMount() {
     this.fetchEstablishment(this.$route.params.id)

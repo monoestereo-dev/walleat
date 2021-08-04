@@ -79,7 +79,7 @@
             <template #aside>
               <b-avatar
                 size="32"
-                :src="`${apiUrl}${data.item.logo}`"
+                :src="`${data.item.logo}`"
                 :text="avatarText(data.item.name)"
                 :variant="`light-${resolveUserRoleVariant(data.item.role_name)}`"
                 :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
@@ -217,7 +217,7 @@ import vSelect from 'vue-select'
 import store from '@/store'
 import { ref, onUnmounted } from '@vue/composition-api'
 import { avatarText } from '@core/utils/filter'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import useUsersList from './useUsersList'
 import userStoreModule from '../userStoreModule'
 import UserListAddNew from './UserListAddNew.vue'
@@ -331,9 +331,6 @@ export default {
       users: [],
       pagination: {},
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   watch: {
     // eslint-disable-next-line

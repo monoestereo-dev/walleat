@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center">
         <b-avatar
           rounded
-          :src="`${apiUrl}${walleat.logo}`"
+          :src="`${walleat.logo}`"
           size="lg"
         />
         <div class="ml-1">
@@ -109,7 +109,7 @@ import {
   BCard,
   BCardBody,
 } from 'bootstrap-vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -130,9 +130,6 @@ export default {
       orders: [],
       doughnutData: {},
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   beforeMount() {
     const currentBraceletId = this.$route.params.id

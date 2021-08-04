@@ -38,7 +38,7 @@
           >
             <div class="d-flex align-items-center justify-content-center">
               <b-img
-                :src="`${apiUrl}${product.logo}`"
+                :src="`${product.logo}`"
                 :alt="`Image of ${product.name}`"
                 class="product-img"
                 rounded
@@ -150,7 +150,7 @@
 import {
   BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BDropdown, BDropdownItem, BAlert, BBadge,
 } from 'bootstrap-vue'
-import { mapGetters } from 'vuex'
+
 import NutriScore from '@/@core/components/NutriScore.vue'
 import Ripple from 'vue-ripple-directive'
 
@@ -180,12 +180,6 @@ export default {
       type: Object,
       default: () => {},
     },
-  },
-  setup() {
-
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
 }
 </script>

@@ -83,7 +83,7 @@
               fluid
               class="card-img-top"
               rounded
-              :src="`${apiUrl}${product.logo}`"
+              :src="`${product.logo}`"
             />
           </b-link>
         </div>
@@ -214,7 +214,7 @@ import {
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { watch } from '@vue/composition-api'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
 import NutriScore from '@/@core/components/NutriScore.vue'
 import ShopLeftFilterSidebar from './ECommerceShopLeftFilterSidebar.vue'
@@ -369,9 +369,6 @@ export default {
       // mqShallShowLeftSidebar
       mqShallShowLeftSidebar,
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   methods: {
     ...mapActions('walleats', ['banItem']),

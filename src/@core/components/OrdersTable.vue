@@ -78,7 +78,7 @@
               height="40"
               class="mr-1"
               rounded
-              :src="`${apiUrl}${data.item.store_product_attributes.product_attributes.logo}`"
+              :src="`${data.item.store_product_attributes.product_attributes.logo}`"
             />
             <b-link
               :to="{ name: 'product-view', params:{ id: data.item.store_product_attributes.product_attributes.id } }"
@@ -99,7 +99,6 @@
 import {
   BAvatarGroup, BAvatar, BModal, BImg, BTable, BLink, VBTooltip,
 } from 'bootstrap-vue'
-import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -151,9 +150,6 @@ export default {
       ],
       saleDetail: [],
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   methods: {
     showModal(cart) {

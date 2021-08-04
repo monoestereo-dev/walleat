@@ -25,7 +25,7 @@
       </div>
       <b-avatar
         size="40"
-        :src="`${apiUrl}${userData.logo}`"
+        :src="`${userData.logo}`"
         variant="light-primary"
         badge
         class="badge-minimal"
@@ -95,7 +95,6 @@ import {
 // import { initialAbility } from '@/libs/acl/config'
 import useJwt from '@/auth/jwt/useJwt'
 import { avatarText } from '@core/utils/filter'
-import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -109,9 +108,6 @@ export default {
       userData: JSON.parse(localStorage.getItem('userData')),
       avatarText,
     }
-  },
-  computed: {
-    ...mapGetters(['apiUrl']),
   },
   methods: {
     logout() {
