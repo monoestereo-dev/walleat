@@ -38,17 +38,7 @@ const actions = {
           context.commit('setCurrentUser', response.data)
           resolve(response.data)
         })
-        .catch(error => {
-          const errors = Object.entries(error.response.data.messages)
-          debugger
-          errors.forEach(x => {
-            // eslint-disable-next-line no-underscore-dangle
-            this._vm.$notify({
-              type: 'danger', verticalAlign: 'top', horizontalAlign: 'center', message: x[1],
-            })
-          })
-          return reject(error)
-        })
+        .catch(error => reject(error))
         .finally(() => {
           context.commit('loading', false)
         })
