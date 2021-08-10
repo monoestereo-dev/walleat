@@ -6,8 +6,13 @@
       <b-card>
         <label class="section-label mb-1">Search the product by name or SKU</label>
         <vue-typeahead-bootstrap
+          class="mb-4"
           v-model="query"
-          :data="['Canada', 'United States', 'Mexico']"
+          :ieCloseFix="false"
+          :data="storeProducts"
+          :serializer="item => item"
+          @hit="selectedProduct = $event"
+          @input="lookupStoreProducts"
         />
       </b-card>
     </div>
@@ -18,17 +23,6 @@
     <!-- Checkout Options -->
     <div class="checkout-options">
       <b-card>
-        <label class="section-label mb-1">Options</label>
-        <b-input-group class="input-group-merge coupons">
-          <b-form-input placeholder="Coupons" />
-          <b-input-group-append is-text>
-            <span
-              id="input-coupons"
-              class="input-group-text text-primary cursor-pointer"
-            >Apply</span>
-          </b-input-group-append>
-        </b-input-group>
-        <hr>
         <div class="price-details">
           <h6 class="price-title">
             Price Details
@@ -103,9 +97,11 @@
 
 <script>
 import {
-  BButton, BCard, BInputGroup, BFormInput, BInputGroupAppend,
+  BButton, BCard,
 } from 'bootstrap-vue'
 import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap'
+import { mapActions } from 'vuex'
+import { debounce } from 'lodash'
 import ECommerceCheckoutStepCartProducts from './ECommerceCheckoutStepCartProducts.vue'
 
 export default {
@@ -113,9 +109,6 @@ export default {
     // BSV
     BButton,
     BCard,
-    BInputGroup,
-    BFormInput,
-    BInputGroupAppend,
     VueTypeaheadBootstrap,
 
     // SFC
@@ -124,7 +117,30 @@ export default {
   data() {
     return {
       query: '',
+      selectedProduct: null,
+      storeProducts: [],
     }
+  },
+  methods: {
+    ...mapActions('storeProducts', ['getStoreProductsStore']),
+    lookupStoreProducts: debounce(function searchQuery(query) {
+      if (/^\d*$/.test(query) && query != null && query !== '') {
+        this.getStoreProductsStore({
+          by_store: this.$route.params.store_id,
+          by_sku: query,
+        }).then(response => {
+          console.log(response)
+          this.storeProducts = response.data
+          // this.addProductToCart(response)
+          this.searchQuery = null
+        })
+      } else if (query != null && query !== '') {
+        this.getStoreProductsStore({
+          by_store: this.$route.params.store_id,
+          by_name: query,
+        })
+      }
+    }, 500),
   },
 }
 </script>
