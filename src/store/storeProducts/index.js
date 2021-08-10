@@ -1,6 +1,5 @@
 /* eslint-disable */
 import axios from '@axios'
-import { deburr } from 'lodash'
 
 const state = () => ({
   storeProducts: {
@@ -39,7 +38,7 @@ const getters = {
 const mutations = {
   setStoreProducts(payload) {
     debugger
-    payload.storeProducts.data.forEach(product => {product.units = 0})
+    payload.data.forEach(product => {product.units = 0})
     state.storeProducts = payload
   },
   loading: payload => {
@@ -63,10 +62,7 @@ const actions = {
         context.commit('loading', false)
       })
   },
-  getStoreProductsStore(
-    context,
-    { by_store, by_category, per_page = 18, page = 1, by_name = null, by_sku= null}
-  ) {
+  getStoreProductsStore( context, { by_store, by_category, per_page = 18, page = 1, by_name = null, by_sku = null } ) {
     return new Promise((resolve, reject) => {
       context.commit('loading', true)
       axios
@@ -101,10 +97,7 @@ const actions = {
         })
     })
   },
-  addStoreProductToStore(
-    context,
-    { store_id, product_id, unit_cost, unit_price, has_inventory, inventory }
-  ) {
+  addStoreProductToStore(context,{ store_id, product_id, unit_cost, unit_price, has_inventory, inventory }) {
     context.commit('loading', true)
     axios
       .post(`/v1/store_products`, {

@@ -10,7 +10,7 @@
           v-model="query"
           :ieCloseFix="false"
           :data="storeProducts"
-          :serializer="item => item"
+          :serializer="item => item.product_attributes.name"
           @hit="selectedProduct = $event"
           @input="lookupStoreProducts"
         />
@@ -129,15 +129,22 @@ export default {
           by_store: this.$route.params.store_id,
           by_sku: query,
         }).then(response => {
-          console.log(response)
-          this.storeProducts = response.data
+          console.log('Hola', response)
+          this.storeProducts = response
           // this.addProductToCart(response)
           this.searchQuery = null
+          console.log(this.storeProducts)
         })
       } else if (query != null && query !== '') {
         this.getStoreProductsStore({
           by_store: this.$route.params.store_id,
           by_name: query,
+        }).then(response => {
+          console.log('Hola', response)
+          this.storeProducts = response.data
+          // this.addProductToCart(response)
+          this.searchQuery = null
+          console.log(this.storeProducts)
         })
       }
     }, 500),
