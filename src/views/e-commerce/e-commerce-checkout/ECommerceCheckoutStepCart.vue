@@ -1,13 +1,23 @@
 <template>
   <div class="list-view product-checkout mt-0">
 
+    <!-- Products search -->
+    <div>
+      <b-card>
+        <label class="section-label mb-1">Search the product by name or SKU</label>
+        <vue-typeahead-bootstrap
+          v-model="query"
+          :data="['Canada', 'United States', 'Mexico']"
+        />
+      </b-card>
+    </div>
+
     <!-- Products List -->
     <e-commerce-checkout-step-cart-products />
 
     <!-- Checkout Options -->
     <div class="checkout-options">
       <b-card>
-
         <label class="section-label mb-1">Options</label>
         <b-input-group class="input-group-merge coupons">
           <b-form-input placeholder="Coupons" />
@@ -95,6 +105,7 @@
 import {
   BButton, BCard, BInputGroup, BFormInput, BInputGroupAppend,
 } from 'bootstrap-vue'
+import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap'
 import ECommerceCheckoutStepCartProducts from './ECommerceCheckoutStepCartProducts.vue'
 
 export default {
@@ -105,9 +116,15 @@ export default {
     BInputGroup,
     BFormInput,
     BInputGroupAppend,
+    VueTypeaheadBootstrap,
 
     // SFC
     ECommerceCheckoutStepCartProducts,
+  },
+  data() {
+    return {
+      query: '',
+    }
   },
 }
 </script>
