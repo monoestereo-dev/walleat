@@ -2,22 +2,44 @@
   <div class="auth-wrapper auth-v2">
     <b-row class="auth-inner m-0">
       <!-- Left Text-->
-      <b-col lg="8" class="d-none d-lg-flex align-items-center p-5">
+      <b-col
+        lg="8"
+        class="d-none d-lg-flex align-items-center p-5"
+      >
         <div
           class="w-100 d-lg-flex align-items-center justify-content-center px-5"
         >
-          <b-img fluid :src="imgUrl" alt="Login V2" />
+          <b-img
+            fluid
+            :src="imgUrl"
+            alt="Login V2"
+          />
         </div>
       </b-col>
       <!-- /Left Text-->
 
       <!-- Login-->
-      <b-col lg="4" class="d-flex align-items-center auth-bg px-2 p-lg-5">
-        <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto">
+      <b-col
+        lg="4"
+        class="d-flex align-items-center auth-bg px-2 p-lg-5"
+      >
+        <b-col
+          sm="8"
+          md="6"
+          lg="12"
+          class="px-xl-2 mx-auto"
+        >
           <div class="d-flex justify-content-center mb-3">
-            <b-img :src="appLogoImage" alt="logo" width="150" />
+            <b-img
+              :src="appLogoImage"
+              alt="logo"
+              width="150"
+            />
           </div>
-          <b-card-title class="mb-1 font-weight-bold" title-tag="h2">
+          <b-card-title
+            class="mb-1 font-weight-bold"
+            title-tag="h2"
+          >
             ¡Bienvenido! 👋
           </b-card-title>
           <b-card-text class="mb-2">
@@ -25,10 +47,19 @@
           </b-card-text>
 
           <!-- form -->
-          <validation-observer ref="loginForm" #default="{invalid}">
-            <b-form class="auth-login-form mt-2" @submit.prevent="login">
+          <validation-observer
+            ref="loginForm"
+            #default="{invalid}"
+          >
+            <b-form
+              class="auth-login-form mt-2"
+              @submit.prevent="login"
+            >
               <!-- email -->
-              <b-form-group label="Email" label-for="login-email">
+              <b-form-group
+                label="Email"
+                label-for="login-email"
+              >
                 <validation-provider
                   #default="{ errors }"
                   name="Email"
@@ -124,16 +155,28 @@
 
           <!-- social buttons -->
           <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button variant="facebook" href="javascript:void(0)">
+            <b-button
+              variant="facebook"
+              href="javascript:void(0)"
+            >
               <feather-icon icon="FacebookIcon" />
             </b-button>
-            <b-button variant="twitter" href="javascript:void(0)">
+            <b-button
+              variant="twitter"
+              href="javascript:void(0)"
+            >
               <feather-icon icon="TwitterIcon" />
             </b-button>
-            <b-button variant="google" href="javascript:void(0)">
+            <b-button
+              variant="google"
+              href="javascript:void(0)"
+            >
               <feather-icon icon="MailIcon" />
             </b-button>
-            <b-button variant="github" href="javascript:void(0)">
+            <b-button
+              variant="github"
+              href="javascript:void(0)"
+            >
               <feather-icon icon="GithubIcon" />
             </b-button>
           </div>
