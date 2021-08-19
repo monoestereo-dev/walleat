@@ -5,7 +5,10 @@
       style="max-width: 250px;"
       class="d-flex align-items-center justify-content-center"
     >
-      <qriously value="Walleat test qrcode" :size="200" />
+      <qriously
+        value="Walleat test qrcode"
+        :size="200"
+      />
     </b-card>
     <b-card title="WalleatPay">
       <b-card-text>Muestra el codigo al cajero para que lo escanee</b-card-text>
