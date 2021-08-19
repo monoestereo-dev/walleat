@@ -44,8 +44,9 @@ const mutations = {
     state.loading = payload
   },
   pushProductToCart: (state, payload) =>{
+    debugger
     payload.units=1;
-    state.cart.unshift(payload)
+    state.cart.unshift(payload.data[0])
   },
   incrementProductQuantity: (state, cartItem) =>{
     cartItem.units++;
@@ -73,7 +74,7 @@ const mutations = {
 const actions = {
 
   addProductToCart(context, payload){
-    const cartItem = context.state.cart.find(i => i.product_attributes.id === payload.product_attributes.id)
+    const cartItem = context.state.cart.find(i => i.product_attributes.id === payload.data[0].product_attributes.id)
     if(!cartItem){
       context.commit('pushProductToCart', payload)
     }else{
