@@ -3,12 +3,14 @@
     <!-- Products search -->
     <div class="mb-2">
       <b-form-input
+        v-model="searchQuery"
+        autofocus
         variant="outline-primary"
         placeholder="Nombre o Código de barras"
         @input="lookupStoreProducts"
       />
     </div>
-    <div class="checkout-items">
+    <div class="checkout-items" v-if="searchQuery">
       <b-card
         v-for="product in storeProducts"
         :key="product.id"
@@ -22,6 +24,7 @@
             <b-img
               :src="product.product_attributes.logo"
               :alt="`${product.product_attributes.name}-${product.id}`"
+              width="100"
             />
           </b-link>
         </div>
@@ -51,7 +54,7 @@
               </ul>
             </div>
           </div>
-          <span class="text-success mb-1">In Stock</span>
+          <span class="text-success mb-1">${{ product.unit_price | money }}</span>
           <div class="item-quantity">
             <span class="quantity-title">Qty:</span>
             <b-form-spinbutton
@@ -68,7 +71,7 @@
           <div class="item-wrapper">
             <div class="item-cost">
               <h4 class="item-price">
-                ${{ product.unit_price }}
+                ${{ product.unit_price * product.units | money }}
               </h4>
               <p
                 v-if="product.hasFreeShipping"
@@ -84,25 +87,14 @@
             </div>
           </div>
           <b-button
-            variant="light"
+            variant="success"
             class="mt-1 remove-wishlist"
           >
             <feather-icon
-              icon="XIcon"
+              icon="PlusIcon"
               class="mr-50"
             />
-            <span>Remove</span>
-          </b-button>
-          <b-button
-            variant="primary"
-            class="btn-cart move-cart"
-          >
-            <feather-icon
-              icon="HeartIcon"
-              class="mr-50"
-              :class="{'fill-current': product.isInWishlist}"
-            />
-            <span class="text-nowrap">Wishlist</span>
+            <span>Agregar</span>
           </b-button>
         </div>
       </b-card>
@@ -160,18 +152,25 @@ export default {
       formatDate,
     }
   },
+  data() {
+    return {
+      searchQuery: '',
+    }
+  },
   computed: {
     ...mapGetters('storeProducts', ['storeProducts']),
   },
   methods: {
     ...mapActions('storeProducts', ['getStoreProductsStore']),
+    ...mapActions('pos', ['addProductToCart']),
     lookupStoreProducts: debounce(function searchQuery(query) {
       if (/^\d*$/.test(query) && query != null && query !== '') {
         this.getStoreProductsStore({
           by_store: this.$route.params.store_id,
           by_sku: query,
-        }).then(() => {
-          // this.addProductToCart(response)
+        }).then(response => {
+          debugger
+          this.addProductToCart(response)
           this.searchQuery = null
         })
       } else if (query != null && query !== '') {
