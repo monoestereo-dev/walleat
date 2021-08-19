@@ -13,7 +13,7 @@
       >
         <b-card
           class="mt-1 text-center"
-          @click="$router.push({ name: 'store-view', params: { id: store.id } })"
+          @click="$router.push({ name: 'POS', params: { store_id: store.id } })"
         >
           <div class="d-flex justify-content-center mt--5 mb-1">
             <b-avatar

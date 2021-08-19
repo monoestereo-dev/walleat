@@ -22,10 +22,10 @@
             size="30px"
           >
             <b-avatar
-              v-b-tooltip.hover
               v-for="(product, i) in data.item.order_store_products_attributes.slice(0, 5)"
               :id="`tooltip-product-info-${i}`"
               :key="`productInCart-${i}`"
+              v-b-tooltip.hover
               class="pull-up"
               :src="`https://api.mywalleat.com/${product.store_product_attributes.product_attributes.logo}`"
               :title="product.store_product_attributes.product_attributes.name"

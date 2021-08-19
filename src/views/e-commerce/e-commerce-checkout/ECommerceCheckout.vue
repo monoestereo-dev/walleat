@@ -11,26 +11,15 @@
   >
     <!-- account detail tab -->
     <tab-content
-      title="Cart"
+      title="Carrito"
       icon="feather icon-shopping-cart"
     >
       <e-commerce-checkout-step-cart @next-step="formWizardNextStep" />
     </tab-content>
 
-    <!-- address -->
-    <tab-content
-      title="Address"
-      icon="feather icon-home"
-    >
-      <e-commerce-checkout-step-address
-        :address-details="checkoutDetails.address"
-        @next-step="formWizardNextStep"
-      />
-    </tab-content>
-
     <!-- social link -->
     <tab-content
-      title="Payment"
+      title="Pago"
       icon="feather icon-credit-card"
     >
       <e-commerce-checkout-step-payment
@@ -46,7 +35,6 @@ import { FormWizard, TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
 import ECommerceCheckoutStepPayment from './ECommerceCheckoutStepPayment.vue'
 import ECommerceCheckoutStepCart from './ECommerceCheckoutStepCart.vue'
-import ECommerceCheckoutStepAddress from './ECommerceCheckoutStepAddress.vue'
 
 export default {
   components: {
@@ -56,7 +44,6 @@ export default {
 
     // SFC
     ECommerceCheckoutStepCart,
-    ECommerceCheckoutStepAddress,
     ECommerceCheckoutStepPayment,
   },
   setup() {

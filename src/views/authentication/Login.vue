@@ -1,13 +1,14 @@
 <template>
   <div class="auth-wrapper auth-v2">
     <b-row class="auth-inner m-0">
-
       <!-- Left Text-->
       <b-col
         lg="8"
         class="d-none d-lg-flex align-items-center p-5"
       >
-        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+        <div
+          class="w-100 d-lg-flex align-items-center justify-content-center px-5"
+        >
           <b-img
             fluid
             :src="imgUrl"
@@ -68,7 +69,7 @@
                   <b-form-input
                     id="login-email"
                     v-model="userEmail"
-                    :state="errors.length > 0 ? false:null"
+                    :state="errors.length > 0 ? false : null"
                     name="login-email"
                     placeholder="john@example.com"
                   />
@@ -80,7 +81,7 @@
               <b-form-group>
                 <div class="d-flex justify-content-between">
                   <label for="login-password">Password</label>
-                  <b-link :to="{name:'auth-forgot-password'}">
+                  <b-link :to="{ name: 'auth-forgot-password' }">
                     <small>Forgot Password?</small>
                   </b-link>
                 </div>
@@ -92,12 +93,12 @@
                 >
                   <b-input-group
                     class="input-group-merge"
-                    :class="errors.length > 0 ? 'is-invalid':null"
+                    :class="errors.length > 0 ? 'is-invalid' : null"
                   >
                     <b-form-input
                       id="login-password"
                       v-model="password"
-                      :state="errors.length > 0 ? false:null"
+                      :state="errors.length > 0 ? false : null"
                       class="form-control-merge"
                       :type="passwordFieldType"
                       name="login-password"
@@ -140,7 +141,7 @@
 
           <!-- <b-card-text class="text-center mt-2">
             <span>New on our platform? </span>
-            <b-link :to="{name:'auth-register'}">
+            <b-link :to="{ name: 'auth-register' }">
               <span>&nbsp;Create an account</span>
             </b-link>
           </b-card-text> -->
@@ -181,7 +182,7 @@
           </div> -->
         </b-col>
       </b-col>
-    <!-- /Login-->
+      <!-- /Login-->
     </b-row>
   </div>
 </template>
@@ -191,8 +192,20 @@
 import { mapActions } from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import {
-  BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox,
-  BCardText, BCardTitle, BImg, BForm, BButton, VBTooltip,
+  BRow,
+  BCol,
+  BLink,
+  BFormGroup,
+  BFormInput,
+  BInputGroupAppend,
+  BInputGroup,
+  BFormCheckbox,
+  BCardText,
+  BCardTitle,
+  BImg,
+  BForm,
+  BButton,
+  VBTooltip,
 } from 'bootstrap-vue'
 import useJwt from '@/auth/jwt/useJwt'
 import { required, email } from '@validations'
@@ -268,7 +281,8 @@ export default {
               useJwt.setRefreshToken(response.token)
               localStorage.setItem('userData', JSON.stringify(userData))
 
-              this.$router.replace(getHomeRouteForLoggedInUser(userData.role_name))
+              this.$router
+                .replace(getHomeRouteForLoggedInUser(userData.role_name))
                 .then(() => {
                   this.$toast({
                     component: ToastificationContent,
@@ -282,8 +296,17 @@ export default {
                   })
                 })
             })
-            .catch(() => {
-
+            .catch(error => {
+              this.$toast({
+                component: ToastificationContent,
+                position: 'top-right',
+                props: {
+                  title: 'Error',
+                  icon: 'CoffeeIcon',
+                  variant: 'danger',
+                  text: error.response.data.messages,
+                },
+              })
             })
         }
       })
@@ -292,6 +315,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 @import '@core/scss/vue/pages/page-auth.scss';
 </style>
