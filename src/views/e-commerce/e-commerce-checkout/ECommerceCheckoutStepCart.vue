@@ -46,7 +46,7 @@
                 Total
               </div>
               <div class="detail-amt font-weight-bolder">
-                ${{ cartTotal | money }}
+                ${{ cartTotal | money }} MXN
               </div>
             </li>
           </ul>

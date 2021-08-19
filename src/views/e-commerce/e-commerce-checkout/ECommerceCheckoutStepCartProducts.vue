@@ -10,7 +10,10 @@
         @input="lookupStoreProducts"
       />
     </div>
-    <div class="checkout-items" v-if="searchQuery">
+    <div
+      v-if="searchQuery"
+      class="checkout-items"
+    >
       <b-card
         v-for="product in storeProducts"
         :key="product.id"
@@ -19,12 +22,12 @@
       >
 
         <!-- Product Image -->
-        <div class="item-img">
+        <div class="">
           <b-link>
             <b-img
               :src="product.product_attributes.logo"
               :alt="`${product.product_attributes.name}-${product.id}`"
-              width="100"
+              width="120"
             />
           </b-link>
         </div>
@@ -54,16 +57,6 @@
               </ul>
             </div>
           </div>
-          <span class="text-success mb-1">${{ product.unit_price | money }}</span>
-          <div class="item-quantity">
-            <span class="quantity-title">Qty:</span>
-            <b-form-spinbutton
-              v-model="product.units"
-              size="sm"
-              class="ml-75"
-              inline
-            />
-          </div>
         </b-card-body>
 
         <!-- Product Options/Actions -->
@@ -89,6 +82,7 @@
           <b-button
             variant="success"
             class="mt-1 remove-wishlist"
+            @click="addProductAndClearQuery(product)"
           >
             <feather-icon
               icon="PlusIcon"
@@ -105,7 +99,7 @@
 
 <script>
 import {
-  BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormSpinbutton, BFormInput,
+  BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput,
 } from 'bootstrap-vue'
 import store from '@/store'
 import { ref } from '@vue/composition-api'
@@ -116,7 +110,7 @@ import { useEcommerce, useEcommerceUi } from '../useEcommerce'
 
 export default {
   components: {
-    BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormSpinbutton, BFormInput,
+    BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput,
   },
   setup() {
     const products = ref([])
@@ -169,7 +163,6 @@ export default {
           by_store: this.$route.params.store_id,
           by_sku: query,
         }).then(response => {
-          debugger
           this.addProductToCart(response)
           this.searchQuery = null
         })
@@ -178,12 +171,13 @@ export default {
           by_store: this.$route.params.store_id,
           by_name: query,
         }).then(() => {
-          // this.addProductToCart(response)
-          this.searchQuery = null
-          console.log(this.storeProducts)
         })
       }
     }, 500),
+    addProductAndClearQuery(product) {
+      this.addProductToCart({ data: [{ ...product }] })
+      this.searchQuery = null
+    },
   },
 }
 </script>

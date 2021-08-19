@@ -9,11 +9,12 @@
       >
 
         <!-- Product Image -->
-        <div class="item-img">
+        <div>
           <b-link>
             <b-img
               :src="product.product_attributes.logo"
               :alt="`${product.product_attributes.name}-${product.id}`"
+              width="150"
             />
           </b-link>
         </div>
@@ -84,7 +85,7 @@
               icon="XIcon"
               class="mr-50"
             />
-            <span>Remove</span>
+            <span>Borrar</span>
           </b-button>
         </div>
       </b-card>
