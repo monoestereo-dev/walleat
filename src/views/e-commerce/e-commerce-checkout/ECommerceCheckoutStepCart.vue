@@ -1,7 +1,10 @@
 <template>
   <div class="list-view product-checkout mt-0">
     <!-- Products List -->
-    <e-commerce-checkout-step-cart-products />
+    <div>
+      <e-commerce-checkout-step-cart-products />
+      <e-commerce-checkout-cart-products />
+    </div>
 
     <!-- Checkout Options -->
     <div class="checkout-options">
@@ -13,10 +16,18 @@
           <ul class="list-unstyled">
             <li class="price-detail">
               <div class="detail-title">
+                Productos
+              </div>
+              <div class="detail-amt discount-amt text-success">
+                {{ cart.length }}
+              </div>
+            </li>
+            <li class="price-detail">
+              <div class="detail-title">
                 Subtotal
               </div>
               <div class="detail-amt">
-                $598
+                ${{ (cartTotal - cartTotal * 0.16) | money }} MXN
               </div>
             </li>
             <li class="price-detail">
@@ -24,18 +35,9 @@
                 IVA
               </div>
               <div class="detail-amt">
-                $1.3
+                ${{ (cartTotal * 0.16) | money }} MXN
               </div>
             </li>
-
-            <!-- <li class="price-detail">
-              <div class="detail-title">
-                Delivery Charges
-              </div>
-              <div class="detail-amt discount-amt text-success">
-                Free
-              </div>
-            </li> -->
           </ul>
           <hr>
           <ul class="list-unstyled">
@@ -44,7 +46,7 @@
                 Total
               </div>
               <div class="detail-amt font-weight-bolder">
-                $574
+                ${{ cartTotal | money }}
               </div>
             </li>
           </ul>
@@ -63,12 +65,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
   BButton,
   BCard,
   // BFormInput,
 } from 'bootstrap-vue'
 import ECommerceCheckoutStepCartProducts from './ECommerceCheckoutStepCartProducts.vue'
+import ECommerceCheckoutCartProducts from './ECommerceCheckoutCartProducts.vue'
 
 export default {
   components: {
@@ -79,13 +83,19 @@ export default {
 
     // SFC
     ECommerceCheckoutStepCartProducts,
+    ECommerceCheckoutCartProducts,
   },
   data() {
     return {
       query: '',
       selectedProduct: null,
-      storeProducts: [],
     }
+  },
+  computed: {
+    ...mapGetters('pos', [
+      'cartTotal',
+      'cart',
+    ]),
   },
 }
 </script>
