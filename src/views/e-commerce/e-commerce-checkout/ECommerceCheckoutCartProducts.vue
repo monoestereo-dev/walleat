@@ -1,33 +1,20 @@
 <template>
   <div>
-    <!-- Products search -->
-    <div class="mb-2">
-      <b-form-input
-        v-model="searchQuery"
-        autofocus
-        variant="outline-primary"
-        placeholder="Nombre o Código de barras"
-        @input="lookupStoreProducts"
-      />
-    </div>
-    <div
-      v-if="searchQuery"
-      class="checkout-items"
-    >
+    <div class="checkout-items">
       <b-card
-        v-for="product in storeProducts"
+        v-for="product in cart"
         :key="product.id"
         class="ecommerce-card"
         no-body
       >
 
         <!-- Product Image -->
-        <div class="">
+        <div>
           <b-link>
             <b-img
               :src="product.product_attributes.logo"
               :alt="`${product.product_attributes.name}-${product.id}`"
-              width="120"
+              width="150"
             />
           </b-link>
         </div>
@@ -57,6 +44,16 @@
               </ul>
             </div>
           </div>
+          <span class="text-success mb-1">${{ product.unit_price | money }}</span>
+          <div class="item-quantity">
+            <span class="quantity-title">Qty:</span>
+            <b-form-spinbutton
+              v-model="product.units"
+              size="sm"
+              class="ml-75"
+              inline
+            />
+          </div>
         </b-card-body>
 
         <!-- Product Options/Actions -->
@@ -80,15 +77,15 @@
             </div>
           </div>
           <b-button
-            variant="success"
+            variant="light"
             class="mt-1 remove-wishlist"
-            @click="addProductAndClearQuery(product)"
+            @click="deleteProductFromCarts(product)"
           >
             <feather-icon
-              icon="PlusIcon"
+              icon="XIcon"
               class="mr-50"
             />
-            <span>Agregar</span>
+            <span>Borrar</span>
           </b-button>
         </div>
       </b-card>
@@ -99,18 +96,17 @@
 
 <script>
 import {
-  BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput,
+  BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormSpinbutton,
 } from 'bootstrap-vue'
 import store from '@/store'
 import { ref } from '@vue/composition-api'
-import { mapGetters, mapActions } from 'vuex'
-import { debounce } from 'lodash'
+import { mapGetters, mapMutations } from 'vuex'
 import { formatDate } from '@core/utils/filter'
 import { useEcommerce, useEcommerceUi } from '../useEcommerce'
 
 export default {
   components: {
-    BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput,
+    BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormSpinbutton,
   },
   setup() {
     const products = ref([])
@@ -146,38 +142,15 @@ export default {
       formatDate,
     }
   },
-  data() {
-    return {
-      searchQuery: '',
-    }
-  },
   computed: {
-    ...mapGetters('storeProducts', ['storeProducts']),
+    ...mapGetters('pos', ['cart']),
   },
   methods: {
-    ...mapActions('storeProducts', ['getStoreProductsStore']),
-    ...mapActions('pos', ['addProductToCart']),
-    lookupStoreProducts: debounce(function searchQuery(query) {
-      if (/^\d*$/.test(query) && query != null && query !== '') {
-        this.getStoreProductsStore({
-          by_store: this.$route.params.store_id,
-          by_sku: query,
-        }).then(response => {
-          this.addProductToCart(response)
-          this.searchQuery = null
-        })
-      } else if (query != null && query !== '') {
-        this.getStoreProductsStore({
-          by_store: this.$route.params.store_id,
-          by_name: query,
-        }).then(() => {
-        })
-      }
-    }, 500),
-    addProductAndClearQuery(product) {
-      this.addProductToCart({ data: [{ ...product }] })
-      this.searchQuery = null
-    },
+    ...mapMutations('pos', [
+      'incrementProductQuantity',
+      'decrementProductQuantity',
+      'deleteProductFromCarts',
+    ]),
   },
 }
 </script>

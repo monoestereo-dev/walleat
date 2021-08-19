@@ -13,6 +13,8 @@ import products from './products'
 import walleats from './walleats'
 import orders from './orders'
 import users from './users'
+import storeProducts from './storeProducts'
+import pos from './pos'
 
 Vue.use(Vuex)
 
@@ -29,6 +31,8 @@ export default new Vuex.Store({
     walleats,
     orders,
     users,
+    storeProducts,
+    pos,
   },
   state: {
     apiURL: 'https://api.mywalleat.com',

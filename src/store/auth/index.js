@@ -38,9 +38,7 @@ const actions = {
           context.commit('setCurrentUser', response.data)
           resolve(response.data)
         })
-        .catch(error => {
-          reject(error)
-        })
+        .catch(error => reject(error))
         .finally(() => {
           context.commit('loading', false)
         })

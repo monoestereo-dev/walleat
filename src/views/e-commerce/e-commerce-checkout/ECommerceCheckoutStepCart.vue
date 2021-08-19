@@ -1,68 +1,38 @@
 <template>
   <div class="list-view product-checkout mt-0">
-
     <!-- Products List -->
-    <e-commerce-checkout-step-cart-products />
+    <div>
+      <e-commerce-checkout-step-cart-products />
+      <e-commerce-checkout-cart-products />
+    </div>
 
     <!-- Checkout Options -->
     <div class="checkout-options">
-      <b-card>
-
-        <label class="section-label mb-1">Options</label>
-        <b-input-group class="input-group-merge coupons">
-          <b-form-input placeholder="Coupons" />
-          <b-input-group-append is-text>
-            <span
-              id="input-coupons"
-              class="input-group-text text-primary cursor-pointer"
-            >Apply</span>
-          </b-input-group-append>
-        </b-input-group>
-        <hr>
+      <b-card title="Detalles de la compra">
         <div class="price-details">
-          <h6 class="price-title">
-            Price Details
-          </h6>
           <ul class="list-unstyled">
             <li class="price-detail">
               <div class="detail-title">
-                Total MRP
-              </div>
-              <div class="detail-amt">
-                $598
-              </div>
-            </li>
-            <li class="price-detail">
-              <div class="detail-title">
-                Bag Discount
+                Productos
               </div>
               <div class="detail-amt discount-amt text-success">
-                -25$
+                {{ cart.length }}
               </div>
             </li>
             <li class="price-detail">
               <div class="detail-title">
-                Estimated Tax
+                Subtotal
               </div>
               <div class="detail-amt">
-                $1.3
+                ${{ (cartTotal - cartTotal * 0.16) | money }} MXN
               </div>
             </li>
             <li class="price-detail">
               <div class="detail-title">
-                EMI Eligibility
+                IVA
               </div>
-              <a
-                href="javascript:void(0)"
-                class="detail-amt text-primary"
-              >Details</a>
-            </li>
-            <li class="price-detail">
-              <div class="detail-title">
-                Delivery Charges
-              </div>
-              <div class="detail-amt discount-amt text-success">
-                Free
+              <div class="detail-amt">
+                ${{ (cartTotal * 0.16) | money }} MXN
               </div>
             </li>
           </ul>
@@ -73,16 +43,17 @@
                 Total
               </div>
               <div class="detail-amt font-weight-bolder">
-                $574
+                ${{ cartTotal | money }} MXN
               </div>
             </li>
           </ul>
           <b-button
             variant="primary"
             block
+            :disabled="cart.length === 0"
             @click="$emit('next-step')"
           >
-            Place Order
+            Continuar
           </b-button>
         </div>
 
@@ -92,22 +63,37 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
-  BButton, BCard, BInputGroup, BFormInput, BInputGroupAppend,
+  BButton,
+  BCard,
+  // BFormInput,
 } from 'bootstrap-vue'
 import ECommerceCheckoutStepCartProducts from './ECommerceCheckoutStepCartProducts.vue'
+import ECommerceCheckoutCartProducts from './ECommerceCheckoutCartProducts.vue'
 
 export default {
   components: {
     // BSV
     BButton,
     BCard,
-    BInputGroup,
-    BFormInput,
-    BInputGroupAppend,
+    // BFormInput,
 
     // SFC
     ECommerceCheckoutStepCartProducts,
+    ECommerceCheckoutCartProducts,
+  },
+  data() {
+    return {
+      query: '',
+      selectedProduct: null,
+    }
+  },
+  computed: {
+    ...mapGetters('pos', [
+      'cartTotal',
+      'cart',
+    ]),
   },
 }
 </script>
