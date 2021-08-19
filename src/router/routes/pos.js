@@ -5,6 +5,7 @@ export default [
     component: () => import('@/views/e-commerce/e-commerce-checkout/ECommerceCheckout.vue'),
     meta: {
       requiresAuth: true,
+      contentClass: 'ecommerce-application',
     },
   },
 ]
