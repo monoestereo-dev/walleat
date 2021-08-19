@@ -11,7 +11,7 @@
   >
     <!-- account detail tab -->
     <tab-content
-      title="Cart"
+      title="Carrito"
       icon="feather icon-shopping-cart"
     >
       <e-commerce-checkout-step-cart @next-step="formWizardNextStep" />
@@ -19,7 +19,7 @@
 
     <!-- social link -->
     <tab-content
-      title="Payment"
+      title="Pago"
       icon="feather icon-credit-card"
     >
       <e-commerce-checkout-step-payment
