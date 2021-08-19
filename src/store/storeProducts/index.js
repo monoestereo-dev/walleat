@@ -36,15 +36,14 @@ const getters = {
 }
 
 const mutations = {
-  setStoreProducts(payload) {
-    debugger
-    payload.data.forEach(product => {product.units = 0})
+  setStoreProducts(state, payload) {
+    payload.data.forEach(product => {product.units = 1})
     state.storeProducts = payload
   },
-  loading: payload => {
+  loading: (state, payload) => {
     state.loading = payload
   },
-  setSearchProduct(payload) {
+  setSearchProduct(state, payload) {
     state.searchProduct = payload
   },
 }
@@ -86,7 +85,7 @@ const actions = {
             context.commit('setStoreProducts', response.data)
           }
           if (response.data.data[0]) {
-            resolve(response.data.data[0])
+            resolve(response.data)
           }
         })
         .catch((error) => {
