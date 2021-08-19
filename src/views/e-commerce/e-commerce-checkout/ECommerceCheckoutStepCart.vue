@@ -8,11 +8,8 @@
 
     <!-- Checkout Options -->
     <div class="checkout-options">
-      <b-card>
+      <b-card title="Detalles de la compra">
         <div class="price-details">
-          <h6 class="price-title">
-            Detalles de la compra
-          </h6>
           <ul class="list-unstyled">
             <li class="price-detail">
               <div class="detail-title">
@@ -53,6 +50,7 @@
           <b-button
             variant="primary"
             block
+            :disabled="cart.length === 0"
             @click="$emit('next-step')"
           >
             Continuar
