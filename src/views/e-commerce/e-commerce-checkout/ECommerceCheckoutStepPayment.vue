@@ -1,56 +1,73 @@
 <template>
   <div class="list-view product-checkout mt-0">
     <!-- Left Card -->
-    <b-card no-body>
-      <b-card-header class="flex-column align-items-start">
-        <b-card-title>Opciones de pago</b-card-title>
-      </b-card-header>
-      <b-card-body>
-        <!-- Radios -->
-        <b-form-group>
-          <b-form-radio
-            v-model="paymentMethod"
-            name="payment-method"
-            value="cash"
-          >
-            Efectivo
-          </b-form-radio>
-          <!-- <b-form-radio
-            v-model="paymentMethod"
-            name="payment-method"
-            class="mt-1"
-            value="debit-atm-credit-card"
-          >
-            Credit / Debit / ATM Card
-          </b-form-radio> -->
-          <b-form-radio
-            v-model="paymentMethod"
-            name="payment-method"
-            class="mt-1"
-            value="net-banking"
-          >
-            Android NFC
-          </b-form-radio>
-          <b-form-radio
-            v-model="paymentMethod"
-            name="payment-method"
-            class="mt-1"
-            value="emi"
-          >
-            Android APP Reader
-          </b-form-radio>
-        </b-form-group>
-
-        <hr class="my-2">
-        <div v-if="paymentMethod === 'cash'">
-          <b-form-input
+    <div>
+      <div
+        v-if="paymentMethod === 'chromeNFC'"
+        class="mb-1"
+      >
+        <android-nfc-chrome />
+      </div>
+      <div
+        v-if="paymentMethod === 'cash'"
+        class="mb-1"
+      >
+        <b-input-group class="input-group-merge">
+          <b-input-group-prepend is-text>
+            $
+          </b-input-group-prepend>
+          <cleave
+            id="number"
             v-model="cash"
+            class="form-control search-product"
+            :raw="true"
+            :options="options.number"
             placeholder="Recibir efectivo"
           />
-        </div>
-
-      </b-card-body>
-    </b-card>
+        </b-input-group>
+      </div>
+      <b-card no-body>
+        <b-card-header class="flex-column align-items-start">
+          <b-card-title>Opciones de pago</b-card-title>
+        </b-card-header>
+        <b-card-body>
+          <!-- Radios -->
+          <b-form-group>
+            <b-form-radio
+              v-model="paymentMethod"
+              name="payment-method"
+              value="cash"
+            >
+              Efectivo
+            </b-form-radio>
+            <!-- <b-form-radio
+              v-model="paymentMethod"
+              name="payment-method"
+              class="mt-1"
+              value="debit-atm-credit-card"
+            >
+              Credit / Debit / ATM Card
+            </b-form-radio> -->
+            <b-form-radio
+              v-model="paymentMethod"
+              name="payment-method"
+              class="mt-1"
+              value="chromeNFC"
+            >
+              Android NFC
+            </b-form-radio>
+            <b-form-radio
+              v-model="paymentMethod"
+              name="payment-method"
+              class="mt-1"
+              value="emi"
+            >
+              Android APP Reader
+            </b-form-radio>
+          </b-form-group>
+        </b-card-body>
+      </b-card>
+    </div>
 
     <!-- Right Card -->
     <div class="amount-payable checkout-options">
@@ -108,8 +125,9 @@
             </li>
           </ul>
           <b-button
-            variant="success"
+            :variant="cash < cartTotal ? 'warning' : 'success'"
             block
+            :disabled="cash < cartTotal"
             @click="$emit('next-step')"
           >
             Continuar
@@ -123,6 +141,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Cleave from 'vue-cleave-component'
 import {
   BCard,
   BCardHeader,
@@ -131,9 +150,11 @@ import {
   BFormGroup,
   BFormRadio,
   // BCardText
-  BFormInput,
+  BInputGroup,
+  BInputGroupPrepend,
   BButton,
 } from 'bootstrap-vue'
+import AndroidNfcChrome from './AndroidNfcChrome.vue'
 
 export default {
   components: {
@@ -145,8 +166,12 @@ export default {
     BCardBody,
     BFormGroup,
     BFormRadio,
-    BFormInput,
+    BInputGroup,
+    BInputGroupPrepend,
     BButton,
+    Cleave,
+
+    AndroidNfcChrome,
   },
   props: {
     paymentDetails: {
@@ -158,6 +183,12 @@ export default {
     return {
       paymentMethod: 'cash',
       cash: null,
+      options: {
+        number: {
+          numeral: true,
+          numeralThousandsGroupStyle: 'thousand',
+        },
+      },
     }
   },
   computed: {
