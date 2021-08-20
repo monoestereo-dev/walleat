@@ -6,18 +6,27 @@
         v-if="paymentMethod === 'cash'"
         class="mb-1"
       >
-        <b-input-group class="input-group-merge">
+        <b-input-group>
           <b-input-group-prepend is-text>
             $
           </b-input-group-prepend>
-          <cleave
-            id="number"
+          <b-form-input
             v-model="cash"
-            class="form-control search-product"
-            :raw="true"
-            :options="options.number"
+            type="number"
+            min="0.00"
+            class="form-control"
             placeholder="Recibir efectivo"
+            size="lg"
           />
+          <b-input-group-append
+            v-if="cash > 0"
+            is-text
+            @click="cash = null"
+          >
+            <feather-icon
+              icon="XIcon"
+            />
+          </b-input-group-append>
         </b-input-group>
       </div>
       <b-card no-body>
@@ -43,6 +52,7 @@
               Credit / Debit / ATM Card
             </b-form-radio> -->
             <b-form-radio
+              v-if="isDeviceAndroid"
               v-model="paymentMethod"
               name="payment-method"
               class="mt-1"
@@ -51,6 +61,7 @@
               Android NFC
             </b-form-radio>
             <b-form-radio
+              v-if="isDeviceAndroid"
               v-model="paymentMethod"
               name="payment-method"
               class="mt-1"
@@ -146,7 +157,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Cleave from 'vue-cleave-component'
+import { VMoney } from 'v-money'
+// import Cleave from 'vue-cleave-component'
 import {
   BCard,
   BCardHeader,
@@ -154,9 +166,12 @@ import {
   BCardBody,
   BFormGroup,
   BFormRadio,
-  // BCardText
-  BInputGroup,
+  BFormInput,
   BInputGroupPrepend,
+  BInputGroupAppend,
+  BInputGroup,
+
+  // BCardText
   BButton,
 } from 'bootstrap-vue'
 import AndroidNfcChrome from './AndroidNfcChrome.vue'
@@ -171,13 +186,15 @@ export default {
     BCardBody,
     BFormGroup,
     BFormRadio,
-    BInputGroup,
-    BInputGroupPrepend,
     BButton,
-    Cleave,
+    BFormInput,
+    BInputGroupPrepend,
+    BInputGroupAppend,
+    BInputGroup,
 
     AndroidNfcChrome,
   },
+  directives: { money: VMoney },
   props: {
     paymentDetails: {
       type: Object,
@@ -188,11 +205,13 @@ export default {
     return {
       paymentMethod: 'cash',
       cash: null,
-      options: {
-        number: {
-          numeral: true,
-          numeralThousandsGroupStyle: 'thousand',
-        },
+      isDeviceAndroid: false,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '$ ',
+        suffix: ' MXN',
+        precision: 0,
       },
     }
   },
@@ -202,9 +221,20 @@ export default {
       'cart',
     ]),
   },
+  mounted() {
+    const ua = navigator.userAgent.toLowerCase()
+    const isAndroid = ua.indexOf('android') > -1
+    // && ua.indexOf('mobile')
+    if (isAndroid) {
+      this.isDeviceAndroid = true
+    }
+  },
   methods: {
     ...mapActions('orders', [
       'addOrder',
+    ]),
+    ...mapActions('pos', [
+      'emptyCart',
     ]),
     completeSale() {
       const tempCart = []
@@ -223,6 +253,18 @@ export default {
       this.addOrder({ order: orderReady, orderType: 'sell' })
         .then(() => {
           this.bracelet_id = null
+          this.$swal({
+            title: 'Cobro exitoso!',
+            text: 'Grácias.',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+          this.cash = null
+          this.emptyCart()
+          this.$emit('prev-step')
         }).catch(error => {
           this.bannedItems = error.response.data.banned_items
         })

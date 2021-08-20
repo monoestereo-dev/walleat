@@ -45,7 +45,6 @@ export default {
       })
     },
     addOrder(ctx, { order, orderType }) {
-      debugger
       return new Promise((resolve, reject) => {
         axios
           .post('/v1/orders/', {
@@ -55,7 +54,6 @@ export default {
             },
           })
           .then(response => {
-            debugger
             resolve(response.data)
           })
           .catch(error => {

@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="userImg && bracelet_id"
-      class="d-flex justify-content-center mb-4"
+      class="d-flex justify-content-center mt-2 mb-1"
     >
       <b-img
         thumbnail
@@ -11,26 +11,51 @@
         width="200"
       />
     </div>
-    <div>
-      {{ nfcStatus }} {{ userImg }}
+    <div class="text-center">
+      {{ nfcStatus }}
     </div>
-    <b-button
-      block
-      @click="readNfc()"
-    >
-      NFC
-    </b-button>
+    <div>
+      <b-button
+        v-if="!bracelet_id"
+        block
+        variant="primary"
+        @click="readNfc()"
+      >
+        Escanear
+      </b-button>
+      <b-button-group
+        v-else
+        class="w-100"
+      >
+        <b-button
+          variant="danger"
+        >
+          cancelar
+        </b-button>
+        <b-button
+          variant="success"
+        >
+          Continuar
+        </b-button>
+      </b-button-group>
+    </div>
   </div>
 </template>
 
 <script>
-import { BButton, BImg } from 'bootstrap-vue'
+import {
+  BButton,
+  BImg,
+  BButtonGroup,
+} from 'bootstrap-vue'
 import { mapActions } from 'vuex'
 import { debounce } from 'lodash'
 
 export default {
   components: {
-    BButton, BImg,
+    BButton,
+    BImg,
+    BButtonGroup,
   },
   data() {
     return {
@@ -58,7 +83,6 @@ export default {
       'fetchWalleatByEnc',
     ]),
     async readNfc() {
-      this.paymentType = 'credit'
       this.nfcStatus = 'Scanning'
       try {
         // eslint-disable-next-line

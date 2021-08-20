@@ -30,6 +30,19 @@ export default {
           })
       })
     },
+    fetchWalleat(ctx, id) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/v1/bracelets/${id}`)
+          .then(response => {
+            resolve(response.data)
+            ctx.commit('SET_WALLEAT', { ...response.data })
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
     fetchWalleatGraph(ctx, params) {
       return new Promise((resolve, reject) => {
         axios

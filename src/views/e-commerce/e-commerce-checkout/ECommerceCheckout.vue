@@ -19,12 +19,13 @@
 
     <!-- social link -->
     <tab-content
-      title="Pago"
+      title="Cobro"
       icon="feather icon-credit-card"
     >
       <e-commerce-checkout-step-payment
         :payment-details="checkoutDetails.payment"
         @next-step="formWizardNextStep"
+        @prev-step="formWizardPrevStep"
       />
     </tab-content>
   </form-wizard>
@@ -51,6 +52,9 @@ export default {
     const formWizardNextStep = () => {
       refFormWizard.value.nextTab()
     }
+    const formWizardPrevStep = () => {
+      refFormWizard.value.prevTab()
+    }
 
     // ? This is just dummy details
     const checkoutDetails = ref({
@@ -72,6 +76,7 @@ export default {
     return {
       refFormWizard,
       formWizardNextStep,
+      formWizardPrevStep,
 
       // Dummy Details
       checkoutDetails,
