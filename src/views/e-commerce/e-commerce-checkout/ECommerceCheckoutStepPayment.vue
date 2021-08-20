@@ -3,12 +3,6 @@
     <!-- Left Card -->
     <div>
       <div
-        v-if="paymentMethod === 'chromeNFC'"
-        class="mb-1"
-      >
-        <android-nfc-chrome />
-      </div>
-      <div
         v-if="paymentMethod === 'cash'"
         class="mb-1"
       >
@@ -60,7 +54,7 @@
               v-model="paymentMethod"
               name="payment-method"
               class="mt-1"
-              value="emi"
+              value="androidAppNfc"
             >
               Android APP Reader
             </b-form-radio>
@@ -125,10 +119,21 @@
             </li>
           </ul>
           <b-button
+            v-if="paymentMethod === 'cash'"
             :variant="cash < cartTotal ? 'warning' : 'success'"
             block
             :disabled="cash < cartTotal"
-            @click="$emit('next-step')"
+            @click="completeSale()"
+          >
+            Continuar
+          </b-button>
+          <android-nfc-chrome v-if="paymentMethod === 'chromeNFC'" />
+          <b-button
+            v-if="paymentMethod === 'androidAppNfc'"
+            block
+            href="intent://scan/aHR0cHM6Ly9pY2VkZXYucGwvbmZjY2I=/#Intent;scheme=extnfc;package=pl.icedev.nfc.external;end"
+            variant="primary"
+            class="text-center"
           >
             Continuar
           </b-button>
@@ -140,7 +145,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Cleave from 'vue-cleave-component'
 import {
   BCard,
@@ -196,6 +201,32 @@ export default {
       'cartTotal',
       'cart',
     ]),
+  },
+  methods: {
+    ...mapActions('orders', [
+      'addOrder',
+    ]),
+    completeSale() {
+      const tempCart = []
+      this.cart.forEach(product => {
+        const refactorProduct = {
+          store_product_id: product.id,
+          units: product.units,
+        }
+        tempCart.push(refactorProduct)
+      })
+      const orderReady = {
+        store_id: this.$route.params.store_id,
+        payment_type: this.paymentMethod === 'cash' ? 'cash' : 'credit',
+        order_store_products_attributes: tempCart,
+      }
+      this.addOrder({ order: orderReady, orderType: 'sell' })
+        .then(() => {
+          this.bracelet_id = null
+        }).catch(error => {
+          this.bannedItems = error.response.data.banned_items
+        })
+    },
   },
 }
 </script>
