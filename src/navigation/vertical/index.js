@@ -45,6 +45,6 @@ export default [
     title: 'Establecimientos',
     route: 'establishments-list',
     icon: 'ShoppingBagIcon',
-    roles: ['admin', 'customer'],
+    roles: ['admin', 'store_clerk', 'establishment_admin'],
   },
 ]

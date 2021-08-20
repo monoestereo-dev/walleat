@@ -80,9 +80,9 @@
               <!-- forgot password -->
               <b-form-group>
                 <div class="d-flex justify-content-between">
-                  <label for="login-password">Password</label>
+                  <label for="login-password">Contraseña</label>
                   <b-link :to="{ name: 'auth-forgot-password' }">
-                    <small>Forgot Password?</small>
+                    <small>¿Olvidaste tu contraseña?</small>
                   </b-link>
                 </div>
                 <validation-provider
@@ -116,25 +116,15 @@
                 </validation-provider>
               </b-form-group>
 
-              <!-- checkbox -->
-              <b-form-group>
-                <b-form-checkbox
-                  id="remember-me"
-                  v-model="status"
-                  name="checkbox-1"
-                >
-                  Remember Me
-                </b-form-checkbox>
-              </b-form-group>
-
               <!-- submit buttons -->
               <b-button
                 type="submit"
                 variant="primary"
+                class="mt-3"
                 block
                 :disabled="invalid"
               >
-                Sign in
+                Iniciar sesión
               </b-button>
             </b-form>
           </validation-observer>
@@ -199,7 +189,6 @@ import {
   BFormInput,
   BInputGroupAppend,
   BInputGroup,
-  BFormCheckbox,
   BCardText,
   BCardTitle,
   BImg,
@@ -234,7 +223,6 @@ export default {
     BFormInput,
     BInputGroupAppend,
     BInputGroup,
-    BFormCheckbox,
     BCardText,
     BCardTitle,
     BImg,
@@ -299,7 +287,7 @@ export default {
             .catch(error => {
               this.$toast({
                 component: ToastificationContent,
-                position: 'top-right',
+                position: 'top-left',
                 props: {
                   title: 'Error',
                   icon: 'CoffeeIcon',
