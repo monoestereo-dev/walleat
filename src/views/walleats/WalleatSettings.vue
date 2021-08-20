@@ -42,13 +42,9 @@
             @reset.prevent="resetForm"
           >
             <!-- Walleat picture -->
-            <b-avatar
-              ref="previewEl"
-              class="mb-1"
-              :src="`${walleat.logo}`"
-              :text="avatarText(walleat.name)"
-              size="90px"
-              rounded
+            <base-cropper
+              :model="walleat"
+              @cropped-image="walleat.logo"
             />
 
             <!-- Full Name -->
@@ -155,13 +151,13 @@ import {
   BFormInput,
   BFormInvalidFeedback,
   BButton,
-  BAvatar,
 } from 'bootstrap-vue'
 import { mapActions, mapGetters } from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { avatarText } from '@core/utils/filter'
 import { required, integer } from '@validations'
 import formValidation from '@core/comp-functions/forms/form-validation'
+import BaseCropper from '@/@core/components/BaseCropper.vue'
 import Ripple from 'vue-ripple-directive'
 import vSelect from 'vue-select'
 
@@ -173,11 +169,11 @@ export default {
     BFormInput,
     BFormInvalidFeedback,
     BButton,
-    BAvatar,
     // Form Validation
     ValidationProvider,
     ValidationObserver,
     vSelect,
+    BaseCropper,
   },
   directives: {
     'b-toggle': VBToggle,

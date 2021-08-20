@@ -15,7 +15,7 @@
         width="120"
         class="cursor-pointer soft-border"
         rounded
-        :src="model.logo != null ? model.logo : `/img/theme/vue.jpg`"
+        :src="model.logo != null ? model.logo : `/img/icons/android-chrome-192x192.png`"
         @click="chooseFile()"
       />
     </div>
@@ -130,6 +130,6 @@ export default {
   cursor: pointer;
 }
 .soft-border {
-  border: 4px solid rgba(250,250,250,0.1)
+  border: 4px solid rgba(122,122,122,0.1)
 }
 </style>
