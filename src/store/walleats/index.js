@@ -30,19 +30,6 @@ export default {
           })
       })
     },
-    fetchWalleat(ctx, id) {
-      return new Promise((resolve, reject) => {
-        axios
-          .get(`/v1/bracelets/${id}`)
-          .then(response => {
-            resolve(response.data)
-            ctx.commit('SET_WALLEAT', { ...response.data })
-          })
-          .catch(error => {
-            reject(error)
-          })
-      })
-    },
     fetchWalleatGraph(ctx, params) {
       return new Promise((resolve, reject) => {
         axios
@@ -51,6 +38,23 @@ export default {
           })
           .then(response => {
             resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    fetchWalleatByEnc(ctx, enc) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/v1/find_by_bracelet_number', {
+            params: {
+              enc,
+            },
+          })
+          .then(response => {
+            // context.commit('setCurrentBracelet', response.data)
+            resolve(response)
           })
           .catch(error => {
             reject(error)
