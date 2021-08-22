@@ -173,7 +173,7 @@ export default {
         }).then(() => {
         })
       }
-    }, 500),
+    }, 100),
     addProductAndClearQuery(product) {
       this.addProductToCart({ data: [{ ...product }] })
       this.searchQuery = null
