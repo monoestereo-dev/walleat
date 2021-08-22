@@ -28,7 +28,10 @@
               cols="12"
               class="mb-2"
             >
-              <base-cropper :model="walleat" @cropped-image="walleat.logo" />
+              <base-cropper
+                :model="walleat"
+                @cropped-image="walleat.logo"
+              />
             </b-col>
             <b-col
               cols="12"
