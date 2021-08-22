@@ -2,13 +2,36 @@
   <div>
     <!-- Products search -->
     <div class="mb-2">
-      <b-form-input
-        v-model="searchQuery"
-        autofocus
-        variant="outline-primary"
-        placeholder="Nombre o Código de barras"
-        @input="lookupStoreProducts"
-      />
+      <b-input-group>
+        <b-form-input
+          v-model="searchQuery"
+          autofocus
+          variant="outline-primary"
+          placeholder="Nombre o Código de barras"
+          @input="lookupStoreProducts"
+        />
+        <b-input-group-append v-if="!searchQuery">
+          <b-dropdown
+            no-caret
+            variant="outline-primary"
+          >
+            <template #button-content>
+              🔧<span class="sr-only">settings</span>
+            </template>
+            <b-dropdown-item @click="toggleCameraScanner()">
+              {{ isCameraScannerActive ? 'Ocultar Camara' : 'Mostrar camara' }}
+            </b-dropdown-item>
+          </b-dropdown>
+        </b-input-group-append>
+        <b-input-group-append v-else>
+          <b-button
+            variant="outline-warning"
+            @click="searchQuery = null"
+          >
+            Borrar
+          </b-button>
+        </b-input-group-append>
+      </b-input-group>
     </div>
     <div
       v-if="searchQuery"
@@ -99,7 +122,17 @@
 
 <script>
 import {
-  BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput,
+  BCard,
+  BCardBody,
+  BLink,
+  BImg,
+  BButton,
+  BBadge,
+  BFormInput,
+  BInputGroup,
+  BInputGroupAppend,
+  BDropdown,
+  BDropdownItem,
 } from 'bootstrap-vue'
 import store from '@/store'
 import { ref } from '@vue/composition-api'
@@ -110,7 +143,17 @@ import { useEcommerce, useEcommerceUi } from '../useEcommerce'
 
 export default {
   components: {
-    BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput,
+    BCard,
+    BCardBody,
+    BLink,
+    BImg,
+    BButton,
+    BBadge,
+    BFormInput,
+    BInputGroup,
+    BInputGroupAppend,
+    BDropdown,
+    BDropdownItem,
   },
   setup() {
     const products = ref([])
@@ -155,6 +198,7 @@ export default {
   data() {
     return {
       searchQuery: '',
+      isCameraScannerActive: false,
     }
   },
   computed: {
@@ -189,6 +233,10 @@ export default {
     addProductAndClearQuery(product) {
       this.addProductToCart({ data: [{ ...product }] })
       this.searchQuery = null
+    },
+    toggleCameraScanner() {
+      this.isCameraScannerActive = !this.isCameraScannerActive
+      this.$emit('toggle', this.isCameraScannerActive)
     },
   },
 }

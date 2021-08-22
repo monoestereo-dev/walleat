@@ -1,19 +1,35 @@
 <template>
   <div class="list-view product-checkout mt-0">
     <div>
-      <!-- Buscador 🔍-->
-      <e-commerce-checkout-step-cart-products :barcode-scanned="barcode" />
+      <b-row>
+        <b-col>
+          <!-- Buscador 🔍-->
+          <e-commerce-checkout-step-cart-products
+            :barcode-scanned="barcode"
+            @toggle="toggleCameraScanner($event)"
+          />
+          <!-- carrito 🛒 -->
+          <e-commerce-checkout-cart-products />
+        </b-col>
+        <b-col
+          v-if="isCameraScannerActive"
+          sm="12"
+          md="auto"
+        >
+          <!-- Camera Barcode Scanner 🎥 -->
+          <div class="d-flex justify-content-center mb-1">
+            <stream-barcode-reader
+              class="barcodeReader"
+              @decode="onDecode"
+            />
+          </div>
+        </b-col>
+      </b-row>
 
-      <!-- carrito 🛒 -->
-      <e-commerce-checkout-cart-products />
     </div>
 
-    <!-- Checkout Options -->
     <div class="checkout-options">
-      <stream-barcode-reader
-        class="barcodeReader"
-        @decode="onDecode"
-      />
+      <!-- Detalles de la compra 🛍️ -->
       <b-card title="Detalles de la compra">
         <div class="price-details">
           <ul class="list-unstyled">
@@ -73,6 +89,8 @@ import { mapGetters, mapMutations } from 'vuex'
 import {
   BButton,
   BCard,
+  BRow,
+  BCol,
   // BFormInput,
 } from 'bootstrap-vue'
 import { StreamBarcodeReader } from 'vue-barcode-reader'
@@ -84,6 +102,8 @@ export default {
     // BSV
     BButton,
     BCard,
+    BRow,
+    BCol,
     // BFormInput,
 
     // SFC
@@ -96,6 +116,7 @@ export default {
       query: '',
       selectedProduct: null,
       barcode: null,
+      isCameraScannerActive: false,
     }
   },
   computed: {
@@ -114,6 +135,16 @@ export default {
     onDecode(code) {
       this.barcode = code
     },
+    toggleCameraScanner(val) {
+      this.isCameraScannerActive = val
+    },
   },
 }
 </script>
+<style lang="scss" scoped>
+.barcodeReader{
+  max-width: 200px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+</style>

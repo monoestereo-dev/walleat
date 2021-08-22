@@ -4,7 +4,7 @@
       class="mt-2"
     >
       <b-col
-        v-for="store in stores"
+        v-for="store in stores.filter(x => x.role_resource_type === 'Store')"
         :key="store.id"
         cols="6"
         sm="6"
