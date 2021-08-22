@@ -82,6 +82,14 @@ export default {
       checkoutDetails,
     }
   },
+  methods: {
+    onDecode() {
+      // this.lookupStoreProducts(result)
+    },
+    onLoaded() {
+
+    },
+  },
 }
 </script>
 

@@ -1,13 +1,19 @@
 <template>
   <div class="list-view product-checkout mt-0">
-    <!-- Products List -->
     <div>
-      <e-commerce-checkout-step-cart-products />
+      <!-- Buscador 🔍-->
+      <e-commerce-checkout-step-cart-products :barcode-scanned="barcode" />
+
+      <!-- carrito 🛒 -->
       <e-commerce-checkout-cart-products />
     </div>
 
     <!-- Checkout Options -->
     <div class="checkout-options">
+      <stream-barcode-reader
+        class="barcodeReader"
+        @decode="onDecode"
+      />
       <b-card title="Detalles de la compra">
         <div class="price-details">
           <ul class="list-unstyled">
@@ -69,6 +75,7 @@ import {
   BCard,
   // BFormInput,
 } from 'bootstrap-vue'
+import { StreamBarcodeReader } from 'vue-barcode-reader'
 import ECommerceCheckoutStepCartProducts from './ECommerceCheckoutStepCartProducts.vue'
 import ECommerceCheckoutCartProducts from './ECommerceCheckoutCartProducts.vue'
 
@@ -82,11 +89,13 @@ export default {
     // SFC
     ECommerceCheckoutStepCartProducts,
     ECommerceCheckoutCartProducts,
+    StreamBarcodeReader,
   },
   data() {
     return {
       query: '',
       selectedProduct: null,
+      barcode: null,
     }
   },
   computed: {
@@ -102,6 +111,9 @@ export default {
     ...mapMutations('verticalMenu', [
       'UPDATE_VERTICAL_MENU_COLLAPSED',
     ]),
+    onDecode(code) {
+      this.barcode = code
+    },
   },
 }
 </script>

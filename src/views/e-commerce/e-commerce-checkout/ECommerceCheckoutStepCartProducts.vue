@@ -146,6 +146,12 @@ export default {
       formatDate,
     }
   },
+  props: {
+    barcodeScanned: {
+      type: String,
+      default: () => null,
+    },
+  },
   data() {
     return {
       searchQuery: '',
@@ -153,6 +159,12 @@ export default {
   },
   computed: {
     ...mapGetters('storeProducts', ['storeProducts']),
+  },
+  watch: {
+    barcodeScanned(val) {
+      this.searchQuery = val
+      this.lookupStoreProducts(val)
+    },
   },
   methods: {
     ...mapActions('storeProducts', ['getStoreProductsStore']),
