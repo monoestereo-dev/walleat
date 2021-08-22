@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import {
   BButton,
   BCard,
@@ -93,6 +93,14 @@ export default {
     ...mapGetters('pos', [
       'cartTotal',
       'cart',
+    ]),
+  },
+  mounted() {
+    this.UPDATE_VERTICAL_MENU_COLLAPSED(true)
+  },
+  methods: {
+    ...mapMutations('verticalMenu', [
+      'UPDATE_VERTICAL_MENU_COLLAPSED',
     ]),
   },
 }
