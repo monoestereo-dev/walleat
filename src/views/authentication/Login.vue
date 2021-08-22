@@ -235,8 +235,8 @@ export default {
   data() {
     return {
       status: '',
-      password: 'admin',
-      userEmail: 'admin@demo.com',
+      password: '',
+      userEmail: '',
       sideImg: require('@/assets/images/pages/login-v2.svg'),
 
       // validation rules
@@ -271,23 +271,12 @@ export default {
 
               this.$router
                 .replace(getHomeRouteForLoggedInUser(userData.role_name))
-                .then(() => {
-                  this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                      title: `Welcome ${userData.name || userData.email}`,
-                      icon: 'CoffeeIcon',
-                      variant: 'success',
-                      text: `You have successfully logged in as ${userData.role_name}. Now you can start to explore!`,
-                    },
-                  })
-                })
+                .then(() => {})
             })
             .catch(error => {
               this.$toast({
                 component: ToastificationContent,
-                position: 'top-left',
+                position: 'top-center',
                 props: {
                   title: 'Error',
                   icon: 'CoffeeIcon',
