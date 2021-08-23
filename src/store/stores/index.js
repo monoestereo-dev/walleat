@@ -60,5 +60,38 @@ export default {
           })
       })
     },
+    openStore(context, { storeId, cash }) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/v1/open_days', {
+            open_day: {
+              store_id: storeId,
+              cash_inicial: cash,
+            },
+          })
+          .then(response => {
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    closeStore(context, { storeId, cash }) {
+      return new Promise((resolve, reject) => {
+        axios
+          .put(`/v1/open_days/${storeId}`, {
+            open_day: {
+              cash_final: cash,
+            },
+          })
+          .then(response => {
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
   },
 }
