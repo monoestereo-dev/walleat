@@ -9,7 +9,7 @@
             @toggle="toggleCameraScanner($event)"
           />
           <!-- carrito 🛒 -->
-          <e-commerce-checkout-cart-products />
+          <e-commerce-checkout-cart-products v-if="!settings.showCategories" />
         </b-col>
         <b-col
           v-if="isCameraScannerActive"
@@ -18,6 +18,7 @@
         >
           <!-- Camera Barcode Scanner 🎥 -->
           <div class="d-flex justify-content-center mb-1">
+            <a @click="playSound()"> Play</a>
             <stream-barcode-reader
               class="barcodeReader"
               @decode="onDecode"
@@ -29,6 +30,7 @@
     </div>
 
     <div class="checkout-options">
+      <e-commerce-checkout-cart-products v-if="settings.showCategories" />
       <!-- Detalles de la compra 🛍️ -->
       <b-card title="Detalles de la compra">
         <div class="price-details">
@@ -38,7 +40,7 @@
                 Productos
               </div>
               <div class="detail-amt discount-amt text-success">
-                {{ cart.length }}
+                {{ cartTotalProducts }}
               </div>
             </li>
             <li class="price-detail">
@@ -122,7 +124,9 @@ export default {
   computed: {
     ...mapGetters('pos', [
       'cartTotal',
+      'cartTotalProducts',
       'cart',
+      'settings',
     ]),
   },
   mounted() {
@@ -132,7 +136,13 @@ export default {
     ...mapMutations('verticalMenu', [
       'UPDATE_VERTICAL_MENU_COLLAPSED',
     ]),
+    playSound() {
+      /* eslint-disable-next-line */
+      const audio = new Audio(require('@/assets/sounds/Beep.wav'))
+      audio.play()
+    },
     onDecode(code) {
+      this.playSound()
       this.barcode = code
     },
     toggleCameraScanner(val) {
