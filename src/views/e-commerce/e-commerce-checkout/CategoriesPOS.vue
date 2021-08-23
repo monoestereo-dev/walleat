@@ -2,8 +2,8 @@
   <div class="mt-1">
     <b-badge
       class="mr-1 mb-1"
-      @click="filterByCategory({by_store: $route.params.store_id})"
       variant="light-info"
+      @click="filterByCategory({by_store: $route.params.store_id})"
     >
       Todas
     </b-badge>
