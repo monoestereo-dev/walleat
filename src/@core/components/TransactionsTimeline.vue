@@ -19,7 +19,7 @@
 
     <!-- timeline -->
     <b-card-body>
-      <app-timeline v-if="orders.length">
+      <app-timeline v-if="orders.length > 0">
         <app-timeline-item
           v-for="order in orders"
           :key="order.id"
@@ -34,7 +34,6 @@
                   <span class="text-success">
                     $ {{ order.total | money }}
                   </span>
-                  - {{ order.order_store_products_attributes[0].store_product_attributes.store_attributes.name }}
                 </h6>
                 <p class="text-muted">
                   {{ order.payment_type }}
@@ -52,7 +51,7 @@
                 :key="`productInCart-${i}`"
                 v-b-tooltip.hover
                 class="pull-up"
-                :src="`https://api.mywalleat.com/${product.store_product_attributes.product_attributes.logo}`"
+                :src="product.store_product_attributes.product_attributes.logo"
                 :title="product.store_product_attributes.product_attributes.name"
               />
               <b-avatar
@@ -85,6 +84,7 @@ import {
 import AppTimeline from '@core/components/app-timeline/AppTimeline.vue'
 import AppTimelineItem from '@core/components/app-timeline/AppTimelineItem.vue'
 /* eslint-disable global-require */
+/* eslint-disable */
 export default {
   components: {
     BCard,
