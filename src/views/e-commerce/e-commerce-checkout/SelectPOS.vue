@@ -6,7 +6,7 @@
       <b-col
         v-for="store in stores.filter(x => x.role_resource_type === 'Store')"
         :key="store.id"
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"
