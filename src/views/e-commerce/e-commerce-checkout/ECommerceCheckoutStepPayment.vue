@@ -254,6 +254,9 @@ export default {
       this.addOrder({ order: orderReady, orderType: 'sell' })
         .then(() => {
           this.bracelet_id = null
+          // eslint-disable-next-line
+          const audio = new Audio(require('@/assets/sounds/Success.wav'))
+          audio.play()
           this.$swal({
             title: 'Cobro exitoso!',
             text: 'Grácias.',

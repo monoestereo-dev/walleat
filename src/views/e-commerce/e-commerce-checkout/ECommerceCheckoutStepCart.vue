@@ -18,7 +18,6 @@
         >
           <!-- Camera Barcode Scanner 🎥 -->
           <div class="d-flex justify-content-center mb-1">
-            <a @click="playSound()"> Play</a>
             <stream-barcode-reader
               class="barcodeReader"
               @decode="onDecode"
