@@ -18,7 +18,7 @@
       <!-- Left Col -->
       <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
         <!-- Bookmarks Container -->
-        <bookmarks />
+        <bookmarks v-if="userData.role_name === 'customer'"/>
       </div>
     </div>
 
@@ -73,6 +73,7 @@ export default {
   data() {
     return {
       logo: require('@/assets/images/logo/walleat_logo_white.svg'),
+      userData: JSON.parse(localStorage.getItem('userData')),
     }
   },
 }
