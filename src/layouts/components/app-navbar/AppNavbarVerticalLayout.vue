@@ -18,7 +18,7 @@
       <!-- Left Col -->
       <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
         <!-- Bookmarks Container -->
-        <bookmarks v-if="userData.role_name === 'customer'"/>
+        <bookmarks v-if="userData.role_name === 'customer'" />
       </div>
     </div>
 
