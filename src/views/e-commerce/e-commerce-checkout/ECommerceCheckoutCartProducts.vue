@@ -9,12 +9,12 @@
       >
 
         <!-- Product Image -->
-        <div>
+        <div class="d-flex align-items-center justify-content-center">
           <b-link>
             <b-img
               :src="product.product_attributes.logo"
               :alt="`${product.product_attributes.name}-${product.id}`"
-              width="150"
+              width="100"
             />
           </b-link>
         </div>

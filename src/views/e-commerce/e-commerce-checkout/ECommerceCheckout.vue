@@ -35,7 +35,7 @@
 
 <script>
 import {
-  BButton,
+// BButton,
 } from 'bootstrap-vue'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
@@ -45,7 +45,7 @@ import ECommerceCheckoutStepCart from './ECommerceCheckoutStepCart.vue'
 export default {
   components: {
     // BOOTSTRAP
-    BButton,
+    // BButton,
 
     // 3rd Party
     FormWizard,

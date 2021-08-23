@@ -13,13 +13,17 @@
         <b-input-group-append v-if="!searchQuery">
           <b-dropdown
             no-caret
+            right
             variant="outline-primary"
           >
             <template #button-content>
               🔧<span class="sr-only">settings</span>
             </template>
             <b-dropdown-item @click="toggleCameraScanner()">
-              {{ isCameraScannerActive ? 'Ocultar Camara' : 'Mostrar camara' }}
+              {{ isCameraScannerActive ? '🎥 Ocultar Camara' : '🎥 Mostrar camara' }}
+            </b-dropdown-item>
+            <b-dropdown-item @click="toggleCategories()">
+              {{ isCategoriesActive ? '🛍️ Ocultar categorías' : '🛍️ Mostrar categorías' }}
             </b-dropdown-item>
           </b-dropdown>
         </b-input-group-append>
@@ -32,6 +36,7 @@
           </b-button>
         </b-input-group-append>
       </b-input-group>
+      <categories-pos v-if="settings.showCategories" />
     </div>
     <div
       v-if="searchQuery"
@@ -135,8 +140,9 @@ import {
   BDropdownItem,
 } from 'bootstrap-vue'
 import store from '@/store'
+import CategoriesPos from '@/views/e-commerce/e-commerce-checkout/CategoriesPOS.vue'
 import { ref } from '@vue/composition-api'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { debounce } from 'lodash'
 import { formatDate } from '@core/utils/filter'
 import { useEcommerce, useEcommerceUi } from '../useEcommerce'
@@ -154,6 +160,7 @@ export default {
     BInputGroupAppend,
     BDropdown,
     BDropdownItem,
+    CategoriesPos,
   },
   setup() {
     const products = ref([])
@@ -199,10 +206,12 @@ export default {
     return {
       searchQuery: '',
       isCameraScannerActive: false,
+      isCategoriesActive: false,
     }
   },
   computed: {
     ...mapGetters('storeProducts', ['storeProducts']),
+    ...mapGetters('pos', ['settings']),
   },
   watch: {
     barcodeScanned(val) {
@@ -211,6 +220,9 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('pos', [
+      'toggleShowCategories',
+    ]),
     ...mapActions('storeProducts', ['getStoreProductsStore']),
     ...mapActions('pos', ['addProductToCart']),
     lookupStoreProducts: debounce(function searchQuery(query) {
@@ -237,6 +249,10 @@ export default {
     toggleCameraScanner() {
       this.isCameraScannerActive = !this.isCameraScannerActive
       this.$emit('toggle', this.isCameraScannerActive)
+    },
+    toggleCategories() {
+      this.isCategoriesActive = !this.isCategoriesActive
+      this.toggleShowCategories(this.isCategoriesActive)
     },
   },
 }

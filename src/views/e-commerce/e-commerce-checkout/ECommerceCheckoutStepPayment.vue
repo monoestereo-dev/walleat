@@ -84,7 +84,7 @@
                 Productos
               </div>
               <div class="detail-amt discount-amt text-success">
-                {{ cart.length }}
+                {{ cartTotalProducts }}
               </div>
             </li>
             <li class="price-detail">
@@ -218,6 +218,7 @@ export default {
   computed: {
     ...mapGetters('pos', [
       'cartTotal',
+      'cartTotalProducts',
       'cart',
     ]),
   },
