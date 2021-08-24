@@ -138,7 +138,10 @@
           >
             Continuar
           </b-button>
-          <android-nfc-chrome v-if="paymentMethod === 'chromeNFC'" />
+          <android-nfc-chrome
+            v-if="paymentMethod === 'chromeNFC'"
+            @prev-step="prevStep()"
+          />
           <b-button
             v-if="paymentMethod === 'androidAppNfc'"
             block
@@ -237,6 +240,9 @@ export default {
     ...mapActions('pos', [
       'emptyCart',
     ]),
+    prevStep() {
+      this.$emit('prev-step')
+    },
     completeSale() {
       const tempCart = []
       this.cart.forEach(product => {
@@ -268,7 +274,7 @@ export default {
           })
           this.cash = null
           this.emptyCart()
-          this.$emit('prev-step')
+          this.prevStep()
         }).catch(error => {
           this.bannedItems = error.response.data.banned_items
         })
