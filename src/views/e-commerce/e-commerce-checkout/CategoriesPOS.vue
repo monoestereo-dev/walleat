@@ -22,7 +22,8 @@
         v-for="product in storeProducts"
         :key="product.id"
         md="6"
-        lg="4"
+        lg="6"
+        xl="4"
       >
         <b-card
           no-body
@@ -41,11 +42,14 @@
               </b-link>
             </div>
             <div class="item-name">
-              <h6 class="">
+              <h6 class="mb-0">
                 <b-link class="text-body">
                   {{ product.product_attributes.name }}
                 </b-link>
               </h6>
+              <div>
+                {{ product.product_attributes.variant }}
+              </div>
               <div>
                 <h4 class="item-price">
                   ${{ product.unit_price * product.units | money }}
