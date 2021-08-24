@@ -30,7 +30,7 @@
         <b-input-group-append v-else>
           <b-button
             variant="outline-warning"
-            @click="searchQuery = null"
+            @click="clearSearchbarAndResetSearch()"
           >
             Borrar
           </b-button>
@@ -39,7 +39,7 @@
       <categories-pos v-if="settings.showCategories" />
     </div>
     <div
-      v-if="searchQuery"
+      v-if="searchQuery && !settings.showCategories"
       class="checkout-items"
     >
       <b-card
@@ -227,7 +227,10 @@ export default {
         this.getStoreProductsStore({
           by_store: this.$route.params.store_id,
           by_name: query,
-        }).then(() => {
+        })
+      } else if (query === null || query === '') {
+        this.getStoreProductsStore({
+          by_store: this.$route.params.store_id,
         })
       }
     }, 100),
@@ -246,6 +249,10 @@ export default {
     toggleCategories() {
       this.isCategoriesActive = !this.isCategoriesActive
       this.toggleShowCategories(this.isCategoriesActive)
+    },
+    clearSearchbarAndResetSearch() {
+      this.searchQuery = null
+      this.lookupStoreProducts(null)
     },
   },
 }
