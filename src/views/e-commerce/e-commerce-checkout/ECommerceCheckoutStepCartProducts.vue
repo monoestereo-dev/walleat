@@ -218,6 +218,7 @@ export default {
           by_store: this.$route.params.store_id,
           by_sku: query,
         }).then(response => {
+          navigator.vibrate(200)
           this.addProductToCart(response)
           this.searchQuery = null
         })
@@ -230,6 +231,10 @@ export default {
       }
     }, 100),
     addProductAndClearQuery(product) {
+      // eslint-disable-next-line
+      const audio = new Audio(require('@/assets/sounds/Beep2.wav'))
+      audio.play()
+      navigator.vibrate(200)
       this.addProductToCart({ data: [{ ...product }] })
       this.searchQuery = null
     },

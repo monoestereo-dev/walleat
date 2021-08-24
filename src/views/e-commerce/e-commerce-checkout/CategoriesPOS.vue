@@ -58,7 +58,7 @@
                   variant="success"
                   size="sm"
                   class="remove-wishlist"
-                  @click="addProductToCart({ data: [{ ...product }] })"
+                  @click="manageAddProductToCart({ data: [{ ...product }] })"
                 >
                   <feather-icon
                     icon="PlusIcon"
@@ -130,6 +130,13 @@ export default {
         .then(response => {
           this.storeProducts = response.data
         })
+    },
+    manageAddProductToCart(data) {
+      // eslint-disable-next-line
+      const audio = new Audio(require('@/assets/sounds/Beep2.wav'))
+      audio.play()
+      navigator.vibrate(200)
+      this.addProductToCart(data)
     },
   },
 }
