@@ -27,10 +27,13 @@
       >
         <b-card
           no-body
+          @click="manageAddProductToCart({ data: [{ ...product }] })"
         >
 
           <!-- Product Details: Card Body -->
-          <b-card-body class="d-flex">
+          <b-card-body
+            class="d-flex"
+          >
             <!-- Product Image -->
             <div class="mr-1">
               <b-link>
@@ -41,31 +44,21 @@
                 />
               </b-link>
             </div>
-            <div class="item-name">
-              <h6 class="mb-0">
-                <b-link class="text-body">
-                  {{ product.product_attributes.name }}
-                </b-link>
-              </h6>
+            <div class="item-name d-flex flex-column justify-content-between">
               <div>
-                {{ product.product_attributes.variant }}
+                <h6 class="mb-0">
+                  <b-link class="text-body">
+                    {{ product.product_attributes.name }}
+                  </b-link>
+                </h6>
+                <b-badge variant="light-primary">
+                  {{ product.product_attributes.variant }}
+                </b-badge>
               </div>
               <div>
-                <h4 class="item-price">
+                <h4 class="item-price text-success">
                   ${{ product.unit_price * product.units | money }}
                 </h4>
-                <b-button
-                  variant="success"
-                  size="sm"
-                  class="remove-wishlist"
-                  @click="manageAddProductToCart({ data: [{ ...product }] })"
-                >
-                  <feather-icon
-                    icon="PlusIcon"
-                    class="mr-50"
-                  />
-                  <span>Agregar</span>
-                </b-button>
               </div>
             </div>
           </b-card-body>
@@ -80,7 +73,8 @@ import {
   BBadge,
   BCol,
   BRow,
-  BButton,
+  // BButton,
+
   BImg,
   BCard,
   BLink,
@@ -93,7 +87,7 @@ export default {
     BBadge,
     BCol,
     BRow,
-    BButton,
+    // BButton,
     BImg,
     BCard,
     BLink,
