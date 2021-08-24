@@ -214,9 +214,10 @@ export default {
     ...mapActions('pos', ['addProductToCart']),
     lookupStoreProducts: debounce(function searchQuery(query) {
       if (/^\d*$/.test(query) && query != null && query !== '') {
+        const barcodeWithOutLastDigit = query.substring(0, query.length - 1)
         this.getStoreProductsStore({
           by_store: this.$route.params.store_id,
-          by_sku: query,
+          by_sku: barcodeWithOutLastDigit,
         }).then(response => {
           navigator.vibrate(200)
           this.addProductToCart(response)
