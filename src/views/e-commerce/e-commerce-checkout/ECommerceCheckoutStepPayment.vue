@@ -43,6 +43,14 @@
             >
               Efectivo
             </b-form-radio>
+            <b-form-radio
+              v-model="paymentMethod"
+              name="payment-method"
+              value="cash"
+              class="mt-1"
+            >
+              Tarjeta bancaria
+            </b-form-radio>
             <!-- <b-form-radio
               v-model="paymentMethod"
               name="payment-method"
