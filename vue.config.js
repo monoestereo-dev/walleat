@@ -51,4 +51,9 @@ module.exports = {
       })
   },
   transpileDependencies: ['vue-echarts', 'resize-detector'],
+  devServer: {
+    https: true,
+    key: './192.168.15.7-key.pem',
+    cert: './192.168.15.7.pem',
+  }
 }
