@@ -28,20 +28,7 @@
               </b-link>
             </h6>
             <div class="item-rating">
-              <ul class="unstyled-list list-inline">
-                <li
-                  v-for="star in 5"
-                  :key="star"
-                  class="ratings-list-item"
-                  :class="{'ml-25': star-1}"
-                >
-                  <feather-icon
-                    icon="StarIcon"
-                    size="16"
-                    :class="[{'fill-current': star <= product.rating}, star <= product.rating ? 'text-warning' : 'text-muted']"
-                  />
-                </li>
-              </ul>
+              {{ product.product_attributes.variant }}
             </div>
           </div>
           <span class="text-success mb-1">${{ product.unit_price | money }}</span>
