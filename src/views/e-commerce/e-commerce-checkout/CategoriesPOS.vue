@@ -80,7 +80,7 @@ import {
   BLink,
   BCardBody,
 } from 'bootstrap-vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -96,8 +96,12 @@ export default {
   data() {
     return {
       categories: [],
-      storeProducts: [],
     }
+  },
+  computed: {
+    ...mapGetters('storeProducts', [
+      'storeProducts',
+    ]),
   },
   mounted() {
     this.fetchCategories({ by_store: this.$route.params.store_id })
@@ -105,9 +109,6 @@ export default {
         this.categories = response.data
       })
     this.getStoreProductsStore({ by_store: this.$route.params.store_id })
-      .then(response => {
-        this.storeProducts = response.data
-      })
   },
   methods: {
     ...mapActions('categories', [
