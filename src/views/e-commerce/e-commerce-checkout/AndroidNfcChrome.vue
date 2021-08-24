@@ -14,6 +14,25 @@
     <div class="text-center">
       {{ nfcStatus }}
     </div>
+
+    <div v-if="bannedItems.length">
+      <h5 class="text-warning">
+        Retirar productos
+      </h5>
+      <product-card
+        v-for="product in bannedItems"
+        :key="`item-${product.id}`"
+        :product="product"
+      />
+      <b-button
+        class="mb-2"
+        block
+        @click="removeBannedProductsFromCart(bannedItems)"
+      >
+        Retirar productos
+      </b-button>
+    </div>
+
     <div>
       <b-button
         v-if="!bracelet_id"
@@ -34,6 +53,8 @@
         </b-button>
         <b-button
           variant="success"
+          :disabled="bannedItems.length > 0"
+          @click="completeSale()"
         >
           Continuar
         </b-button>
@@ -48,21 +69,31 @@ import {
   BImg,
   BButtonGroup,
 } from 'bootstrap-vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { debounce } from 'lodash'
+import ProductCard from './ProductCard.vue'
 
 export default {
   components: {
     BButton,
     BImg,
     BButtonGroup,
+    ProductCard,
   },
   data() {
     return {
       bracelet_id: null,
       nfcStatus: null,
       userImg: null,
+      bannedItems: [],
     }
+  },
+  computed: {
+    ...mapGetters('pos', [
+      'cartTotal',
+      'cartTotalProducts',
+      'cart',
+    ]),
   },
   watch: {
     bracelet_id: debounce(function searchQuery(query) {
@@ -102,6 +133,64 @@ export default {
       } catch (error) {
         this.nfcStatus = 'No nfc'
       }
+    },
+    ...mapActions('orders', [
+      'addOrder',
+    ]),
+    ...mapActions('pos', [
+      'emptyCart',
+    ]),
+    ...mapMutations('pos', [
+      'deleteProductFromCarts',
+    ]),
+    completeSale() {
+      const tempCart = []
+      this.cart.forEach(product => {
+        const refactorProduct = {
+          store_product_id: product.id,
+          units: product.units,
+        }
+        tempCart.push(refactorProduct)
+      })
+      const orderReady = {
+        bracelet_number: this.bracelet_id,
+        store_id: this.$route.params.store_id,
+        payment_type: 'credit',
+        order_store_products_attributes: tempCart,
+      }
+      this.addOrder({ order: orderReady, orderType: 'sell' })
+        .then(() => {
+          this.bracelet_id = null
+          // eslint-disable-next-line
+          const audio = new Audio(require('@/assets/sounds/Success.wav'))
+          audio.play()
+          this.$swal({
+            title: 'Cobro exitoso!',
+            text: 'Grácias.',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+          this.cash = null
+          this.emptyCart()
+          this.$emit('prev-step')
+        }).catch(error => {
+          this.bannedItems = error.response.data.banned_items
+        })
+    },
+    removeBannedProductsFromCart(products) {
+      products.forEach(product => {
+        this.cart.forEach(prod => {
+          if (prod.product_attributes.id === product.id) {
+            this.deleteProductFromCarts(prod)
+          }
+        })
+      })
+      this.bracelet_id = this.tempBraceletEnc
+      this.tempBraceletEnc = null
+      this.bannedItems = []
     },
   },
 }
