@@ -14,22 +14,26 @@
         <b-card
           class="mt-1 text-center"
         >
-          <div class="d-flex justify-content-center mt--5 mb-1">
+          <div
+            class="d-flex justify-content-center mt--5 mb-1"
+          >
             <b-avatar
               :src="`${store.role_resource_logo}`"
               size="lg"
-              @click="$router.push({ name: 'POS', params: { store_id: store.role_resource_id } })"
+              :to="{ name: 'POS', params: { store_id: store.role_resource_id } }"
             />
           </div>
-          <div
+          <b-link
             class="store-name"
-            @click="$router.push({ name: 'POS', params: { store_id: store.role_resource_id } })"
+            :to="{ name: 'POS', params: { store_id: store.role_resource_id } }"
           >
-            {{ store.role_resource_name }}
-          </div>
+            <h2>
+              {{ store.role_resource_name }}
+            </h2>
+          </b-link>
           <open-close-store
             :store="store"
-            class="mt-2"
+            class="mt-1"
           />
         </b-card>
       </b-col>
@@ -39,7 +43,11 @@
 
 <script>
 import {
-  BCard, BRow, BCol, BAvatar,
+  BCard,
+  BRow,
+  BCol,
+  BAvatar,
+  BLink,
 } from 'bootstrap-vue'
 import OpenCloseStore from './StoresButtonOpenClose.vue'
 
@@ -49,6 +57,7 @@ export default {
     BRow,
     BCol,
     BAvatar,
+    BLink,
     OpenCloseStore,
   },
   data() {
