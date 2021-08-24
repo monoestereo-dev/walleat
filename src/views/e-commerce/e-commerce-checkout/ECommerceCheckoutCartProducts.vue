@@ -66,7 +66,7 @@
           <b-button
             variant="light"
             class="mt-1 remove-wishlist"
-            @click="deleteProductFromCarts(product)"
+            @click="handleDeleteProductFromCarts(product)"
           >
             <feather-icon
               icon="XIcon"
@@ -138,6 +138,12 @@ export default {
       'decrementProductQuantity',
       'deleteProductFromCarts',
     ]),
+    handleDeleteProductFromCarts(product) {
+      // eslint-disable-next-line
+      const audio = new Audio(require('@/assets/sounds/Removed.wav'))
+      audio.play()
+      this.deleteProductFromCarts(product)
+    },
   },
 }
 </script>

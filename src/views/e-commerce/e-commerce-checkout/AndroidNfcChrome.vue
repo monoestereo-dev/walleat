@@ -11,13 +11,18 @@
         width="200"
       />
     </div>
-    <div class="text-center">
-      {{ nfcStatus }}
+    <div
+      v-if="nfcStatus"
+      class="d-flex justify-content-center"
+    >
+      <b-badge variant="light-warning my-1">
+        {{ nfcStatus }}
+      </b-badge>
     </div>
 
     <div v-if="bannedItems.length">
       <h5 class="text-warning">
-        Retirar productos
+        Retira los siguientes productos de la orden para continuar.
       </h5>
       <product-card
         v-for="product in bannedItems"
@@ -68,6 +73,7 @@ import {
   BButton,
   BImg,
   BButtonGroup,
+  BBadge,
 } from 'bootstrap-vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { debounce } from 'lodash'
@@ -79,6 +85,7 @@ export default {
     BImg,
     BButtonGroup,
     ProductCard,
+    BBadge,
   },
   data() {
     return {
@@ -132,10 +139,10 @@ export default {
           navigator.vibrate(200)
           const textDecoder = new TextDecoder()
           this.bracelet_id = textDecoder.decode(message.records[0].data).substring(textDecoder.decode(message.records[0].data).lastIndexOf('=') + 1)
-          this.nfcStatus = 'Tag Readed'
+          this.nfcStatus = null
         })
       } catch (error) {
-        this.nfcStatus = 'No nfc'
+        this.nfcStatus = 'Error: No NFC'
       }
     },
     ...mapActions('orders', [
@@ -196,9 +203,10 @@ export default {
           }
         })
       })
-      this.bracelet_id = this.tempBraceletEnc
-      this.tempBraceletEnc = null
       this.bannedItems = []
+      if (this.cartTotalProducts === 0) {
+        this.$emit('prev-step')
+      }
     },
   },
 }

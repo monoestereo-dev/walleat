@@ -19,7 +19,6 @@ const getters = {
   categories(state){
     return state.categories
   },
-
   cart(state){
     return state.cart
   },
