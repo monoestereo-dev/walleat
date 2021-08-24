@@ -150,15 +150,7 @@
             v-if="paymentMethod === 'chromeNFC'"
             @prev-step="prevStep()"
           />
-          <b-button
-            v-if="paymentMethod === 'androidAppNfc'"
-            block
-            href="intent://scan/aHR0cHM6Ly9pY2VkZXYucGwvbmZjY2I=/#Intent;scheme=extnfc;package=pl.icedev.nfc.external;end"
-            variant="primary"
-            class="text-center"
-          >
-            Continuar
-          </b-button>
+          <nfc-android-app v-if="paymentMethod === 'androidAppNfc'" />
         </div>
 
       </b-card>
@@ -186,6 +178,7 @@ import {
   BButton,
 } from 'bootstrap-vue'
 import AndroidNfcChrome from './AndroidNfcChrome.vue'
+import NfcAndroidApp from './NfcAndroidApp.vue'
 
 export default {
   components: {
@@ -204,6 +197,7 @@ export default {
     BInputGroup,
 
     AndroidNfcChrome,
+    NfcAndroidApp,
   },
   directives: { money: VMoney },
   props: {
