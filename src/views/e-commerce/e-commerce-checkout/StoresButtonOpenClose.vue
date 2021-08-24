@@ -2,16 +2,16 @@
   <div>
     <b-button-group size="sm">
       <b-button
-        v-b-modal="`openStoreModal-${store.role_resource_id}`"
-        variant="outline-success"
-      >
-        abrir tienda
-      </b-button>
-      <b-button
         v-b-modal="`closeStoreModal-${store.role_resource_id}`"
         variant="outline-danger"
       >
-        cerrar tienda
+        Cerrar tienda
+      </b-button>
+      <b-button
+        v-b-modal="`openStoreModal-${store.role_resource_id}`"
+        variant="outline-success"
+      >
+        Abrir tienda
       </b-button>
     </b-button-group>
     <b-modal
@@ -141,7 +141,6 @@ export default {
           })
         })
         .catch(error => {
-          debugger
           error.response.data.messages.base.forEach(element => {
             this.$toast({
               component: ToastificationContent,
