@@ -76,7 +76,7 @@ export default {
       this.connection.send(
         JSON.stringify({
           command: 'subscribe',
-          identifier: `{"channel":"ApplicationCable::AndroidAppChannel", "android_app_room":"${this.roomId}"}`,
+          identifier: `{"channel":"ApplicationCable::AndroidAppChannel", "android_app_room":"${this.encoded_android_app_room}"}`,
         }),
       )
     }
@@ -97,7 +97,7 @@ export default {
     this.connection.send(
       JSON.stringify({
         command: 'unsubscribe',
-        identifier: `{"channel":"ApplicationCable::MyChannel", "android_app_room": ${this.roomId}}`,
+        identifier: `{"channel":"ApplicationCable::MyChannel", "android_app_room": ${this.encoded_android_app_room}}`,
       }),
     )
   },
