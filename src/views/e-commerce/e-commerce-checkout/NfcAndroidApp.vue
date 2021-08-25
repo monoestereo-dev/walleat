@@ -12,7 +12,7 @@
     </div>
     <b-button
       block
-      :href="`intent://scan-silent/${callback_encoded_url}/${encoded_android_app_room}=/#Intent;scheme=extnfc;package=pl.icedev.nfc.external;end`"
+      :href="`intent://scan-silent/${callback_encoded_url}/${encoded_android_app_room}/#Intent;scheme=extnfc;package=pl.icedev.nfc.external;end`"
       :variant="status ? 'warning':'primary'"
       class="text-center"
       :disabled="status"
@@ -57,8 +57,7 @@ export default {
   mounted() {
     const randomStr = Math.floor(Math.random()*16777215).toString(16)
     this.callback_encoded_url = window.btoa('https://api.mywalleat.com/v1/android_app_callback')
-    this.encoded_android_app_room = randomStr
-    console.log(this.encoded_android_app_room)
+    this.encoded_android_app_room = window.btoa(randomStr)
 
     this.connection = new WebSocket(
       `wss://api.mywalleat.com//cable?token=${this.userData.token}`,
