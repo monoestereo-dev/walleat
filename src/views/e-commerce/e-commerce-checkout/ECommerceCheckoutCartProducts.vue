@@ -9,7 +9,7 @@
       >
 
         <!-- Product Image -->
-        <div class="d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center justify-content-center p-1">
           <b-link>
             <b-img
               :src="product.product_attributes.logo"
