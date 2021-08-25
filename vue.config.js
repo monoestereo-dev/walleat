@@ -60,8 +60,8 @@ module.exports = {
   },
   transpileDependencies: ['vue-echarts', 'resize-detector'],
   devServer: {
-    https: true,
-    key: './ssl/192.168.15.10-key.pem',
-    cert: './ssl/192.168.15.10.pem',
+    https: false,
+    key: './ssl/192.168.15.7-key.pem',
+    cert: './ssl/192.168.15.7.pem',
   },
 }
