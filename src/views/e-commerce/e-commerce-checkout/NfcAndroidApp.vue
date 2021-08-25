@@ -1,12 +1,31 @@
 <template>
   <div>
+    <div
+      v-if="appResponse"
+      class="d-flex justify-content-center p-1"
+    >
+      <b-badge
+        variant="light-warning"
+      >
+        {{ appResponse }}
+      </b-badge>
+    </div>
     <b-button
       block
-      :href="`intent://scan/aHR0cHM6Ly9pY2VkZXYucGwvbmZjY2I=/#Intent;scheme=extnfc;package=pl.icedev.nfc.external;end;S.android_app_room=${roomId}`"
-      variant="primary"
+      :href="`intent://scan/${roomId}=/#Intent;scheme=extnfc;package=pl.icedev.nfc.external;end`"
+      :variant="status ? 'warning':'primary'"
       class="text-center"
+      :disabled="status"
+      @click="waitForResponse"
     >
-      Continuar
+      <span v-if="!status">
+        Continuar
+      </span>
+      <b-spinner
+        v-else
+        small
+        label="Loading..."
+      />
     </b-button>
   </div>
 </template>
@@ -15,16 +34,22 @@
 /* eslint-disable */
 import {
 BButton,
+BSpinner,
+BBadge,
 } from 'bootstrap-vue'
 
 export default {
   components: {
     BButton,
+    BSpinner,
+    BBadge,
   },
   data() {
     return {
       userData: JSON.parse(localStorage.getItem('userData')),
       roomId: null,
+      status: false,
+      appResponse: null,
     }
   },
   mounted() {
@@ -42,7 +67,7 @@ export default {
       }
     }
     this.connection.onopen = event => {
-      // console.log('Successfully connected to the echo websocket server...')
+      console.log('Successfully connected to the echo websocket server...')
 
       this.connection.send(
         JSON.stringify({
@@ -51,6 +76,18 @@ export default {
         }),
       )
     }
+  },
+  methods: {
+    waitForResponse() {
+      this.appResponse = 'Esperando respuesta'
+      this.status = true
+      let waitx = setTimeout(() => {
+        this.status = false
+        this.appResponse = 'Sin respuesta'
+      }, 10000)
+      waitx
+    }
+
   },
   destroyed() {
     this.connection.send(
