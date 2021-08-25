@@ -26,6 +26,7 @@
         xl="4"
       >
         <b-card
+          v-ripple.400="'rgba(40, 199, 111, 0.15)'"
           no-body
           @click="manageAddProductToCart({ data: [{ ...product }] })"
         >
@@ -81,6 +82,7 @@ import {
   BCardBody,
 } from 'bootstrap-vue'
 import { mapActions, mapGetters } from 'vuex'
+import Ripple from 'vue-ripple-directive'
 
 export default {
   components: {
@@ -92,6 +94,9 @@ export default {
     BCard,
     BLink,
     BCardBody,
+  },
+  directives: {
+    Ripple,
   },
   data() {
     return {
