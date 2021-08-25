@@ -57,7 +57,8 @@ export default {
   mounted() {
     const randomStr = Math.floor(Math.random()*16777215).toString(16)
     this.callback_encoded_url = window.btoa('https://api.mywalleat.com/v1/android_app_callback')
-    this.encoded_android_app_room = window.btoa(randomStr)
+    this.encoded_android_app_room = randomStr
+    console.log(this.encoded_android_app_room)
 
     this.connection = new WebSocket(
       `wss://api.mywalleat.com//cable?token=${this.userData.token}`,
