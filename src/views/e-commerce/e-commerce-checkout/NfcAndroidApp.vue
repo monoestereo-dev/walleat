@@ -49,6 +49,7 @@ export default {
       userData: JSON.parse(localStorage.getItem('userData')),
       callback_encoded_url: null,
       encoded_android_app_room: null,
+      roomId: null,
       braceletNumber: '',
       status: false,
       appResponse: null,
@@ -56,6 +57,7 @@ export default {
   },
   mounted() {
     const randomStr = Math.floor(Math.random()*16777215).toString(16)
+    this.roomId = randomStr
     this.callback_encoded_url = window.btoa('https://api.mywalleat.com/v1/android_app_callback')
     this.encoded_android_app_room = window.btoa(randomStr)
 
@@ -76,7 +78,7 @@ export default {
       this.connection.send(
         JSON.stringify({
           command: 'subscribe',
-          identifier: `{"channel":"ApplicationCable::AndroidAppChannel", "android_app_room":"${this.encoded_android_app_room}"}`,
+          identifier: `{"channel":"ApplicationCable::AndroidAppChannel", "android_app_room":"${this.roomId}"}`,
         }),
       )
     }
@@ -97,7 +99,7 @@ export default {
     this.connection.send(
       JSON.stringify({
         command: 'unsubscribe',
-        identifier: `{"channel":"ApplicationCable::MyChannel", "android_app_room": ${this.encoded_android_app_room}}`,
+        identifier: `{"channel":"ApplicationCable::MyChannel", "android_app_room": ${this.roomId}}`,
       }),
     )
   },
