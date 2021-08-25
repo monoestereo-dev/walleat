@@ -8,6 +8,14 @@ module.exports = {
     msTileColor: '#7367f0',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: '#7367f0',
+    shorcuts: [
+      {
+        name: 'Mis wWlleats',
+        short_name: 'walleats',
+        description: 'Mis Walleats',
+        utl: '/walleats/list',
+      }
+    ]
   },
   css: {
     loaderOptions: {
@@ -53,7 +61,7 @@ module.exports = {
   transpileDependencies: ['vue-echarts', 'resize-detector'],
   devServer: {
     https: true,
-    key: './ssl/192.168.15.7-key.pem',
-    cert: './ssl/192.168.15.7.pem',
+    key: './ssl/192.168.15.10-key.pem',
+    cert: './ssl/192.168.15.10.pem',
   },
 }

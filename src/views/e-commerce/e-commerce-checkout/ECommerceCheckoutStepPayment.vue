@@ -69,7 +69,6 @@
               Android NFC
             </b-form-radio>
             <b-form-radio
-              v-if="isDeviceAndroid"
               v-model="paymentMethod"
               name="payment-method"
               class="mt-1"

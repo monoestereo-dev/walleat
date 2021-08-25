@@ -53,13 +53,14 @@ export default {
     }
   },
   mounted() {
-    this.roomId = Date.now()
+    this.roomId = 'elMante'
 
     this.connection = new WebSocket(
       `wss://api.mywalleat.com//cable?token=${this.userData.token}`,
     )
     sessionStorage.setItem('wsConnection', JSON.stringify(this.connection))
     this.connection.onmessage = event => {
+      debugger
       const messagex = JSON.parse(event.data)
       if (messagex && messagex.message && messagex.message.display_message) {
         const display_message = JSON.stringify(messagex.message.display_message)

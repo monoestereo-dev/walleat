@@ -205,6 +205,8 @@ export default {
       this.lookupStoreProducts(val)
     },
   },
+  mounted() {
+  },
   methods: {
     ...mapMutations('pos', [
       'toggleShowCategories',
