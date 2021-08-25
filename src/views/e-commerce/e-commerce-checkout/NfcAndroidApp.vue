@@ -12,7 +12,7 @@
     </div>
     <b-button
       block
-      :href="`intent://scan/${roomId}=/#Intent;scheme=extnfc;package=pl.icedev.nfc.external;end`"
+      :href="`intent://scan-silent/${callback_encoded_url}/${encoded_android_app_room}=/#Intent;scheme=extnfc;package=pl.icedev.nfc.external;end`"
       :variant="status ? 'warning':'primary'"
       class="text-center"
       :disabled="status"
@@ -47,20 +47,23 @@ export default {
   data() {
     return {
       userData: JSON.parse(localStorage.getItem('userData')),
-      roomId: null,
+      callback_encoded_url: null,
+      encoded_android_app_room: null,
+      braceletNumber: '',
       status: false,
       appResponse: null,
     }
   },
   mounted() {
-    this.roomId = 'elMante'
+    const randomStr = Math.floor(Math.random()*16777215).toString(16)
+    this.callback_encoded_url = window.btoa('https://api.mywalleat.com/v1/android_app_callback')
+    this.encoded_android_app_room = window.btoa(randomStr)
 
     this.connection = new WebSocket(
       `wss://api.mywalleat.com//cable?token=${this.userData.token}`,
     )
     sessionStorage.setItem('wsConnection', JSON.stringify(this.connection))
     this.connection.onmessage = event => {
-      debugger
       const messagex = JSON.parse(event.data)
       if (messagex && messagex.message && messagex.message.display_message) {
         const display_message = JSON.stringify(messagex.message.display_message)
@@ -73,7 +76,7 @@ export default {
       this.connection.send(
         JSON.stringify({
           command: 'subscribe',
-          identifier: `{"channel":"ApplicationCable::MyChannel", "android_app_room": ${this.roomId}}`,
+          identifier: `{"channel":"ApplicationCable::AndroidAppChannel", "android_app_room":"${this.roomId}"}`,
         }),
       )
     }
