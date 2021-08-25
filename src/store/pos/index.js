@@ -7,6 +7,9 @@ const state = () => ({
   cart: [],
   sales: [],
   isInventoryMode: false,
+  settings:{
+    showCategories: false,
+  }
 })
 
 const getters = {
@@ -16,14 +19,23 @@ const getters = {
   categories(state){
     return state.categories
   },
-
   cart(state){
     return state.cart
+  },
+  settings(state){
+    return state.settings
   },
   cartTotal(state){
     let total = 0;
     state.cart.forEach(product => {
       total += product.unit_price * product.units;
+    })
+    return total;
+  },
+  cartTotalProducts(state){
+    let total = 0;
+    state.cart.forEach(product => {
+      total += product.units;
     })
     return total;
   },
@@ -66,6 +78,9 @@ const mutations = {
   },
   addInventoryMode(state, payload){
     state.isInventoryMode = payload
+  },
+  toggleShowCategories(state, payload) {
+    state.settings.showCategories = payload
   }
 }
 

@@ -70,6 +70,11 @@ export default {
       nfc: true,
     }
   },
+  mounted() {
+    if (this.$route.query.enc) {
+      this.nfc = false
+    }
+  },
 }
 </script>
 

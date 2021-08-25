@@ -9,12 +9,12 @@
       >
 
         <!-- Product Image -->
-        <div>
+        <div class="d-flex align-items-center justify-content-center p-1">
           <b-link>
             <b-img
               :src="product.product_attributes.logo"
               :alt="`${product.product_attributes.name}-${product.id}`"
-              width="150"
+              width="100"
             />
           </b-link>
         </div>
@@ -28,20 +28,7 @@
               </b-link>
             </h6>
             <div class="item-rating">
-              <ul class="unstyled-list list-inline">
-                <li
-                  v-for="star in 5"
-                  :key="star"
-                  class="ratings-list-item"
-                  :class="{'ml-25': star-1}"
-                >
-                  <feather-icon
-                    icon="StarIcon"
-                    size="16"
-                    :class="[{'fill-current': star <= product.rating}, star <= product.rating ? 'text-warning' : 'text-muted']"
-                  />
-                </li>
-              </ul>
+              {{ product.product_attributes.variant }}
             </div>
           </div>
           <span class="text-success mb-1">${{ product.unit_price | money }}</span>
@@ -79,7 +66,7 @@
           <b-button
             variant="light"
             class="mt-1 remove-wishlist"
-            @click="deleteProductFromCarts(product)"
+            @click="handleDeleteProductFromCarts(product)"
           >
             <feather-icon
               icon="XIcon"
@@ -151,6 +138,12 @@ export default {
       'decrementProductQuantity',
       'deleteProductFromCarts',
     ]),
+    handleDeleteProductFromCarts(product) {
+      // eslint-disable-next-line
+      const audio = new Audio(require('@/assets/sounds/Removed.wav'))
+      audio.play()
+      this.deleteProductFromCarts(product)
+    },
   },
 }
 </script>

@@ -8,4 +8,12 @@ export default [
       contentClass: 'ecommerce-application',
     },
   },
+  {
+    path: '/selectPOS',
+    name: 'selectPOS',
+    component: () => import('@/views/e-commerce/e-commerce-checkout/SelectPOS.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]

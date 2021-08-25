@@ -57,6 +57,23 @@ export default {
           })
       })
     },
+    fetchWalleatByEnc(ctx, enc) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/v1/find_by_bracelet_number', {
+            params: {
+              enc,
+            },
+          })
+          .then(response => {
+            // context.commit('setCurrentBracelet', response.data)
+            resolve(response)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
     addWalleat(ctx, payload) {
       return new Promise((resolve, reject) => {
         axios

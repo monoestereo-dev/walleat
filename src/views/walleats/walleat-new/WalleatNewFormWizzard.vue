@@ -28,6 +28,15 @@
               cols="12"
               class="mb-2"
             >
+              <base-cropper
+                :model="walleat"
+                @cropped-image="walleat.logo"
+              />
+            </b-col>
+            <b-col
+              cols="12"
+              class="mb-2"
+            >
               <h5 class="mb-0">
                 Nombre del Walleat
               </h5>
@@ -181,6 +190,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import '@/@core/scss/vue/libs/vue-wizard.scss'
+import BaseCropper from '@/@core/components/BaseCropper.vue'
 import {
   BRow,
   BCol,
@@ -204,6 +214,7 @@ export default {
     Cleave,
     // eslint-disable-next-line vue/no-unused-components
     ToastificationContent,
+    BaseCropper,
   },
   data() {
     return {
@@ -212,7 +223,7 @@ export default {
         establishment_id: '',
         daily_limit: '',
         bracelet_number: '',
-        logo: '',
+        logo: null,
       },
       establishments: [],
       required,

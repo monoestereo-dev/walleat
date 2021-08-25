@@ -19,7 +19,10 @@
         />
       </span>
     </p>
-    <menu-bottom-mobile class="d-block d-md-none" />
+    <menu-bottom-mobile
+      v-if="userData.role_name === 'customer'"
+      class="d-block d-md-none"
+    />
   </div>
 </template>
 
@@ -38,6 +41,11 @@ export default {
   components: {
     BLink,
     MenuBottomMobile,
+  },
+  data() {
+    return {
+      userData: JSON.parse(localStorage.getItem('userData')),
+    }
   },
 }
 </script>

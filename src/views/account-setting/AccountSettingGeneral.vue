@@ -4,50 +4,13 @@
     <!-- media -->
     <b-media no-body>
       <b-media-aside>
-        <b-link>
-          <b-img
-            ref="previewEl"
-            rounded
-            :src="`${optionsLocal.logo}`"
-            height="80"
-          />
-        </b-link>
+        <base-cropper
+          :model="optionsLocal"
+          @cropped-image="optionsLocal.logo"
+        />
         <!--/ avatar -->
       </b-media-aside>
 
-      <b-media-body class="mt-75 ml-75">
-        <!-- upload button -->
-        <b-button
-          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-          variant="primary"
-          size="sm"
-          class="mb-75 mr-75"
-          @click="$refs.refInputEl.$el.click()"
-        >
-          Upload
-        </b-button>
-        <b-form-file
-          ref="refInputEl"
-          v-model="profileFile"
-          accept=".jpg, .png, .gif"
-          :hidden="true"
-          plain
-          @input="inputImageRenderer"
-        />
-        <!--/ upload button -->
-
-        <!-- reset -->
-        <b-button
-          v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-          variant="outline-secondary"
-          size="sm"
-          class="mb-75 mr-75"
-        >
-          Reset
-        </b-button>
-        <!--/ reset -->
-        <b-card-text>Allowed JPG, GIF or PNG. Max size of 800kB</b-card-text>
-      </b-media-body>
     </b-media>
     <!--/ media -->
 
@@ -101,7 +64,10 @@
               </validation-provider>
             </b-form-group>
           </b-col>
-          <b-col sm="6">
+          <b-col
+            v-if="optionsLocal.customer"
+            sm="6"
+          >
             <b-form-group
               label="Celular"
               label-for="cel"
@@ -142,7 +108,20 @@
 
 <script>
 import {
-  BFormFile, BButton, BForm, BFormGroup, BFormInput, BRow, BCol, BCard, BCardText, BMedia, BMediaAside, BMediaBody, BLink, BImg,
+  // BFormFile,
+  BButton,
+  BForm,
+  BFormGroup,
+  BFormInput,
+  BRow,
+  BCol,
+  BCard,
+  // BCardText,
+  BMedia,
+  BMediaAside,
+  // BMediaBody,
+  // BLink,
+  // BImg,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
@@ -150,25 +129,27 @@ import { ref } from '@vue/composition-api'
 import { mapActions, mapMutations } from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required, email } from '@validations'
+import BaseCropper from '@/@core/components/BaseCropper.vue'
 
 export default {
   components: {
     BButton,
     BForm,
-    BImg,
-    BFormFile,
+    // BImg,
+    // BFormFile,
     BFormGroup,
     BFormInput,
     BRow,
     BCol,
     BCard,
-    BCardText,
+    // BCardText,
     BMedia,
     BMediaAside,
-    BMediaBody,
-    BLink,
+    // BMediaBody,
+    // BLink,
     ValidationProvider,
     ValidationObserver,
+    BaseCropper,
   },
   directives: {
     Ripple,
@@ -201,7 +182,8 @@ export default {
             user: {
               name: this.optionsLocal.name,
               email: this.optionsLocal.email,
-              cel_number: this.optionsLocal.customer.cel_number,
+              logo: this.optionsLocal.logo,
+              cel_number: this.optionsLocal.customer ? this.optionsLocal.customer.cel_number : null,
             },
           })
             .then(response => {

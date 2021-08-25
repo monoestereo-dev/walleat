@@ -3,27 +3,30 @@
     <!-- Left Card -->
     <div>
       <div
-        v-if="paymentMethod === 'chromeNFC'"
-        class="mb-1"
-      >
-        <android-nfc-chrome />
-      </div>
-      <div
         v-if="paymentMethod === 'cash'"
         class="mb-1"
       >
-        <b-input-group class="input-group-merge">
+        <b-input-group>
           <b-input-group-prepend is-text>
             $
           </b-input-group-prepend>
-          <cleave
-            id="number"
+          <b-form-input
             v-model="cash"
-            class="form-control search-product"
-            :raw="true"
-            :options="options.number"
+            type="number"
+            min="0.00"
+            class="form-control"
             placeholder="Recibir efectivo"
+            size="lg"
           />
+          <b-input-group-append
+            v-if="cash > 0"
+            is-text
+            @click="cash = null"
+          >
+            <feather-icon
+              icon="XIcon"
+            />
+          </b-input-group-append>
         </b-input-group>
       </div>
       <b-card no-body>
@@ -40,6 +43,14 @@
             >
               Efectivo
             </b-form-radio>
+            <b-form-radio
+              v-model="paymentMethod"
+              name="payment-method"
+              value="cash"
+              class="mt-1"
+            >
+              Tarjeta bancaria
+            </b-form-radio>
             <!-- <b-form-radio
               v-model="paymentMethod"
               name="payment-method"
@@ -49,6 +60,7 @@
               Credit / Debit / ATM Card
             </b-form-radio> -->
             <b-form-radio
+              v-if="isDeviceAndroid"
               v-model="paymentMethod"
               name="payment-method"
               class="mt-1"
@@ -60,7 +72,7 @@
               v-model="paymentMethod"
               name="payment-method"
               class="mt-1"
-              value="emi"
+              value="androidAppNfc"
             >
               Android APP Reader
             </b-form-radio>
@@ -79,7 +91,7 @@
                 Productos
               </div>
               <div class="detail-amt discount-amt text-success">
-                {{ cart.length }}
+                {{ cartTotalProducts }}
               </div>
             </li>
             <li class="price-detail">
@@ -125,13 +137,19 @@
             </li>
           </ul>
           <b-button
+            v-if="paymentMethod === 'cash'"
             :variant="cash < cartTotal ? 'warning' : 'success'"
             block
             :disabled="cash < cartTotal"
-            @click="$emit('next-step')"
+            @click="completeSale()"
           >
             Continuar
           </b-button>
+          <android-nfc-chrome
+            v-if="paymentMethod === 'chromeNFC'"
+            @prev-step="prevStep()"
+          />
+          <nfc-android-app v-if="paymentMethod === 'androidAppNfc'" />
         </div>
 
       </b-card>
@@ -140,8 +158,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Cleave from 'vue-cleave-component'
+import { mapGetters, mapActions } from 'vuex'
+import { VMoney } from 'v-money'
+// import Cleave from 'vue-cleave-component'
 import {
   BCard,
   BCardHeader,
@@ -149,12 +168,16 @@ import {
   BCardBody,
   BFormGroup,
   BFormRadio,
-  // BCardText
-  BInputGroup,
+  BFormInput,
   BInputGroupPrepend,
+  BInputGroupAppend,
+  BInputGroup,
+
+  // BCardText
   BButton,
 } from 'bootstrap-vue'
 import AndroidNfcChrome from './AndroidNfcChrome.vue'
+import NfcAndroidApp from './NfcAndroidApp.vue'
 
 export default {
   components: {
@@ -166,13 +189,16 @@ export default {
     BCardBody,
     BFormGroup,
     BFormRadio,
-    BInputGroup,
-    BInputGroupPrepend,
     BButton,
-    Cleave,
+    BFormInput,
+    BInputGroupPrepend,
+    BInputGroupAppend,
+    BInputGroup,
 
     AndroidNfcChrome,
+    NfcAndroidApp,
   },
+  directives: { money: VMoney },
   props: {
     paymentDetails: {
       type: Object,
@@ -183,19 +209,77 @@ export default {
     return {
       paymentMethod: 'cash',
       cash: null,
-      options: {
-        number: {
-          numeral: true,
-          numeralThousandsGroupStyle: 'thousand',
-        },
+      isDeviceAndroid: false,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '$ ',
+        suffix: ' MXN',
+        precision: 0,
       },
     }
   },
   computed: {
     ...mapGetters('pos', [
       'cartTotal',
+      'cartTotalProducts',
       'cart',
     ]),
+  },
+  mounted() {
+    const ua = navigator.userAgent.toLowerCase()
+    const isAndroid = ua.indexOf('android') > -1
+    // && ua.indexOf('mobile')
+    if (isAndroid) {
+      this.isDeviceAndroid = true
+    }
+  },
+  methods: {
+    ...mapActions('orders', [
+      'addOrder',
+    ]),
+    ...mapActions('pos', [
+      'emptyCart',
+    ]),
+    prevStep() {
+      this.$emit('prev-step')
+    },
+    completeSale() {
+      const tempCart = []
+      this.cart.forEach(product => {
+        const refactorProduct = {
+          store_product_id: product.id,
+          units: product.units,
+        }
+        tempCart.push(refactorProduct)
+      })
+      const orderReady = {
+        store_id: this.$route.params.store_id,
+        payment_type: this.paymentMethod === 'cash' ? 'cash' : 'credit',
+        order_store_products_attributes: tempCart,
+      }
+      this.addOrder({ order: orderReady, orderType: 'sell' })
+        .then(() => {
+          this.bracelet_id = null
+          // eslint-disable-next-line
+          const audio = new Audio(require('@/assets/sounds/Success.wav'))
+          audio.play()
+          this.$swal({
+            title: 'Cobro exitoso!',
+            text: 'Grácias.',
+            icon: 'success',
+            customClass: {
+              confirmButton: 'btn btn-primary',
+            },
+            buttonsStyling: false,
+          })
+          this.cash = null
+          this.emptyCart()
+          this.prevStep()
+        }).catch(error => {
+          this.bannedItems = error.response.data.banned_items
+        })
+    },
   },
 }
 </script>

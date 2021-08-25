@@ -44,11 +44,14 @@ export default {
           })
       })
     },
-    addOrder(ctx, { id, order }) {
+    addOrder(ctx, { order, orderType }) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`/v1/orders/${id}`, {
-            order,
+          .post('/v1/orders/', {
+            order: {
+              ...order,
+              order_type: orderType,
+            },
           })
           .then(response => {
             resolve(response.data)

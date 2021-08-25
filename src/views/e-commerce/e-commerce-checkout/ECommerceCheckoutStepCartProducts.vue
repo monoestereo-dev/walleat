@@ -2,16 +2,43 @@
   <div>
     <!-- Products search -->
     <div class="mb-2">
-      <b-form-input
-        v-model="searchQuery"
-        autofocus
-        variant="outline-primary"
-        placeholder="Nombre o Código de barras"
-        @input="lookupStoreProducts"
-      />
+      <b-input-group>
+        <b-form-input
+          v-model="searchQuery"
+          variant="outline-primary"
+          placeholder="Nombre o Código de barras"
+          @input="lookupStoreProducts"
+        />
+        <b-input-group-append v-if="!searchQuery">
+          <b-dropdown
+            no-caret
+            right
+            variant="outline-primary"
+          >
+            <template #button-content>
+              🔧<span class="sr-only">settings</span>
+            </template>
+            <b-dropdown-item @click="toggleCameraScanner()">
+              {{ isCameraScannerActive ? '🎥 Ocultar Camara' : '🎥 Mostrar camara' }}
+            </b-dropdown-item>
+            <b-dropdown-item @click="toggleCategories()">
+              {{ isCategoriesActive ? '🛍️ Ocultar categorías' : '🛍️ Mostrar categorías' }}
+            </b-dropdown-item>
+          </b-dropdown>
+        </b-input-group-append>
+        <b-input-group-append v-else>
+          <b-button
+            variant="outline-warning"
+            @click="clearSearchbarAndResetSearch()"
+          >
+            Borrar
+          </b-button>
+        </b-input-group-append>
+      </b-input-group>
+      <categories-pos v-if="settings.showCategories" />
     </div>
     <div
-      v-if="searchQuery"
+      v-if="searchQuery && !settings.showCategories"
       class="checkout-items"
     >
       <b-card
@@ -41,20 +68,7 @@
               </b-link>
             </h6>
             <div class="item-rating">
-              <ul class="unstyled-list list-inline">
-                <li
-                  v-for="star in 5"
-                  :key="star"
-                  class="ratings-list-item"
-                  :class="{'ml-25': star-1}"
-                >
-                  <feather-icon
-                    icon="StarIcon"
-                    size="16"
-                    :class="[{'fill-current': star <= product.rating}, star <= product.rating ? 'text-warning' : 'text-muted']"
-                  />
-                </li>
-              </ul>
+              {{ product.product_attributes.variant }}
             </div>
           </div>
         </b-card-body>
@@ -99,18 +113,40 @@
 
 <script>
 import {
-  BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput,
+  BCard,
+  BCardBody,
+  BLink,
+  BImg,
+  BButton,
+  BBadge,
+  BFormInput,
+  BInputGroup,
+  BInputGroupAppend,
+  BDropdown,
+  BDropdownItem,
 } from 'bootstrap-vue'
 import store from '@/store'
+import CategoriesPos from '@/views/e-commerce/e-commerce-checkout/CategoriesPOS.vue'
 import { ref } from '@vue/composition-api'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { debounce } from 'lodash'
 import { formatDate } from '@core/utils/filter'
 import { useEcommerce, useEcommerceUi } from '../useEcommerce'
 
 export default {
   components: {
-    BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput,
+    BCard,
+    BCardBody,
+    BLink,
+    BImg,
+    BButton,
+    BBadge,
+    BFormInput,
+    BInputGroup,
+    BInputGroupAppend,
+    BDropdown,
+    BDropdownItem,
+    CategoriesPos,
   },
   setup() {
     const products = ref([])
@@ -146,23 +182,45 @@ export default {
       formatDate,
     }
   },
+  props: {
+    barcodeScanned: {
+      type: String,
+      default: () => null,
+    },
+  },
   data() {
     return {
       searchQuery: '',
+      isCameraScannerActive: false,
+      isCategoriesActive: false,
     }
   },
   computed: {
     ...mapGetters('storeProducts', ['storeProducts']),
+    ...mapGetters('pos', ['settings']),
+  },
+  watch: {
+    barcodeScanned(val) {
+      this.searchQuery = val
+      this.lookupStoreProducts(val)
+    },
+  },
+  mounted() {
   },
   methods: {
+    ...mapMutations('pos', [
+      'toggleShowCategories',
+    ]),
     ...mapActions('storeProducts', ['getStoreProductsStore']),
     ...mapActions('pos', ['addProductToCart']),
     lookupStoreProducts: debounce(function searchQuery(query) {
       if (/^\d*$/.test(query) && query != null && query !== '') {
+        const barcodeWithOutLastDigit = query.substring(0, query.length - 1)
         this.getStoreProductsStore({
           by_store: this.$route.params.store_id,
-          by_sku: query,
+          by_sku: barcodeWithOutLastDigit,
         }).then(response => {
+          navigator.vibrate(200)
           this.addProductToCart(response)
           this.searchQuery = null
         })
@@ -170,13 +228,32 @@ export default {
         this.getStoreProductsStore({
           by_store: this.$route.params.store_id,
           by_name: query,
-        }).then(() => {
+        })
+      } else if (query === null || query === '') {
+        this.getStoreProductsStore({
+          by_store: this.$route.params.store_id,
         })
       }
-    }, 500),
+    }, 100),
     addProductAndClearQuery(product) {
+      // eslint-disable-next-line
+      const audio = new Audio(require('@/assets/sounds/Beep2.wav'))
+      audio.play()
+      navigator.vibrate(200)
       this.addProductToCart({ data: [{ ...product }] })
       this.searchQuery = null
+    },
+    toggleCameraScanner() {
+      this.isCameraScannerActive = !this.isCameraScannerActive
+      this.$emit('toggle', this.isCameraScannerActive)
+    },
+    toggleCategories() {
+      this.isCategoriesActive = !this.isCategoriesActive
+      this.toggleShowCategories(this.isCategoriesActive)
+    },
+    clearSearchbarAndResetSearch() {
+      this.searchQuery = null
+      this.lookupStoreProducts(null)
     },
   },
 }

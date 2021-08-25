@@ -1,36 +1,42 @@
 <template>
-  <form-wizard
-    ref="refFormWizard"
-    color="#7367F0"
-    :title="null"
-    :subtitle="null"
-    finish-button-text="Submit"
-    back-button-text="Previous"
-    hide-buttons
-    class="checkout-form-wizard steps-transparent"
-  >
-    <!-- account detail tab -->
-    <tab-content
-      title="Carrito"
-      icon="feather icon-shopping-cart"
+  <div>
+    <form-wizard
+      ref="refFormWizard"
+      color="#7367F0"
+      :title="null"
+      :subtitle="null"
+      finish-button-text="Submit"
+      back-button-text="Previous"
+      hide-buttons
+      class="checkout-form-wizard steps-transparent"
     >
-      <e-commerce-checkout-step-cart @next-step="formWizardNextStep" />
-    </tab-content>
+      <!-- account detail tab -->
+      <tab-content
+        title="Carrito"
+        icon="feather icon-shopping-cart"
+      >
+        <e-commerce-checkout-step-cart @next-step="formWizardNextStep" />
+      </tab-content>
 
-    <!-- social link -->
-    <tab-content
-      title="Pago"
-      icon="feather icon-credit-card"
-    >
-      <e-commerce-checkout-step-payment
-        :payment-details="checkoutDetails.payment"
-        @next-step="formWizardNextStep"
-      />
-    </tab-content>
-  </form-wizard>
+      <!-- social link -->
+      <tab-content
+        title="Cobro"
+        icon="feather icon-credit-card"
+      >
+        <e-commerce-checkout-step-payment
+          :payment-details="checkoutDetails.payment"
+          @next-step="formWizardNextStep"
+          @prev-step="formWizardPrevStep"
+        />
+      </tab-content>
+    </form-wizard>
+  </div>
 </template>
 
 <script>
+import {
+// BButton,
+} from 'bootstrap-vue'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
 import ECommerceCheckoutStepPayment from './ECommerceCheckoutStepPayment.vue'
@@ -38,6 +44,9 @@ import ECommerceCheckoutStepCart from './ECommerceCheckoutStepCart.vue'
 
 export default {
   components: {
+    // BOOTSTRAP
+    // BButton,
+
     // 3rd Party
     FormWizard,
     TabContent,
@@ -50,6 +59,9 @@ export default {
     const refFormWizard = ref(null)
     const formWizardNextStep = () => {
       refFormWizard.value.nextTab()
+    }
+    const formWizardPrevStep = () => {
+      refFormWizard.value.prevTab()
     }
 
     // ? This is just dummy details
@@ -72,10 +84,19 @@ export default {
     return {
       refFormWizard,
       formWizardNextStep,
+      formWizardPrevStep,
 
       // Dummy Details
       checkoutDetails,
     }
+  },
+  methods: {
+    onDecode() {
+      // this.lookupStoreProducts(result)
+    },
+    onLoaded() {
+
+    },
   },
 }
 </script>
