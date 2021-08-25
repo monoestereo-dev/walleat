@@ -5,7 +5,6 @@
       <b-input-group>
         <b-form-input
           v-model="searchQuery"
-          autofocus
           variant="outline-primary"
           placeholder="Nombre o Código de barras"
           @input="lookupStoreProducts"
