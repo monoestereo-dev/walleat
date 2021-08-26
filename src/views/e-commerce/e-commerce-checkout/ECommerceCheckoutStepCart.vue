@@ -29,7 +29,7 @@
     </div>
 
     <div class="checkout-options">
-      <e-commerce-checkout-cart-products v-if="settings.showCategories" />
+
       <!-- Detalles de la compra 🛍️ -->
       <b-card title="Detalles de la compra">
         <div class="price-details">
@@ -81,6 +81,8 @@
         </div>
 
       </b-card>
+
+      <e-commerce-checkout-cart-products v-if="settings.showCategories" />
     </div>
   </div>
 </template>
