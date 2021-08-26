@@ -69,6 +69,7 @@
               Android NFC
             </b-form-radio>
             <b-form-radio
+              v-if="isDeviceAndroid"
               v-model="paymentMethod"
               name="payment-method"
               class="mt-1"
@@ -149,7 +150,10 @@
             v-if="paymentMethod === 'chromeNFC'"
             @prev-step="prevStep()"
           />
-          <nfc-android-app v-if="paymentMethod === 'androidAppNfc'" />
+          <nfc-android-app
+            v-if="paymentMethod === 'androidAppNfc'"
+            @prev-step="prevStep()"
+          />
         </div>
 
       </b-card>
