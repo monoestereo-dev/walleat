@@ -2,7 +2,10 @@
   <div class="list-view product-checkout mt-0">
     <div>
       <b-row>
-        <b-col>
+        <b-col
+          order="2"
+          order-sm="1"
+        >
           <!-- Buscador 🔍-->
           <e-commerce-checkout-step-cart-products
             :barcode-scanned="barcode"
@@ -15,6 +18,8 @@
           v-if="isCameraScannerActive"
           sm="12"
           md="auto"
+          order="1"
+          order-sm="2"
         >
           <!-- Camera Barcode Scanner 🎥 -->
           <div class="d-flex justify-content-center mb-1">
