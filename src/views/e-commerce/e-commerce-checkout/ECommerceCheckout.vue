@@ -24,7 +24,6 @@
         icon="feather icon-credit-card"
       >
         <e-commerce-checkout-step-payment
-          :payment-details="checkoutDetails.payment"
           @next-step="formWizardNextStep"
           @prev-step="formWizardPrevStep"
         />
@@ -64,30 +63,11 @@ export default {
       refFormWizard.value.prevTab()
     }
 
-    // ? This is just dummy details
-    const checkoutDetails = ref({
-      address: {
-        fullName: '',
-        mobile: '',
-        houseNo: '',
-        landmark: '',
-        city: '',
-        pincode: '',
-        state: '',
-        addressType: null,
-      },
-      payment: {
-        cvv: '',
-      },
-    })
-
     return {
       refFormWizard,
       formWizardNextStep,
       formWizardPrevStep,
 
-      // Dummy Details
-      checkoutDetails,
     }
   },
   methods: {

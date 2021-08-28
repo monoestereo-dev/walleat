@@ -204,10 +204,10 @@ export default {
   },
   directives: { money: VMoney },
   props: {
-    paymentDetails: {
-      type: Object,
-      required: true,
-    },
+    // paymentDetails: {
+    //   type: Object,
+    //   required: true,
+    // },
   },
   data() {
     return {
