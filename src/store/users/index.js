@@ -6,10 +6,10 @@ export default {
   getters: {},
   mutations: {
     updateUserData(state, payload) {
-      let userData = JSON.parse(localStorage.getItem('userData'))
-      userData = {
+      const oldUserData = JSON.parse(localStorage.getItem('userData'))
+      const userData = {
         ...payload,
-        token: userData.token,
+        token: oldUserData.token,
       }
       localStorage.setItem('userData', JSON.stringify(userData))
     },

@@ -17,6 +17,7 @@ import orders from './routes/orders'
 import establishments from './routes/establishments'
 import paymentGateway from './routes/payment-gateway'
 import pos from './routes/pos'
+import sales from './routes/sales'
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,7 @@ const router = new VueRouter({
     ...establishments,
     ...paymentGateway,
     ...pos,
+    ...sales,
 
     {
       path: '*',
