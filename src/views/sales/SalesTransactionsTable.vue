@@ -42,7 +42,7 @@
               :dir="'ltr'"
               :options="statusOptions"
               class="invoice-filter-select"
-              placeholder="Select Status"
+              placeholder="Tipo de pago"
             >
               <template #selected-option="{ label }">
                 <span class="text-truncate overflow-hidden">
@@ -321,7 +321,12 @@ export default {
       entriesPerPage: '10',
       searchQuery: '',
       statusFilter: '',
-      statusOptions: ['credit', 'cash'],
+      statusOptions: [
+        'Todos',
+        'Walleats',
+        'Efectivo',
+        'Tarjetas bancarias',
+      ],
       tableColumns: [
         'folio',
         'store_clerk',
