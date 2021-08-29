@@ -9,7 +9,7 @@
         <feather-icon
           class="ml-1"
           :icon=" isBalanceVisible ? 'EyeIcon' : 'EyeOffIcon'"
-          @click="isBalanceVisible = !isBalanceVisible"
+          @click="toggleBalanceVisible(isBalanceVisible = !isBalanceVisible)"
         />
       </div>
       <div class="d-flex">
@@ -54,6 +54,7 @@
 import {
   BRow, BCol, BButton, BCard,
 } from 'bootstrap-vue'
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -66,9 +67,17 @@ export default {
     },
   },
   data() {
-    return {
-      isBalanceVisible: true,
-    }
+    return {}
+  },
+  computed: {
+    ...mapGetters('appConfig', [
+      'isBalanceVisible',
+    ]),
+  },
+  methods: {
+    ...mapMutations('appConfig', [
+      'toggleBalanceVisible',
+    ]),
   },
 }
 </script>

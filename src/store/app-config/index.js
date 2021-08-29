@@ -20,9 +20,17 @@ export default {
         type: $themeConfig.layout.footer.type,
       },
     },
+    isBalanceVisible: true,
   },
-  getters: {},
+  getters: {
+    isBalanceVisible(state) {
+      return state.isBalanceVisible
+    },
+  },
   mutations: {
+    toggleBalanceVisible(state, payload) {
+      state.isBalanceVisible = payload
+    },
     TOGGLE_RTL(state) {
       state.layout.isRTL = !state.layout.isRTL
       document.documentElement.setAttribute('dir', state.layout.isRTL ? 'rtl' : 'ltr')
@@ -55,6 +63,7 @@ export default {
     UPDATE_FOOTER_CONFIG(state, obj) {
       Object.assign(state.layout.footer, obj)
     },
+
   },
   actions: {},
 }
