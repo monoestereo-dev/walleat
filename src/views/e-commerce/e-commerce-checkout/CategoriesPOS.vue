@@ -17,7 +17,9 @@
     >
       {{ category.name }}
     </b-badge>
-    <b-row>
+    <b-row
+      class="match-height"
+    >
       <b-col
         v-for="product in storeProducts"
         :key="product.id"
