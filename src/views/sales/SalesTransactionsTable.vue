@@ -5,7 +5,6 @@
     no-body
   >
     <div class="m-2">
-
       <!-- Table Top -->
       <b-row>
 
@@ -58,7 +57,7 @@
 
     <b-table
       ref="refInvoiceListTable"
-      :items="orders.data"
+      :items="orders"
       responsive
       :fields="tableColumns"
       primary-key="id"
@@ -233,14 +232,15 @@
         >
 
           <b-pagination
-            v-model="orders.meta.pagination.current_page"
-            :total-rows="orders.meta.pagination.total_objects"
-            :per-page="orders.meta.pagination.per_page"
+            v-model="pagination.page"
+            :total-rows="pagination.total_objects"
+            :per-page="pagination.per_page"
             first-number
             last-number
             class="mb-0 mt-1 mt-sm-0"
             prev-class="prev-item"
             next-class="next-item"
+            @change="(value)=>{handlePagination({ page: value, per_page: pagination.per_page })}"
           >
             <template #prev-text>
               <feather-icon
@@ -265,6 +265,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import {
   BCard,
   BRow,
@@ -301,21 +302,6 @@ export default {
     BTooltip,
     vSelect,
   },
-  props: {
-    orders: {
-      type: Object,
-      default: () => ({
-        meta: {
-          pagination: {},
-        },
-        data: [
-          {
-            store_clerk: {},
-          },
-        ],
-      }),
-    },
-  },
   data() {
     return {
       entriesPerPage: '10',
@@ -338,8 +324,38 @@ export default {
       perPage: ['10', '20', '50', '100'],
     }
   },
+  computed: {
+    ...mapGetters('orders', [
+      'pagination',
+      'orders',
+    ]),
+  },
+  watch: {
+    entriesPerPage() {
+      this.fetchOrders({
+        meta: {
+          pagination: {
+            page: this.pagination.page,
+            per_page: this.entriesPerPage,
+          },
+        },
+      })
+    },
+  },
   methods: {
-
+    ...mapActions('orders', [
+      'fetchOrders',
+    ]),
+    handlePagination({ page, per_page }) {
+      this.fetchOrders({
+        meta: {
+          pagination: {
+            page,
+            per_page,
+          },
+        },
+      })
+    },
   },
 }
 </script>

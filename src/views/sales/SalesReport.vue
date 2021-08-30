@@ -1,5 +1,13 @@
 <template>
   <div>
+    <b-row class="match-height">
+      <b-col cols="3">
+        <profit-statistics />
+      </b-col>
+      <b-col>
+        <statistics :data="storeStats" />
+      </b-col>
+    </b-row>
     <sales-transactions-table
       :orders="orders"
     >
@@ -21,8 +29,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import {
+  BCol,
+  BRow,
+} from 'bootstrap-vue'
 import DateRangePicker from 'vue2-daterange-picker'
+import Statistics from '@core/components/CustomerStatistics.vue'
+import ProfitStatistics from '@core/components/ProfitCard.vue'
 import SalesTransactionsTable from './SalesTransactionsTable.vue'
 // you need to import the CSS manually
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
@@ -31,6 +45,10 @@ export default {
   components: {
     DateRangePicker,
     SalesTransactionsTable,
+    Statistics,
+    ProfitStatistics,
+    BRow,
+    BCol,
   },
   data() {
     return {
@@ -42,13 +60,42 @@ export default {
         startDate: '2021-01-01',
         endDate: '2021-12-31',
       },
-      orders: {
-        meta: {
-          pagination: {},
+      storeStats: [
+        {
+          title: '100',
+          subtitle: 'Ventas',
+          icon: 'TrendingUpIcon',
+          color: 'light-success',
+          customClass: 'mb-1',
         },
-        data: [],
-      },
+        {
+          title: '250',
+          subtitle: 'Productos vendidos',
+          icon: 'ShoppingBagIcon',
+          color: 'light-info',
+          customClass: 'mb-1',
+        },
+        {
+          title: '$1,100.00',
+          subtitle: 'Efectivo',
+          icon: 'DollarSignIcon',
+          color: 'light-warning',
+          customClass: 'mb-1',
+        },
+        {
+          title: '$1,800.00',
+          subtitle: 'Crédito',
+          icon: 'CreditCardIcon',
+          color: 'light-primary',
+          customClass: 'mb-1',
+        },
+      ],
     }
+  },
+  computed: {
+    ...mapGetters('orders', [
+      'orders',
+    ]),
   },
   mounted() {
     this.fetchOrders({
@@ -58,16 +105,12 @@ export default {
       },
       by_store: this.$route.params.id,
     })
-      .then(response => {
-        this.orders = response
-      })
   },
   methods: {
     ...mapActions('orders', [
       'fetchOrders',
     ]),
     updateRanges(range) {
-      console.log(range)
       this.fetchOrders({
         by_date: {
           start_date: this.formatDate(range.startDate),
@@ -75,9 +118,6 @@ export default {
         },
         by_store: this.$route.params.id,
       })
-        .then(response => {
-          this.orders = response
-        })
     },
     formatDate(date) {
       const d = new Date(date)
