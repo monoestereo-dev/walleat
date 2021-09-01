@@ -18,10 +18,10 @@
         @update="updateRanges"
       >
         <template
-          v-slot:input="picker"
+          v-slot:input="picker2"
           style="min-width: 350px;"
         >
-          {{ picker.startDate | date }} - {{ picker.endDate | date }}
+          {{ picker2.startDate | date }} - {{ picker2.endDate | date }}
         </template>
       </date-range-picker>
     </sales-transactions-table>
