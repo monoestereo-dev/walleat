@@ -11,30 +11,24 @@
         <!-- Per Page -->
         <b-col
           cols="12"
-          md="6"
+          sm="6"
+          md="8"
           class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
-          <label># de resultados</label>
-          <v-select
-            v-model="entriesPerPage"
-            :dir="'ltr'"
-            :options="perPage"
-            :clearable="false"
-            class="per-page-selector d-inline-block ml-50 mr-1"
-          />
           <slot />
         </b-col>
 
         <!-- Search -->
         <b-col
           cols="12"
-          md="6"
+          sm="6"
+          md="4"
         >
           <div class="d-flex align-items-center justify-content-end">
             <b-form-input
               v-model="searchQuery"
               class="d-inline-block mr-1"
-              placeholder="Search..."
+              placeholder="Buscar por folio..."
             />
             <v-select
               v-model="statusFilter"
@@ -128,8 +122,8 @@
 
       <!-- Column: Issued Date -->
       <template #cell(created_at)="data">
-        <span class="text-nowrap">
-          {{ data.value | date }}
+        <span class="text-nowrap mr-2">
+          {{ data.value | dateNtime }}
         </span>
       </template>
 
@@ -178,38 +172,6 @@
             :target="`invoice-row-${data.item.id}-preview-icon`"
           />
 
-          <!-- Dropdown -->
-          <b-dropdown
-            variant="link"
-            toggle-class="p-0"
-            no-caret
-            :right="$store.state.appConfig.isRTL"
-          >
-
-            <template #button-content>
-              <feather-icon
-                icon="MoreVerticalIcon"
-                size="16"
-                class="align-middle text-body"
-              />
-            </template>
-            <b-dropdown-item>
-              <feather-icon icon="DownloadIcon" />
-              <span class="align-middle ml-50">Download</span>
-            </b-dropdown-item>
-            <b-dropdown-item :to="{ name: 'apps-invoice-edit', params: { id: data.item.id } }">
-              <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <feather-icon icon="CopyIcon" />
-              <span class="align-middle ml-50">Duplicate</span>
-            </b-dropdown-item>
-          </b-dropdown>
         </div>
       </template>
 
@@ -223,6 +185,14 @@
           class="d-flex align-items-center justify-content-center justify-content-sm-start"
         >
           <!-- <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span> -->
+          <label># de resultados</label>
+          <v-select
+            v-model="entriesPerPage"
+            :dir="'ltr'"
+            :options="perPage"
+            :clearable="false"
+            class="per-page-selector d-inline-block ml-50 mr-1"
+          />
         </b-col>
         <!-- Pagination -->
         <b-col
@@ -249,7 +219,13 @@
               />
             </template>
             <template #next-text>
+              <b-spinner
+                v-if="loading"
+                small
+                label="Loading"
+              />
               <feather-icon
+                v-else
                 icon="ChevronRightIcon"
                 size="18"
               />
@@ -277,10 +253,11 @@ import {
   BAvatar,
   BLink,
   BBadge,
-  BDropdown,
-  BDropdownItem,
+  // BDropdown,
+  // BDropdownItem,
   BPagination,
   BTooltip,
+  BSpinner,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -296,14 +273,16 @@ export default {
     BAvatar,
     BLink,
     BBadge,
-    BDropdown,
-    BDropdownItem,
+    // BDropdown,
+    // BDropdownItem,
     BPagination,
     BTooltip,
     vSelect,
+    BSpinner,
   },
   data() {
     return {
+      loading: false,
       entriesPerPage: '10',
       searchQuery: '',
       statusFilter: '',
@@ -332,6 +311,7 @@ export default {
   },
   watch: {
     entriesPerPage() {
+      this.loading = true
       this.fetchOrders({
         meta: {
           pagination: {
@@ -339,6 +319,8 @@ export default {
             per_page: this.entriesPerPage,
           },
         },
+      }).then(() => {
+        this.loading = false
       })
     },
   },
@@ -347,6 +329,7 @@ export default {
       'fetchOrders',
     ]),
     handlePagination({ page, per_page }) {
+      this.loading = true
       this.fetchOrders({
         meta: {
           pagination: {
@@ -355,6 +338,9 @@ export default {
           },
         },
       })
+        .then(() => {
+          this.loading = false
+        })
     },
   },
 }
@@ -378,6 +364,6 @@ export default {
 }
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@core/scss/vue/libs/vue-select.scss';
 </style>
