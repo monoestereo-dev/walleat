@@ -199,7 +199,7 @@
               class="mr-2"
               type="submit"
             >
-              Add
+              Agregar
             </b-button>
             <b-button
               v-ripple.400="'rgba(186, 191, 199, 0.15)'"
@@ -207,7 +207,7 @@
               variant="outline-secondary"
               @click="hide"
             >
-              Cancel
+              Cancelar
             </b-button>
           </div>
 
@@ -348,6 +348,19 @@ export default {
               icon: 'CoffeeIcon',
               variant: 'success',
               text: `Se ha enviado un correo a ${this.userData.email} con las intrucciones para establecer su contraseña.`,
+            },
+          })
+        })
+        .catch(error => {
+          debugger
+          this.$toast({
+            component: ToastificationContent,
+            position: 'top-right',
+            props: {
+              title: 'Error',
+              icon: 'CoffeeIcon',
+              variant: 'danger',
+              text: error.response.data.messages[0],
             },
           })
         })
