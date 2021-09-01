@@ -15,7 +15,7 @@
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
         <h5 class="mb-0">
-          Add New User
+          Agregar nuevo usuario
         </h5>
 
         <feather-icon
@@ -25,6 +25,12 @@
           @click="hide"
         />
 
+      </div>
+      <div>
+        <base-cropper
+          :model="userData"
+          @cropped-image="userData.logo"
+        />
       </div>
 
       <!-- BODY -->
@@ -224,6 +230,7 @@ import Ripple from 'vue-ripple-directive'
 import vSelect from 'vue-select'
 import store from '@/store'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import BaseCropper from '@/@core/components/BaseCropper.vue'
 
 export default {
   components: {
@@ -234,10 +241,12 @@ export default {
     BFormInvalidFeedback,
     BButton,
     vSelect,
+    BaseCropper,
 
     // Form Validation
     ValidationProvider,
     ValidationObserver,
+
   },
   directives: {
     Ripple,
