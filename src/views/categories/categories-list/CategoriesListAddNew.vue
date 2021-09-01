@@ -15,7 +15,7 @@
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
         <h5 class="mb-0">
-          Add New User
+          Agregar nueva categoría
         </h5>
 
         <feather-icon
@@ -55,7 +55,7 @@
                 autofocus
                 :state="getValidationState(validationContext)"
                 trim
-                placeholder="John Doe"
+                placeholder="Lacteos"
               />
 
               <b-form-invalid-feedback>
@@ -180,6 +180,18 @@ export default {
               title: 'Categoria creada con exito',
               icon: 'CoffeeIcon',
               variant: 'success',
+            },
+          })
+        })
+        .catch(error => {
+          debugger
+          this.$toast({
+            component: ToastificationContent,
+            position: 'top-right',
+            props: {
+              title: error.response.data.messages.name[0],
+              icon: 'CoffeeIcon',
+              variant: 'danger',
             },
           })
         })
