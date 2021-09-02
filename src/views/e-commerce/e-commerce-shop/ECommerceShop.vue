@@ -107,11 +107,9 @@
             >
               {{ product.name }}
             </b-link>
-            <b-card-text class="item-company">
-              <b-link class="ml-25">
-                {{ product.variant }}
-              </b-link>
-            </b-card-text>
+            <b-link class="text-muted">
+              {{ product.variant }}
+            </b-link>
           </h6>
           <b-card-text class="item-description mt-1">
             <b-badge
