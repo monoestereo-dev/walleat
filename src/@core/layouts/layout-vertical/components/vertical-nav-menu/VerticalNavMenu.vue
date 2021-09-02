@@ -73,6 +73,12 @@
         :items="navMenuItems"
         class="navigation navigation-main"
       />
+      <vertical-nav-menu-items
+        v-if="userData.role_name === 'establishment_admin'"
+        :items="establishmentAdminStores"
+        class="navigation navigation-main"
+      />
+
     </vue-perfect-scrollbar>
     <!-- /main menu content-->
   </div>
@@ -152,6 +158,25 @@ export default {
       appLogoImage,
       appLogoSmall,
     }
+  },
+  data() {
+    return {
+      userData: JSON.parse(localStorage.getItem('userData')),
+      establishmentAdminStores: [],
+    }
+  },
+  mounted() {
+    const establishments = this.userData.scoped_roles.filter(x => x.role_resource_type === 'Establishment')
+    const menuItems = []
+    establishments.forEach(x => {
+      menuItems.push({
+        title: x.role_resource_name,
+        route: { name: 'establishment-view', params: { id: x.role_resource_id } },
+        icon: 'ShoppingBagIcon',
+        roles: ['establishment_admin'],
+      })
+    })
+    this.establishmentAdminStores = menuItems
   },
 }
 </script>

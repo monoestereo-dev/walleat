@@ -268,9 +268,8 @@ export default {
               useJwt.setToken(response.token)
               useJwt.setRefreshToken(response.token)
               localStorage.setItem('userData', JSON.stringify(userData))
-
               this.$router
-                .replace(getHomeRouteForLoggedInUser(userData.role_name))
+                .replace(getHomeRouteForLoggedInUser(userData))
                 .then(() => {})
             })
             .catch(error => {
