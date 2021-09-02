@@ -4,7 +4,7 @@
 
     <product-list-add-new
       :is-add-new-product-sidebar-active.sync="isAddNewProductSidebarActive"
-      @new-products="setUsers($event)"
+      @new-products="fetchProducts({})"
     />
 
     <!-- Table Container Card -->
