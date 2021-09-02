@@ -32,10 +32,10 @@ export default {
           })
       })
     },
-    addProduct(ctx, { id, product }) {
+    addProduct(ctx, product) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`/v1/products/${id}`, {
+          .post('/v1/products/', {
             product,
           })
           .then(response => {
