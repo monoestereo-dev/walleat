@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row
-      class="mt-2"
+      class="mt-2 match-height"
     >
       <b-col
         v-for="walleat in walleats"
