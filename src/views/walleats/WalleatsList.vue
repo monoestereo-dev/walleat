@@ -29,10 +29,6 @@
           <div
             class="d-flex align-items-center justify-content-center"
           >
-            <feather-icon
-              icon="SlidersIcon"
-              class="mr-1"
-            />
             $ {{ walleat.daily_limit | money }}
           </div>
         </b-card>
