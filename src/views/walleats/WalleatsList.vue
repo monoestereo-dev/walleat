@@ -65,6 +65,47 @@
         </b-card>
       </b-col>
     </b-row>
+    <!-- Pagination -->
+    <b-row>
+      <b-col
+        cols="12"
+        sm="6"
+        class="d-flex align-items-center justify-content-end justify-content-sm-end"
+      >
+
+        <b-pagination
+          v-model="pagination.page"
+          :total-rows="pagination.total_objects"
+          :per-page="pagination.per_page"
+          first-number
+          last-number
+          class="mb-0 mt-1 mt-sm-0"
+          prev-class="prev-item"
+          next-class="next-item"
+          @change="(value)=>{handlePagination({ page: value, per_page: pagination.per_page })}"
+        >
+          <template #prev-text>
+            <feather-icon
+              icon="ChevronLeftIcon"
+              size="18"
+            />
+          </template>
+          <template #next-text>
+            <b-spinner
+              v-if="loading"
+              small
+              label="Loading"
+            />
+            <feather-icon
+              v-else
+              icon="ChevronRightIcon"
+              size="18"
+            />
+          </template>
+        </b-pagination>
+
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -72,7 +113,7 @@
 import { mapActions } from 'vuex'
 import { getUserData } from '@/auth/utils'
 import {
-  BCard, BRow, BCol, BAvatar,
+  BCard, BRow, BCol, BAvatar, BPagination,
 } from 'bootstrap-vue'
 
 export default {
@@ -81,10 +122,16 @@ export default {
     BRow,
     BCol,
     BAvatar,
+    BPagination,
   },
   data() {
     return {
       walleats: [],
+      pagination: {
+        page: 0,
+        total_objects: 0,
+        per_page: 0,
+      },
     }
   },
   beforeMount() {
@@ -92,13 +139,29 @@ export default {
 
     this.fetchWalleats({
       by_user: currentUser.id,
+      meta: { pagination: { per_page: 5 } },
     })
       .then(response => {
         this.walleats = response.data
+        this.pagination = response.meta.pagination
       })
   },
   methods: {
     ...mapActions('walleats', ['fetchWalleats']),
+    handlePagination({ page, per_page }) {
+      this.fetchWalleats({
+        meta: {
+          pagination: {
+            page,
+            per_page,
+          },
+        },
+      })
+        .then(response => {
+          this.users = response.data.data
+          this.pagination = response.data.meta.pagination
+        })
+    },
   },
 }
 </script>
