@@ -96,7 +96,7 @@ export default {
     BSpinner,
     BBadge,
     BImg,
-    BButtonGroup,    
+    BButtonGroup,
     ProductCard,
   },
   data() {
@@ -135,10 +135,12 @@ export default {
       if (messagex && messagex.message && messagex.message.link_action) {
         const audio = new Audio(require('@/assets/sounds/Activate.wav'))
         audio.play()
-        navigator.vibrate(200)
+        if (navigator.vibrate) {
+          navigator.vibrate(200)
+        }
         const display_message = JSON.stringify(messagex.message.link_action)
         this.appResponse = null
-        
+
         this.braceletNumber = (display_message).substring((display_message).lastIndexOf('=') + 1)
         this.fetchWalleatByEnc(this.braceletNumber)
           .then(response => {
@@ -216,7 +218,9 @@ export default {
           // eslint-disable-next-line
           const audio = new Audio(require('@/assets/sounds/Denied.wav'))
           audio.play()
-          navigator.vibrate(200)
+          if (navigator.vibrate) {
+            navigator.vibrate(200)
+          }
           this.bannedItems = error.response.data.banned_items
         })
     },

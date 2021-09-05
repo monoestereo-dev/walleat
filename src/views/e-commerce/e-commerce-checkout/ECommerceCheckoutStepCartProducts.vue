@@ -220,7 +220,9 @@ export default {
           by_store: this.$route.params.store_id,
           by_sku: barcodeWithOutLastDigit,
         }).then(response => {
-          navigator.vibrate(200)
+          if (navigator.vibrate) {
+            navigator.vibrate(200)
+          }
           this.addProductToCart(response)
           this.searchQuery = null
         })
@@ -239,7 +241,9 @@ export default {
       // eslint-disable-next-line
       const audio = new Audio(require('@/assets/sounds/Beep2.wav'))
       audio.play()
-      navigator.vibrate(200)
+      if (navigator.vibrate) {
+        navigator.vibrate(200)
+      }
       this.addProductToCart({ data: [{ ...product }] })
       this.searchQuery = null
     },

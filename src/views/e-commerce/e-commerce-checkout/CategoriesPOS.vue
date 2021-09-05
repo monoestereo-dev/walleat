@@ -137,7 +137,9 @@ export default {
       // eslint-disable-next-line
       const audio = new Audio(require('@/assets/sounds/Beep2.wav'))
       audio.play()
-      navigator.vibrate(200)
+      if (navigator.vibrate) {
+        navigator.vibrate(200)
+      }
       this.addProductToCart(data)
     },
   },
