@@ -13,19 +13,49 @@
       >
         <b-card
           class="mt-1 text-center"
-          @click="$router.push({ name: 'POS', params: { store_id: store.id } })"
         >
-          <div class="d-flex justify-content-center mt--5 mb-1">
-            <b-avatar
-              :src="`${store.logo}`"
-              size="lg"
-            />
+          <div class="d-flex justify-content-center mt--5 mb-1 position-relative">
+            <span @click="$router.push({ name: 'POS', params: { store_id: store.id } })">
+              <b-avatar
+                :src="`${store.logo}`"
+                size="lg"
+              />
+            </span>
           </div>
-          <div
-            class="store-name"
+
+          <!-- Dropdown -->
+          <div class="dropdown settings-btn">
+            <b-dropdown
+              variant="link"
+              no-caret
+              toggle-class="p-0"
+              right
+            >
+              <template #button-content>
+                <feather-icon
+                  icon="MoreVerticalIcon"
+                  size="16"
+                  class="align-middle text-body"
+                />
+              </template>
+              <b-dropdown-item>
+                Editar tienda
+              </b-dropdown-item>
+              <b-dropdown-item>
+                Borrar tienda
+              </b-dropdown-item>
+              <b-dropdown-item>
+                Gestionar productos
+              </b-dropdown-item>
+            </b-dropdown>
+          </div>
+
+          <b-link
+            :to="{ name: 'POS', params: { store_id: store.id } }"
+            class="store-name text-primary"
           >
             {{ store.name }}
-          </div>
+          </b-link>
           <div
             class="d-flex align-items-center justify-content-center"
           >
@@ -39,7 +69,7 @@
         </b-card>
       </b-col>
       <b-col
-        v-if="userData.role_name === 'admin'"
+        v-if="userData.role_name === 'admin' || userData.role_name === 'establishment_admin'"
         cols="6"
         sm="6"
         md="4"
@@ -81,14 +111,24 @@ import {
   BRow,
   BCol,
   BAvatar,
+  BLink,
+  BDropdown,
+  BDropdownItem,
 } from 'bootstrap-vue'
+import Ripple from 'vue-ripple-directive'
 
 export default {
+  directives: {
+    Ripple,
+  },
   components: {
     BCard,
     BRow,
     BCol,
     BAvatar,
+    BLink,
+    BDropdown,
+    BDropdownItem,
   },
   data() {
     return {
@@ -120,5 +160,10 @@ export default {
   text-overflow: ellipsis;
   font-size: 1.3rem;
   font-weight: 600;
+}
+.settings-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
 }
 </style>
