@@ -13,9 +13,9 @@ module.exports = {
         name: 'Mis wWlleats',
         short_name: 'walleats',
         description: 'Mis Walleats',
-        utl: '/walleats/list',
-      }
-    ]
+        url: '/walleats/list',
+      },
+    ],
   },
   css: {
     loaderOptions: {
@@ -60,8 +60,8 @@ module.exports = {
   },
   transpileDependencies: ['vue-echarts', 'resize-detector'],
   devServer: {
-    https: false,
-    key: './ssl/192.168.15.7-key.pem',
-    cert: './ssl/192.168.15.7.pem',
+    https: true,
+    key: './ssl/localhost-key.pem',
+    cert: './ssl/localhost.pem',
   },
 }
