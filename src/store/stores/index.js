@@ -32,6 +32,18 @@ export default {
           })
       })
     },
+    fetchStoreProducts(ctx, params) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/v1/store_products', { params })
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
     addStore(ctx, { id, store }) {
       return new Promise((resolve, reject) => {
         axios
