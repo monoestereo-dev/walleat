@@ -306,7 +306,7 @@ $search-bar-height: 48px;
     .ecommerce-card {
       overflow: hidden;
       display: grid;
-      grid-template-columns: 1fr 2fr 1fr;
+      grid-template-columns: auto 2fr 1fr;
 
       // list view image
       .item-img {
