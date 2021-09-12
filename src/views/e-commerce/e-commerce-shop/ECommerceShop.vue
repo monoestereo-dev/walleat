@@ -76,14 +76,14 @@
         class="ecommerce-card"
         no-body
       >
-        <div class="item-img text-center d-flex justify-content-center">
+        <div class="item-img text-center d-flex justify-content-center px-1">
           <b-link :to="{ name: 'product-view', params: { id: product.id } }">
             <b-img
               :alt="`${product.name}-${product.id}`"
               fluid
-              class="card-img-top"
               rounded
               :src="`${product.logo}`"
+              :width="itemView === 'list-view' ? 110 : 200"
             />
           </b-link>
         </div>
