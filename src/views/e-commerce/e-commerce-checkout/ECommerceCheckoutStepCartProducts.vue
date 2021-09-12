@@ -4,6 +4,7 @@
     <div class="mb-2">
       <b-input-group>
         <b-form-input
+          id="sku"
           v-model="searchQuery"
           variant="outline-primary"
           placeholder="Nombre o Código de barras"
@@ -206,6 +207,9 @@ export default {
     },
   },
   mounted() {
+    document.addEventListener('keydown', () => {
+      document.getElementById('sku').focus()
+    })
   },
   methods: {
     ...mapMutations('pos', [
