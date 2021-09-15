@@ -279,7 +279,7 @@ export default {
     const blankUserData = {
       name: '',
       email: '',
-      role_name: 'customer',
+      role_name: '',
       role_resource_id: '',
       logo: null,
       cel_number: '',
@@ -306,16 +306,28 @@ export default {
   },
   beforeMount() {
     // fetch establishments: this is needed when you want to add a user with establishment_admin or store_clerk role
-    this.fetchEstablishments({
-      meta: {
-        pagination: {
-          per_page: 1000,
+    const currentUser = JSON.parse(localStorage.getItem('userData'))
+    if (currentUser.role_name === 'admin') {
+      this.fetchEstablishments({
+        meta: {
+          pagination: {
+            per_page: 1000,
+          },
         },
-      },
-    })
-      .then(response => {
-        this.establishments = response.data
       })
+        .then(response => {
+          this.establishments = response.data
+        })
+    } else {
+      const currentEstablishment = currentUser.scoped_roles[0]
+      this.selectedEstablishment = currentEstablishment.id
+      this.establishments = [
+        {
+          id: currentEstablishment.role_resource_id,
+          name: currentEstablishment.role_resource_name,
+        },
+      ]
+    }
   },
   methods: {
     ...mapActions('app-user', ['fetchUsers']),
@@ -352,7 +364,6 @@ export default {
           })
         })
         .catch(error => {
-          debugger
           this.$toast({
             component: ToastificationContent,
             position: 'top-right',
