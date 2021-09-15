@@ -309,8 +309,8 @@ export default {
           },
         })
           .then(response => {
-            this.products = response.data
-            this.pagination = response.meta.pagination
+            this.products = response.data.data
+            this.pagination = response.data.meta.pagination
           })
       } else if (query !== null && query !== '') {
         this.fetchProducts({
@@ -323,8 +323,8 @@ export default {
           },
         })
           .then(response => {
-            this.products = response.data
-            this.pagination = response.meta.pagination
+            this.products = response.data.data
+            this.pagination = response.data.meta.pagination
           })
       } else if (query === null || query === '') {
         this.fetchProducts({
@@ -336,8 +336,8 @@ export default {
           },
         })
           .then(response => {
-            this.products = response.data
-            this.pagination = response.meta.pagination
+            this.products = response.data.data
+            this.pagination = response.data.meta.pagination
           })
       }
     }, 500),
@@ -345,19 +345,20 @@ export default {
   beforeMount() {
     this.fetchProducts({ by_active_status: true })
       .then(response => {
-        this.products = response.data
-        this.pagination = response.meta.pagination
+        this.products = response.data.data
+        this.pagination = response.data.meta.pagination
       })
   },
   methods: {
     ...mapActions('products', ['fetchProducts']),
     setProducts(products) {
-      this.products = products.data
-      this.pagination = products.meta.pagination
+      this.products = products.data.data
+      this.pagination = products.data.meta.pagination
     },
     handlePagination({ page, per_page }) {
       this.fetchProducts({
         by_active_status: true,
+        by_name: this.searchQuery,
         meta: {
           pagination: {
             page,
@@ -366,8 +367,8 @@ export default {
         },
       })
         .then(response => {
-          this.products = response.data
-          this.pagination = response.meta.pagination
+          this.products = response.data.data
+          this.pagination = response.data.meta.pagination
         })
     },
   },
