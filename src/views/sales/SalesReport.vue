@@ -7,6 +7,9 @@
       <b-col>
         <statistics :data="storeStats" />
       </b-col>
+      <b-col>
+        <chartjs-doughnut-chart :graph-data="salesReport" />
+      </b-col>
     </b-row>
     <sales-transactions-table
       :orders="orders"
@@ -37,6 +40,7 @@ import {
 import DateRangePicker from 'vue2-daterange-picker'
 import Statistics from '@core/components/CustomerStatistics.vue'
 import ProfitStatistics from '@core/components/ProfitCard.vue'
+import ChartjsDoughnutChart from '@/@core/components/charts/chartjs/ChartjsDoughnutChart.vue'
 import SalesTransactionsTable from './SalesTransactionsTable.vue'
 // you need to import the CSS manually
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
@@ -47,11 +51,20 @@ export default {
     SalesTransactionsTable,
     Statistics,
     ProfitStatistics,
+    ChartjsDoughnutChart,
     BRow,
     BCol,
   },
   data() {
     return {
+      salesReport: {
+        labels: [],
+        datasets: [
+          {
+            data: [],
+          },
+        ],
+      },
       dateRange: {
         startDate: Date.now(),
         endDate: Date.now(),
@@ -105,10 +118,61 @@ export default {
       },
       by_store: this.$route.params.id,
     })
+    this.fetchMarginStoresCategory({ by_store_id: this.$route.params.id })
+      .then(response => {
+        const chartColors = [
+          '#836AF9',
+          '#ffe800',
+          '#28dac6',
+          '#ffe802',
+          '#FDAC34',
+          '#299AFF',
+          '#4F5D70',
+          '#2c9aff',
+          '#666ee8',
+          '#84D0FF',
+          '#EDF1F4',
+          '#ff4961',
+          '#4F5D70',
+          '#2c9aff',
+          '#836AF9',
+          '#84D0FF',
+          '#ffe800',
+          '#ff4961',
+          '#6e6b7b',
+          '#ffe802',
+          '#FDAC34',
+          '#299AFF',
+          '#EDF1F4',
+          '#666ee8',
+          '#28dac6',
+          '#6e6b7b',
+        ]
+        const graphData = {
+          labels: [],
+          datasets: [
+            {
+              backgroundColor: chartColors,
+              borderWidth: 0,
+              pointStyle: 'rectRounded',
+              data: [],
+              labels: [],
+            },
+          ],
+        }
+        response.forEach(x => {
+          graphData.datasets[0].labels.push(x.name)
+          graphData.datasets[0].data.push(Number(x.total))
+        })
+        this.salesReport = graphData
+      })
   },
   methods: {
     ...mapActions('orders', [
       'fetchOrders',
+    ]),
+    ...mapActions('reports', [
+      'fetchMarginStoresCategory',
     ]),
     updateRanges(range) {
       this.fetchOrders({
