@@ -4,7 +4,7 @@
 
     <user-list-add-new
       :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
-      :role-options="roleOptions"
+      :role-options="userData.role_name === 'admin' ? adminRoleOptions : establishmentRoleOptions"
       @new-users="setUsers($event)"
     />
 
@@ -255,11 +255,15 @@ export default {
 
     const isAddNewUserSidebarActive = ref(false)
 
-    const roleOptions = [
+    const adminRoleOptions = [
       { label: 'Admin', value: 'admin' },
       { label: 'Administrador de establecimiento', value: 'establishment_admin' },
       { label: 'Cajero', value: 'store_clerk' },
       { label: 'Cliente', value: 'customer' },
+    ]
+    const establishmentRoleOptions = [
+      { label: 'Administrador de establecimiento', value: 'establishment_admin' },
+      { label: 'Cajero', value: 'store_clerk' },
     ]
 
     const statusOptions = [
@@ -317,7 +321,8 @@ export default {
       resolveUserRoleIcon,
       resolveUserStatusVariant,
 
-      roleOptions,
+      adminRoleOptions,
+      establishmentRoleOptions,
       statusOptions,
 
       // Extra Filters
@@ -330,6 +335,7 @@ export default {
     return {
       users: [],
       pagination: {},
+      userData: JSON.parse(localStorage.getItem('userData')),
     }
   },
   watch: {

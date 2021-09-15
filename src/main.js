@@ -21,7 +21,7 @@ import '@/libs/sweet-alerts'
 import '@/libs/portal-vue'
 import '@/libs/toastification'
 import '@/libs/tour'
-import './registerServiceWorker'
+// import './registerServiceWorker'
 
 // Axios Mock Adapter
 // import '@/@fake-db/db'
