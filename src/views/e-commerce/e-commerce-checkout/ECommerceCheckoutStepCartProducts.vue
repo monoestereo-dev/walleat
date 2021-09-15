@@ -224,11 +224,13 @@ export default {
           by_store: this.$route.params.store_id,
           by_sku: barcodeWithOutLastDigit,
         }).then(response => {
-          if (navigator.vibrate) {
-            navigator.vibrate(200)
+          if (response.data.length === 1) {
+            if (navigator.vibrate) {
+              navigator.vibrate(200)
+            }
+            this.addProductToCart(response)
+            this.searchQuery = null
           }
-          this.addProductToCart(response)
-          this.searchQuery = null
         })
       } else if (query != null && query !== '') {
         this.getStoreProductsStore({
@@ -240,7 +242,7 @@ export default {
           by_store: this.$route.params.store_id,
         })
       }
-    }, 100),
+    }, 250),
     addProductAndClearQuery(product) {
       // eslint-disable-next-line
       const audio = new Audio(require('@/assets/sounds/Beep2.wav'))

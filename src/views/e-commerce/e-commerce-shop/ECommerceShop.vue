@@ -283,8 +283,8 @@ export default {
           },
         })
           .then(response => {
-            products.value = response.data
-            totalProducts.value = response.meta.pagination.total_objects
+            products.value = response.data.data
+            totalProducts.value = response.data.meta.pagination.total_objects
           })
       } else if (filters.value.q !== null && filters.value.q !== '') {
         fetchProducts({
@@ -301,8 +301,8 @@ export default {
           },
         })
           .then(response => {
-            products.value = response.data
-            totalProducts.value = response.meta.pagination.total_objects
+            products.value = response.data.data
+            totalProducts.value = response.data.meta.pagination.total_objects
           })
       } else if (filters.value.q === null || filters.value.q === '') {
         fetchProducts({
@@ -318,8 +318,8 @@ export default {
           },
         })
           .then(response => {
-            products.value = response.data
-            totalProducts.value = response.meta.pagination.total_objects
+            products.value = response.data.data
+            totalProducts.value = response.data.meta.pagination.total_objects
           })
       }
     }, 500)
