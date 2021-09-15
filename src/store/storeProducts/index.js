@@ -96,26 +96,24 @@ const actions = {
         })
     })
   },
-  addStoreProductToStore(context,{ store_id, product_id, unit_cost, unit_price, has_inventory, inventory }) {
-    context.commit('loading', true)
-    axios
-      .post(`/v1/store_products`, {
-        store_product: {
-          store_id: store_id,
-          product_id: product_id,
-          unit_cost: unit_cost,
-          unit_price: unit_price,
-          has_inventory: has_inventory,
-          inventory: inventory,
-        },
-      })
-      .then((response) => {
-        context.dispatch('getStoreProductsStore', { by_store: store_id })
-      })
-      .catch((error) => {})
-      .finally(() => {
-        context.commit('loading', false)
-      })
+  addStoreProductToStore(context, store_product) {
+    return new Promise((resolve, reject) => {
+      context.commit('loading', true)
+      axios
+        .post(`/v1/store_products`, {
+          store_product
+        })
+        .then((response) => {
+          resolve(response)
+          // context.dispatch('getStoreProductsStore', { by_store: store_id })
+        })
+        .catch((error) => {
+          reject(error)
+        })
+        .finally(() => {
+          context.commit('loading', false)
+        })
+    })
   },
   editStoreProduct(context, payload) {
     context.commit('loading', true)

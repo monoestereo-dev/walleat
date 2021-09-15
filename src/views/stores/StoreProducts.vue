@@ -18,7 +18,10 @@
               </div>
             </div>
             <div class="view-options d-flex">
-              <b-button variant="primary">
+              <b-button
+                variant="primary"
+                :to="{ name: 'add-store-products', params: { id: $route.params.id } }"
+              >
                 <feather-icon
                   icon="PlusIcon"
                 />
@@ -59,7 +62,7 @@
       <b-card
         v-for="product in products"
         :key="product.id"
-        class="ecommerce-card"
+        class="ecommerce-card mb-1"
         no-body
       >
         <div class="item-img text-center d-flex justify-content-center px-1">
@@ -144,7 +147,7 @@
     </section>
 
     <!-- Pagination -->
-    <section>
+    <section v-if="totalProducts > filters.perPage">
       <b-row>
         <b-col cols="12">
           <b-pagination
@@ -193,6 +196,7 @@ import {
   BFormInput, BCard, BCardBody, BLink, BImg, BCardText, BButton, BPagination, BBadge,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
+import router from '@/router'
 import { watch } from '@vue/composition-api'
 import { mapActions } from 'vuex'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
@@ -304,6 +308,7 @@ export default {
     const fetchProductsCategories = () => {
       fetchCategories({
         by_active_status: true,
+        by_store: router.currentRoute.params.id,
         meta: {
           pagination: {
             per_page: 10000,
