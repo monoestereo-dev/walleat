@@ -83,7 +83,7 @@
               fluid
               rounded
               :src="`${product.logo}`"
-              :width="itemView === 'list-view' ? 110 : 200"
+              :width="itemView === 'list-view' ? 110 : 150"
             />
           </b-link>
         </div>
