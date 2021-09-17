@@ -150,7 +150,9 @@
             ¿No encontraste el producto deseado? 😲
           </h3>
           <p>Da click en el boton de abajo para registrar un producto nuevo</p>
-          <b-button>Registrar producto nuevo</b-button>
+          <b-button
+            :to="{ name: 'new-store-product', params: { id: $route.params.id } }"
+          >Registrar producto nuevo</b-button>
         </b-card-body>
       </b-card>
     </div>

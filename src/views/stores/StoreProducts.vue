@@ -134,7 +134,7 @@
             variant="primary"
             tag="a"
             class="btn-cart"
-            :to="{ name: 'product-view', params: { id: product.id } }"
+            :to="{ name: 'edit-store-product', params: { store_id: $route.params.id, store_product_id: product.id, product_id: product.product_attributes.id, unit_cost: product.unit_cost, unit_price: product.unit_price } }"
           >
             <feather-icon
               icon="EditIcon"
