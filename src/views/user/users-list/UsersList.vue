@@ -3,6 +3,7 @@
   <div>
 
     <user-list-add-new
+      v-if="userData.role_name === 'admin' || userData.role_name === 'establishment_admin'"
       :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
       :role-options="userData.role_name === 'admin' ? adminRoleOptions : establishmentRoleOptions"
       @new-users="setUsers($event)"
@@ -49,6 +50,7 @@
                 placeholder="Buscar..."
               />
               <b-button
+                v-if="userData.role_name === 'admin' || userData.role_name === 'establishment_admin'"
                 variant="primary"
                 @click="isAddNewUserSidebarActive = true"
               >

@@ -347,7 +347,9 @@ export default {
     onSubmit() {
       store.dispatch('app-user/addUser', this.userData)
         .then(() => {
-          this.fetchUsers()
+          this.fetchUsers({
+            by_resource_id: this.$route.params.id,
+          })
             .then(response => {
               this.$emit('new-users', response.data)
             })
