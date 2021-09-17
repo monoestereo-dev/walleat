@@ -12,22 +12,21 @@
         <b-col
           cols="12"
           sm="6"
-          md="8"
           class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
-          <slot />
+          <h3>Ventas</h3>
         </b-col>
 
         <!-- Search -->
         <b-col
           cols="12"
           sm="6"
-          md="4"
         >
           <div class="d-flex align-items-center justify-content-end">
+            <slot />
             <b-form-input
               v-model="searchQuery"
-              class="d-inline-block mr-1"
+              class="d-inline-block ml-1 mr-1"
               placeholder="Buscar por folio..."
             />
             <v-select
