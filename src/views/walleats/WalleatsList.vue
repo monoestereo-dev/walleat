@@ -6,7 +6,7 @@
       <b-col
         v-for="walleat in walleats"
         :key="walleat.id"
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"
@@ -34,7 +34,7 @@
         </b-card>
       </b-col>
       <b-col
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"
@@ -66,7 +66,7 @@
       </b-col>
     </b-row>
     <!-- Pagination -->
-    <b-row>
+    <b-row v-if="pagination.total_objects > pagination.per_page">
       <b-col
         cols="12"
         sm="6"
@@ -113,7 +113,7 @@
 import { mapActions } from 'vuex'
 import { getUserData } from '@/auth/utils'
 import {
-  BCard, BRow, BCol, BAvatar, BPagination,
+  BCard, BRow, BCol, BAvatar, BPagination, BSpinner,
 } from 'bootstrap-vue'
 
 export default {
@@ -123,9 +123,11 @@ export default {
     BCol,
     BAvatar,
     BPagination,
+    BSpinner,
   },
   data() {
     return {
+      loading: false,
       walleats: [],
       pagination: {
         page: 0,
@@ -139,7 +141,7 @@ export default {
 
     this.fetchWalleats({
       by_user: currentUser.id,
-      meta: { pagination: { per_page: 5 } },
+      meta: { pagination: { per_page: 15 } },
     })
       .then(response => {
         this.walleats = response.data
@@ -149,7 +151,10 @@ export default {
   methods: {
     ...mapActions('walleats', ['fetchWalleats']),
     handlePagination({ page, per_page }) {
+      this.loading = true
+      const currentUser = getUserData()
       this.fetchWalleats({
+        by_user: currentUser.id,
         meta: {
           pagination: {
             page,
@@ -158,8 +163,11 @@ export default {
         },
       })
         .then(response => {
-          this.users = response.data.data
-          this.pagination = response.data.meta.pagination
+          this.walleats = response.data
+          this.pagination = response.meta.pagination
+        })
+        .finally(() => {
+          this.loading = false
         })
     },
   },
