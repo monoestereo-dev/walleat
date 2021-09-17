@@ -11,6 +11,7 @@
           <b-img
             :src="require('@/assets/images/illustration/demand.svg')"
             width="600"
+            fluid
           />
         </div>
 
