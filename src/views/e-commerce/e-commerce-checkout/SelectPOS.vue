@@ -19,7 +19,7 @@
           >
             <b-avatar
               :src="`${store.role_resource_logo}`"
-              size="lg"
+              size="85"
               :to="{ name: 'POS', params: { store_id: store.role_resource_id } }"
             />
           </div>
@@ -31,6 +31,15 @@
               {{ store.role_resource_name }}
             </h2>
           </b-link>
+          <b-button
+            size="lg"
+            variant="primary"
+            class="my-2"
+            :to="{ name: 'POS', params: { store_id: store.role_resource_id } }"
+          >
+            <i class="fas fa-cash-register mr-1" />
+            Punto de venta
+          </b-button>
           <open-close-store
             :store="store"
             class="mt-1"
@@ -48,6 +57,7 @@ import {
   BCol,
   BAvatar,
   BLink,
+  BButton,
 } from 'bootstrap-vue'
 import OpenCloseStore from './StoresButtonOpenClose.vue'
 
@@ -58,6 +68,7 @@ export default {
     BCol,
     BAvatar,
     BLink,
+    BButton,
     OpenCloseStore,
   },
   data() {
