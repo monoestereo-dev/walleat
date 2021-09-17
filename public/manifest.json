@@ -1,8 +1,9 @@
 {
   "name": "Walleat",
   "short_name": "walleat",
-  "themeColor": "#7367f0",
-  "background_color": "#3f5efb",
+  "description": "Tu nueva forma de pago",
+  "theme_color": "#7367f0",
+  "background_color": "#7367f0",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
