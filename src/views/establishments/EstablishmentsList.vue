@@ -46,7 +46,7 @@
       >
         <b-card
           class="mt-1 text-center"
-          @click="$router.push({ name: 'establishment-new' })"
+          @click="$router.push({ name: 'new-establishment' })"
         >
           <div
             class="d-flex justify-content-center mt--5 mb-1"
