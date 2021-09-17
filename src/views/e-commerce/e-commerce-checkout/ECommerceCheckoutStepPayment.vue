@@ -180,6 +180,7 @@ import {
   // BCardText
   BButton,
 } from 'bootstrap-vue'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import AndroidNfcChrome from './AndroidNfcChrome.vue'
 import NfcAndroidApp from './NfcAndroidApp.vue'
 
@@ -282,6 +283,18 @@ export default {
           this.prevStep()
         }).catch(error => {
           this.bannedItems = error.response.data.banned_items
+          if (error.response.data.messages[0]) {
+            this.$toast({
+              component: ToastificationContent,
+              position: 'top-right',
+              props: {
+                title: 'Error',
+                icon: 'CoffeeIcon',
+                variant: 'danger',
+                text: error.response.data.messages[0],
+              },
+            })
+          }
         })
     },
   },
