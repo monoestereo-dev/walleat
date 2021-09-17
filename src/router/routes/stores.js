@@ -27,4 +27,29 @@ export default [
       contentClass: 'ecommerce-application',
     },
   },
+  {
+    path: '/edit-store-product/:store_id/:store_product_id/:product_id/:unit_cost/:unit_price',
+    name: 'edit-store-product',
+    component: () => import('@/views/stores/EditStoreProduct.vue'),
+    meta: {
+      requiresAuth: true,
+      contentClass: 'ecommerce-application',
+    },
+  },
+  {
+    path: '/store-users/:id',
+    name: 'store-users',
+    component: () => import('@/views/stores/StoreUsers.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/new-store-product/:id',
+    name: 'new-store-product',
+    component: () => import('@/views/stores/NewStoreProduct.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
