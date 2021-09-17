@@ -115,22 +115,24 @@ const actions = {
         })
     })
   },
-  editStoreProduct(context, payload) {
-    context.commit('loading', true)
-    axios
-      .put(`/v1/store_products/${payload.id}`, {
-        store_product: payload,
-      })
-      .then((response) => {
-        context.commit('setStoreProducts', response.data)
-      })
-      .catch((error) => {})
-      .finally(() => {
-        context.dispatch('getStoreProductsStore', {
-          by_store: payload.store_attributes.id,
+  editStoreProduct(context, store_product) {
+    return new Promise((resolve, reject) => {
+      context.commit('loading', true)
+      axios
+        .put(`/v1/store_products/${store_product.id}`, {
+          store_product,
         })
-        context.commit('loading', false)
-      })
+        .then((response) => {
+          // context.commit('setStoreProducts', response.data)
+          resolve(response.data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+        .finally(() => {
+          context.commit('loading', false)
+        })
+    })
   },
 }
 
