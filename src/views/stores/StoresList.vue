@@ -6,7 +6,7 @@
       <b-col
         v-for="store in establishment.stores_attributes"
         :key="store.id"
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"
@@ -18,7 +18,8 @@
             <span @click="$router.push({ name: 'POS', params: { store_id: store.id } })">
               <b-avatar
                 :src="`${store.logo}`"
-                size="lg"
+                size="85"
+                class="cursor-pointer"
               />
             </span>
           </div>
@@ -39,28 +40,24 @@
                 />
               </template>
               <b-dropdown-item
-                :to="{ name: 'sales-view', params: { id: store.id } }"
+                :to="{ name: 'store-users', params: { id: store.id } }"
               >
-                Reporte de ventas
-              </b-dropdown-item>
-              <b-dropdown-item
-                :to="{ name: 'store-products', params: { id: store.id } }"
-              >
-                Gestionar productos
+                Gestionar usuarios
               </b-dropdown-item>
               <b-dropdown-divider />
-              <b-dropdown-item>
+              <b-dropdown-item
+                :to="{ name: 'edit-store', params: { id: $route.params.id, store_id: store.id } }"
+              >
                 Editar tienda
               </b-dropdown-item>
             </b-dropdown>
           </div>
 
-          <b-link
-            :to="{ name: 'POS', params: { store_id: store.id } }"
-            class="store-name text-primary"
+          <h3
+            class="store-name"
           >
             {{ store.name }}
-          </b-link>
+          </h3>
           <div
             class="d-flex align-items-center justify-content-center"
           >
@@ -70,22 +67,50 @@
             />
             {{ store.store_products_count }}
           </div>
-
+          <b-button
+            block
+            variant="primary"
+            size="lg"
+            :to="{ name: 'POS', params: { store_id: store.id } }"
+            class="my-2"
+          >
+            <i class="fas fa-cash-register mr-1" />  Punto de venta
+          </b-button>
+          <b-button
+            block
+            variant="outline-primary"
+            :to="{ name: 'sales-view', params: { id: store.id } }"
+          >
+            <i class="fas fa-chart-line mr-1" />
+            Reporte de ventas
+          </b-button>
+          <b-button
+            block
+            variant="outline-primary"
+            :to="{ name: 'store-products', params: { id: store.id } }"
+          >
+            <feather-icon
+              class="mr-1"
+              icon="PackageIcon"
+            />
+            Gestionar productos
+          </b-button>
         </b-card>
       </b-col>
       <b-col
         v-if="userData.role_name === 'admin' || userData.role_name === 'establishment_admin'"
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"
       >
         <b-card
-          class="mt-1 text-center"
-          @click="$router.push({ name: 'establishment-new' })"
+          class="mt-1 text-center d-flex justify-content-center align-items-center p-2 cursor-pointer"
+          no-body
+          @click="$router.push({ name: 'new-store', params: { id: $route.params.id } })"
         >
           <div
-            class="d-flex justify-content-center mt--5 mb-1"
+            class="d-flex justify-content-center mb-1"
           >
             <b-avatar
               text="+"
@@ -99,7 +124,7 @@
             Agregar
           </div>
           <div
-            class="d-flex align-items-center justify-content-center"
+            class="establishment-name"
           >
             Tienda
           </div>
@@ -116,10 +141,10 @@ import {
   BRow,
   BCol,
   BAvatar,
-  BLink,
   BDropdown,
   BDropdownItem,
   BDropdownDivider,
+  BButton,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 
@@ -132,10 +157,10 @@ export default {
     BRow,
     BCol,
     BAvatar,
-    BLink,
     BDropdown,
     BDropdownItem,
     BDropdownDivider,
+    BButton,
   },
   data() {
     return {
