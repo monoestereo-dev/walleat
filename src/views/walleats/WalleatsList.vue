@@ -12,7 +12,7 @@
         lg="3"
       >
         <b-card
-          class="mt-1 text-center"
+          class="mt-1 text-center cursor-pointer"
           @click="$router.push({ name: 'walleat-view', params: { id: walleat.id } })"
         >
           <div class="d-flex justify-content-center mt--5 mb-1">
