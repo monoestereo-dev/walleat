@@ -15,7 +15,7 @@
         <b-col
           v-for="item in data"
           :key="item.icon"
-          xl="3"
+          xl="6"
           sm="6"
           :class="item.customClass"
         >

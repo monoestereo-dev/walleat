@@ -6,7 +6,7 @@
       <b-col
         v-for="establishment in establishments"
         :key="establishment.id"
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"
@@ -39,7 +39,7 @@
       </b-col>
       <b-col
         v-if="userData.role_name === 'admin'"
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"

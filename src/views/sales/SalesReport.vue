@@ -1,13 +1,64 @@
 <template>
   <div>
     <b-row class="match-height">
-      <b-col cols="3">
+      <b-col
+        cols="12"
+        md="6"
+        lg="3"
+      >
         <profit-statistics />
+        <b-card>
+          <b-button
+            block
+            variant="primary"
+            class="mb-2 mt-1"
+            size="lg"
+            :to="{ name: 'POS', params: { store_id: $route.params.id } }"
+          >
+            <i class="fas fa-cash-register mr-1" />
+            POS
+          </b-button>
+          <b-button
+            block
+            variant="outline-primary"
+            class="mb-1"
+            :to="{ name: 'store-products', params: { id: $route.params.id } }"
+          >
+            <feather-icon
+              class="mr-1"
+              icon="PackageIcon"
+            />
+            Administrar productos
+          </b-button>
+          <b-button
+            block
+            variant="outline-primary"
+            :to="{ name: 'store-users', params: { id: $route.params.id } }"
+          >
+            <feather-icon
+              class="mr-1"
+              icon="UsersIcon"
+            />
+            Administrar Usuarios
+          </b-button>
+        </b-card>
+
       </b-col>
-      <b-col>
+      <b-col
+        cols="12"
+        md="6"
+        lg="6"
+      >
         <statistics :data="storeStats" />
+        <b-card>
+          .
+        </b-card>
       </b-col>
-      <b-col>
+      <b-col
+        cols="12"
+        md="6"
+        lg="3"
+      >
         <chartjs-doughnut-chart :graph-data="salesReport" />
       </b-col>
     </b-row>
@@ -17,6 +68,7 @@
       <date-range-picker
         ref="picker"
         v-model="dateRange"
+        class="datePicker"
         :locale-data="{ firstDay: 1, format: 'dd-mm-yyyy HH:mm:ss' }"
         @update="updateRanges"
       >
@@ -36,6 +88,8 @@ import { mapActions, mapGetters } from 'vuex'
 import {
   BCol,
   BRow,
+  BCard,
+  BButton,
 } from 'bootstrap-vue'
 import DateRangePicker from 'vue2-daterange-picker'
 import Statistics from '@core/components/CustomerStatistics.vue'
@@ -54,6 +108,8 @@ export default {
     ChartjsDoughnutChart,
     BRow,
     BCol,
+    BCard,
+    BButton,
   },
   data() {
     return {
@@ -210,5 +266,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.datePicker{
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
