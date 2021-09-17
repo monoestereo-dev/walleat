@@ -15,7 +15,7 @@
         width="120"
         class="cursor-pointer soft-border"
         rounded
-        :src="model.logo != null ? model.logo : `/img/icons/android-chrome-192x192.png`"
+        :src="model.logo != null ? model.logo : `/logo.png`"
         @click="chooseFile()"
       />
     </div>
