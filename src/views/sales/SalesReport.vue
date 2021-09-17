@@ -31,6 +31,7 @@
             Administrar productos
           </b-button>
           <b-button
+            v-if="userData.role_name === 'admin' || userData.role_name === 'establishment_admin'"
             block
             variant="outline-primary"
             :to="{ name: 'store-users', params: { id: $route.params.id } }"
@@ -113,6 +114,7 @@ export default {
   },
   data() {
     return {
+      userData: JSON.parse(localStorage.getItem('userData')),
       salesReport: {
         labels: [],
         datasets: [
