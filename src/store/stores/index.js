@@ -44,10 +44,10 @@ export default {
           })
       })
     },
-    addStore(ctx, { id, store }) {
+    addStore(ctx, store) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`/v1/stores/${id}`, {
+          .post('/v1/stores/', {
             store,
           })
           .then(response => {

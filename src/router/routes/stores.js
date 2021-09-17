@@ -52,4 +52,20 @@ export default [
       requiresAuth: true,
     },
   },
+  {
+    path: '/new-store/:id',
+    name: 'new-store',
+    component: () => import('@/views/stores/NewStore.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/edit-store/:id/:store_id',
+    name: 'edit-store',
+    component: () => import('@/views/stores/NewStore.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
