@@ -38,6 +38,7 @@ import {
 } from 'bootstrap-vue'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
+import { mapMutations } from 'vuex'
 import ECommerceCheckoutStepPayment from './ECommerceCheckoutStepPayment.vue'
 import ECommerceCheckoutStepCart from './ECommerceCheckoutStepCart.vue'
 
@@ -70,6 +71,9 @@ export default {
 
     }
   },
+  destroyed() {
+    this.emptyCart()
+  },
   methods: {
     onDecode() {
       // this.lookupStoreProducts(result)
@@ -77,6 +81,9 @@ export default {
     onLoaded() {
 
     },
+    ...mapMutations('pos', [
+      'emptyCart',
+    ]),
   },
 }
 </script>
