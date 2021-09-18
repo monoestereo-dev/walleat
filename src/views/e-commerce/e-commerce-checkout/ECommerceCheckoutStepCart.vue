@@ -36,7 +36,10 @@
     <div class="checkout-options">
 
       <!-- Detalles de la compra 🛍️ -->
-      <b-card title="Detalles de la compra">
+      <b-card
+        title="Detalles de la compra"
+        class="sticky-top sticky-offset border-primary"
+      >
         <div class="price-details">
           <ul class="list-unstyled">
             <li class="price-detail">
@@ -75,14 +78,31 @@
               </div>
             </li>
           </ul>
-          <b-button
-            variant="primary"
-            block
-            :disabled="cart.length === 0"
-            @click="$emit('next-step')"
-          >
-            Continuar
-          </b-button>
+          <b-row>
+            <b-col
+              cols="auto"
+            >
+              <b-button
+                variant="outline-secondary"
+                block
+                :disabled="cart.length === 0"
+                @click="emptyCart()"
+              >
+                <feather-icon icon="TrashIcon" />
+              </b-button>
+            </b-col>
+            <b-col>
+              <b-button
+                variant="primary"
+                block
+                :disabled="cart.length === 0"
+                @click="$emit('next-step')"
+              >
+                Continuar
+                <feather-icon icon="ChevronsRightIcon" />
+              </b-button>
+            </b-col>
+          </b-row>
         </div>
 
       </b-card>
@@ -142,6 +162,9 @@ export default {
     ...mapMutations('verticalMenu', [
       'UPDATE_VERTICAL_MENU_COLLAPSED',
     ]),
+    ...mapMutations('pos', [
+      'emptyCart',
+    ]),
     playSound() {
       /* eslint-disable-next-line */
       const audio = new Audio(require('@/assets/sounds/Beep.wav'))
@@ -162,5 +185,8 @@ export default {
   max-width: 200px;
   overflow: hidden;
   border-radius: 8px;
+}
+.sticky-offset {
+    top: 95px;
 }
 </style>
