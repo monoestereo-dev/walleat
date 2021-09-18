@@ -10,7 +10,7 @@
     <b-badge
       v-for="category in categories"
       :key="category.id"
-      class="mr-1 mb-1"
+      class="mr-1 mb-1 cursor-pointer"
       pill
       variant="light-primary"
       @click="filterByCategory({by_category: category.id, by_store: $route.params.store_id})"
@@ -49,12 +49,14 @@
             </div>
             <div class="item-name d-flex flex-column justify-content-between">
               <div>
-                <h6 class="mb-0">
+                <h6 class="">
                   <b-link class="text-body">
                     {{ product.product_attributes.name }}
                   </b-link>
                 </h6>
-                <b-badge variant="light-primary">
+                <b-badge
+                  variant="light-primary"
+                >
                   {{ product.product_attributes.variant }}
                 </b-badge>
               </div>
