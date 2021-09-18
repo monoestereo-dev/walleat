@@ -84,7 +84,10 @@
 
     <!-- Right Card -->
     <div class="amount-payable checkout-options">
-      <b-card title="Detalles de la compra">
+      <b-card
+        title="Detalles de la compra"
+        class="border-primary"
+      >
         <div class="price-details">
           <ul class="list-unstyled">
             <li class="price-detail">
