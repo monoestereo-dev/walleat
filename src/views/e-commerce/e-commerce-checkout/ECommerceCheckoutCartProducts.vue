@@ -4,7 +4,7 @@
       <b-card
         v-for="product in cart"
         :key="product.id"
-        class="ecommerce-card"
+        class="ecommerce-card mb-1"
         no-body
       >
 
