@@ -61,13 +61,16 @@
           <div
             class="d-flex align-items-center justify-content-center"
           >
-            <feather-icon
-              icon="BoxIcon"
-              class="mr-1"
-            />
-            {{ store.store_products_count }}
+            <b-badge variant="light-secondary">
+              <feather-icon
+                icon="BoxIcon"
+                class="mr-1"
+              />
+              {{ store.store_products_count }}
+            </b-badge>
           </div>
           <b-button
+            v-if="store.store_products_count > 0"
             block
             variant="primary"
             size="lg"
@@ -77,6 +80,7 @@
             <i class="fas fa-cash-register mr-1" />  Punto de venta
           </b-button>
           <b-button
+            v-if="store.store_products_count > 0"
             block
             variant="outline-primary"
             :to="{ name: 'sales-view', params: { id: store.id } }"
@@ -84,9 +88,16 @@
             <i class="fas fa-chart-line mr-1" />
             Reporte de ventas
           </b-button>
+
+          <p
+            v-if="store.store_products_count === 0"
+            class="mt-2 text-warning"
+          >
+            Agrega productos al inventario para poder realizar ventas
+          </p>
           <b-button
             block
-            variant="outline-primary"
+            :variant="store.store_products_count === 0 ? 'primary' : 'outline-primary'"
             :to="{ name: 'store-products', params: { id: store.id } }"
           >
             <feather-icon
@@ -145,6 +156,7 @@ import {
   BDropdownItem,
   BDropdownDivider,
   BButton,
+  BBadge,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 
@@ -161,6 +173,7 @@ export default {
     BDropdownItem,
     BDropdownDivider,
     BButton,
+    BBadge,
   },
   data() {
     return {
