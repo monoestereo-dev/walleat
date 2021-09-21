@@ -7,6 +7,8 @@
         xl="2"
         md="4"
         sm="6"
+        class="cursor-pointer"
+        @click="$router.push({ name: stat.link })"
       >
         <statistic-card-vertical
           :icon="stat.icon"
@@ -61,6 +63,7 @@ export default {
           subtitle: 'Walleats',
           icon: 'DollarSignIcon',
           color: 'warning',
+          link: 'walleats-list',
         }
         this.dashboardStats.push(stat)
       })
@@ -71,6 +74,7 @@ export default {
           subtitle: 'Establecimientos',
           icon: 'ShoppingBagIcon',
           color: 'primary',
+          link: 'establishments-list',
         }
         this.dashboardStats.push(stat)
       })
@@ -81,6 +85,7 @@ export default {
           subtitle: 'Productos',
           icon: 'BoxIcon',
           color: 'success',
+          link: 'products-list',
         }
         this.dashboardStats.push(stat)
       })
@@ -91,6 +96,7 @@ export default {
           subtitle: 'Categorías',
           icon: 'BookmarkIcon',
           color: 'info',
+          link: 'categories-list',
         }
         this.dashboardStats.push(stat)
       })
