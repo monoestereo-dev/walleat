@@ -5,7 +5,7 @@
     <!-- chart -->
     <chartjs-component-doughnut-chart
       ref="doughnut"
-      :height="275"
+      :height="doughnutSize"
       :data="graphData"
       :options="chartjsData.doughnutChart.options"
       class="mb-3"
@@ -49,6 +49,10 @@ export default {
           ],
         },
       }),
+    },
+    doughnutSize: {
+      type: Number,
+      default: 256,
     },
   },
   data() {

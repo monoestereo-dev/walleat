@@ -9,6 +9,7 @@
           <!-- Buscador 🔍-->
           <e-commerce-checkout-step-cart-products
             :barcode-scanned="barcode"
+            class="z-index-top"
             @toggle="toggleCameraScanner($event)"
           />
           <!-- carrito 🛒 -->
@@ -188,5 +189,7 @@ export default {
 }
 .sticky-offset {
     top: 95px;
+    z-index: 99;
 }
+
 </style>

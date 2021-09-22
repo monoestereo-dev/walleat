@@ -15,6 +15,7 @@
             no-caret
             right
             variant="outline-primary"
+            class="z-index-top"
           >
             <template #button-content>
               🔧<span class="sr-only">settings</span>
@@ -269,6 +270,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.z-index-top {
+  z-index: 1000;
+}
 </style>

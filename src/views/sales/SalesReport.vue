@@ -11,7 +11,6 @@
           <b-button
             block
             variant="primary"
-            class="mb-2 mt-1"
             size="lg"
             :to="{ name: 'POS', params: { store_id: $route.params.id } }"
           >
@@ -21,11 +20,9 @@
           <b-button
             block
             variant="outline-primary"
-            class="mb-1"
             :to="{ name: 'store-products', params: { id: $route.params.id } }"
           >
             <feather-icon
-              class="mr-1"
               icon="PackageIcon"
             />
             Administrar productos
@@ -43,43 +40,98 @@
             Administrar Usuarios
           </b-button>
         </b-card>
-
       </b-col>
       <b-col
         cols="12"
         md="6"
-        lg="6"
+        lg="9"
       >
-        <statistics :data="storeStats" />
-        <b-card>
-          .
-        </b-card>
-      </b-col>
-      <b-col
-        cols="12"
-        md="6"
-        lg="3"
-      >
-        <chartjs-doughnut-chart :graph-data="salesReport" />
+        <b-row>
+          <b-col>
+            <statistics :data="storeStats" />
+          </b-col>
+        </b-row>
+        <b-row class="match-height">
+          <b-col>
+            <b-card>
+              <swiper
+                ref="mySwiper"
+                class="swiper-navigations h-100"
+                :options="swiperOptions"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              >
+                <swiper-slide>
+                  <b-card-title>
+                    Promedio de ventas por día
+                  </b-card-title>
+                  <div class="px-5">
+                    <sales-stores-day :height="300" />
+                  </div>
+                </swiper-slide>
+                <swiper-slide>
+                  <b-card-title>
+                    Historial de ventas
+                  </b-card-title>
+                  <div class="px-5">
+                    <sales-stores-date :height="300" />
+                  </div>
+                </swiper-slide>
+                <swiper-slide>
+                  <b-card-title>
+                    Promedio de ventas por hora
+                  </b-card-title>
+                  <div class="px-5">
+                    <store-sales-per-hour :height="300" />
+                  </div>
+                </swiper-slide>
+                <swiper-slide>
+                  <b-card-title>
+                    Ventas diarias por categoría
+                  </b-card-title>
+                  <div class="px-5">
+                    <sales-stores-category-date :height="300" />
+                  </div>
+                </swiper-slide>
+                <swiper-slide>
+                  <chartjs-doughnut-chart
+                    :graph-data="salesReport"
+                    :doughnut-size="150"
+                  />
+                </swiper-slide>
+                <div
+                  slot="button-next"
+                  class="swiper-button-next"
+                />
+                <div
+                  slot="button-prev"
+                  class="swiper-button-prev"
+                />
+                <div
+                  slot="pagination"
+                  class="swiper-pagination"
+                />
+              </swiper>
+            </b-card>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
     <sales-transactions-table
       :orders="orders"
     >
-      <date-range-picker
-        ref="picker"
-        v-model="dateRange"
-        class="datePicker"
-        :locale-data="{ firstDay: 1, format: 'dd-mm-yyyy HH:mm:ss' }"
-        @update="updateRanges"
-      >
-        <template
-          v-slot:input="picker2"
-          style="min-width: 350px;"
-        >
-          {{ picker2.startDate | date }} - {{ picker2.endDate | date }}
-        </template>
-      </date-range-picker>
+      <div class="d-flex align-items-center">
+        <feather-icon
+          icon="CalendarIcon"
+          size="16"
+        />
+        <flat-pickr
+          v-model="rangePicker"
+          :config="{ mode: 'range'}"
+          class="form-control  bg-transparent border-0 shadow-none"
+          placeholder="YYYY-MM-DD"
+          @on-change="updateRanges()"
+        />
+      </div>
     </sales-transactions-table>
   </div>
 </template>
@@ -91,18 +143,26 @@ import {
   BRow,
   BCard,
   BButton,
+  BCardTitle,
 } from 'bootstrap-vue'
-import DateRangePicker from 'vue2-daterange-picker'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import flatPickr from 'vue-flatpickr-component'
 import Statistics from '@core/components/CustomerStatistics.vue'
 import ProfitStatistics from '@core/components/ProfitCard.vue'
 import ChartjsDoughnutChart from '@/@core/components/charts/chartjs/ChartjsDoughnutChart.vue'
+import SalesStoresDay from '@/views/sales/graph-reports/SalesStoresDay.vue'
+import SalesStoresDate from '@/views/sales/graph-reports/SalesStoresDate.vue'
+import SalesStoresCategoryDate from '@/views/sales/graph-reports/SalesStoresCategoryDate.vue'
+import StoreSalesPerHour from '@/views/sales/graph-reports/StoreSalesPerHour.vue'
 import SalesTransactionsTable from './SalesTransactionsTable.vue'
 // you need to import the CSS manually
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import 'swiper/css/swiper.css'
 
 export default {
   components: {
-    DateRangePicker,
+    Swiper,
+    SwiperSlide,
     SalesTransactionsTable,
     Statistics,
     ProfitStatistics,
@@ -111,10 +171,17 @@ export default {
     BCol,
     BCard,
     BButton,
+    flatPickr,
+    BCardTitle,
+    SalesStoresDay,
+    SalesStoresDate,
+    SalesStoresCategoryDate,
+    StoreSalesPerHour,
   },
   data() {
     return {
       userData: JSON.parse(localStorage.getItem('userData')),
+      rangePicker: ['2021-09-01', '2021-09-20'],
       salesReport: {
         labels: [],
         datasets: [
@@ -126,10 +193,6 @@ export default {
       dateRange: {
         startDate: Date.now(),
         endDate: Date.now(),
-      },
-      picker: {
-        startDate: '2021-01-01',
-        endDate: '2021-12-31',
       },
       storeStats: [
         {
@@ -161,6 +224,15 @@ export default {
           customClass: 'mb-1',
         },
       ],
+      swiperOptions: {
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        // pagination: {
+        //   el: '.swiper-pagination',
+        // },
+      },
     }
   },
   computed: {
@@ -169,6 +241,7 @@ export default {
     ]),
   },
   mounted() {
+    // this.rangePicker = [this.formatFirstDate(this.dateRange.startDate), this.formatDate(this.dateRange.endDate)]
     this.fetchOrders({
       by_date: {
         start_date: this.formatFirstDate(this.dateRange.startDate),
@@ -231,12 +304,17 @@ export default {
     ]),
     ...mapActions('reports', [
       'fetchMarginStoresCategory',
+      'fetchSalesStoresDay',
+      'fetchStoreSalesPerHour',
+      'fetchMarginStoresCategoryDate',
+      'fetchSalesStoresCategoryDate',
+      'fetchSalesStoresDate',
     ]),
-    updateRanges(range) {
+    updateRanges() {
       this.fetchOrders({
         by_date: {
-          start_date: this.formatDate(range.startDate),
-          end_date: this.formatDate(range.endDate),
+          start_date: this.rangePicker.substring(0, 10),
+          end_date: this.rangePicker.substring(14),
         },
         by_store: this.$route.params.id,
       })
@@ -267,11 +345,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.datePicker{
-  width: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-flatpicker.scss';
+
 </style>

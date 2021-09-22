@@ -11,22 +11,19 @@
         <!-- Per Page -->
         <b-col
           cols="12"
-          sm="6"
+          sm="auto"
           class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
           <h3>Ventas</h3>
         </b-col>
 
         <!-- Search -->
-        <b-col
-          cols="12"
-          sm="6"
-        >
+        <b-col>
           <div class="d-flex align-items-center justify-content-end">
             <slot />
             <b-form-input
               v-model="searchQuery"
-              class="d-inline-block ml-1 mr-1"
+              class="d-inline-block ml-1 mr-1 search-input"
               placeholder="Buscar por folio..."
             />
             <v-select
@@ -346,6 +343,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@core/scss/vue/libs/vue-select.scss';
+
 .per-page-selector {
   width: 90px;
 }
@@ -361,8 +360,8 @@ export default {
     width: 100px;
   }
 }
-</style>
 
-<style lang="scss" scoped>
-@import '@core/scss/vue/libs/vue-select.scss';
+.search-input{
+  max-width: 200px;
+}
 </style>

@@ -89,12 +89,14 @@
             Reporte de ventas
           </b-button>
 
-          <p
+          <div
             v-if="store.store_products_count === 0"
-            class="mt-2 text-warning"
+            class="mt-2 mb-2"
           >
-            Agrega productos al inventario para poder realizar ventas
-          </p>
+            <h4 class="text-success">
+              Nuevo
+            </h4>
+          </div>
           <b-button
             block
             :variant="store.store_products_count === 0 ? 'primary' : 'outline-primary'"
@@ -106,6 +108,12 @@
             />
             Gestionar productos
           </b-button>
+          <p
+            v-if="store.store_products_count === 0"
+            class="mt-1 text-muted"
+          >
+            👆 Agrega productos al inventario para poder realizar ventas
+          </p>
         </b-card>
       </b-col>
       <b-col

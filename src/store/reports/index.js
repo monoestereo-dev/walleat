@@ -90,18 +90,5 @@ export default {
           })
       })
     },
-
-    fetchPerro(ctx, id) {
-      return new Promise((resolve, reject) => {
-        axios
-          .get(`/v1/perros/${id}`)
-          .then(response => {
-            resolve(response.data)
-          })
-          .catch(error => {
-            reject(error)
-          })
-      })
-    },
   },
 }
