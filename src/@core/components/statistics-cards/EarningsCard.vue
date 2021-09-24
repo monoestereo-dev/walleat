@@ -6,9 +6,9 @@
       <b-col cols="6">
         <b-card-title class="mb-1">
           Movimientos
-          <spam class="font-small-2">
+          <span class="font-small-2">
             Mes en curso
-          </spam>
+          </span>
         </b-card-title>
         <h5>
           $ 56,055.56
