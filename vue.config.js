@@ -44,6 +44,26 @@ module.exports = {
       })
   },
   transpileDependencies: ['vue-echarts', 'resize-detector'],
+  pwa: {
+    name: 'Walleat',
+    themeColor: '#7367f0',
+    msTileColor: '#7367f0',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
+    manifestOptions: {
+      description: 'Tu nueva forma de pago',
+      background_color: '#7367f0',
+      start_url: '/',
+      shortcuts: [
+        {
+          name: 'Mis Walleats',
+          short_name: 'Walleats',
+          description: 'Todos mis Walleats',
+          url: '/walleats/list',
+        },
+      ],
+    },
+  },
   devServer: {
     https: false,
     key: './ssl/localhost-key.pem',
