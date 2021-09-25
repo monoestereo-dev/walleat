@@ -12,7 +12,7 @@
         lg="3"
       >
         <b-card
-          class="mt-1 text-center"
+          class="mt-1 text-center cursor-pointer"
           @click="$router.push({ name: 'establishment-view', params: { id: establishment.id } })"
         >
           <div class="d-flex justify-content-center mt--5 mb-1">
@@ -45,7 +45,7 @@
         lg="3"
       >
         <b-card
-          class="mt-1 text-center"
+          class="mt-1 text-center cursor-pointer"
           @click="$router.push({ name: 'new-establishment' })"
         >
           <div
