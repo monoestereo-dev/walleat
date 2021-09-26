@@ -121,12 +121,26 @@
         <div class="item-options text-center">
           <div class="item-wrapper">
             <div class="item-cost">
-              <h4 class="item-price text-success d-flex justify-content-between">
+              <h5 class="item-price text-success d-flex justify-content-between">
                 <span>Precio</span>  ${{ product.unit_price }}
-              </h4>
-              <h4 class="item-price d-flex justify-content-between mt-1">
+              </h5>
+              <h5 class="item-price d-flex justify-content-between mt-1">
                 <span>Costo</span>  ${{ product.unit_cost }}
-              </h4>
+              </h5>
+              <h5 class="item-price text-secondary d-flex justify-content-between mt-1">
+                <span>Inventario</span>
+                <div>
+                  <span
+                    v-if="product.has_inventory"
+                    :class="product.inventory > 0 ? 'text-secondary' : 'text-danger' "
+                  >
+                    {{ product.inventory }}
+                  </span>
+                  <span v-else>
+                    N/D
+                  </span>
+                </div>
+              </h5>
             </div>
           </div>
 
@@ -134,7 +148,18 @@
             variant="primary"
             tag="a"
             class="btn-cart"
-            :to="{ name: 'edit-store-product', params: { store_id: $route.params.id, store_product_id: product.id, product_id: product.product_attributes.id, unit_cost: product.unit_cost, unit_price: product.unit_price } }"
+            :to="{
+              name: 'edit-store-product',
+              params: {
+                store_id: $route.params.id,
+                store_product_id: product.id,
+                product_id: product.product_attributes.id,
+                unit_cost: product.unit_cost,
+                unit_price: product.unit_price,
+                has_inventory: product.has_inventory,
+                inventory: product.inventory,
+              }
+            }"
           >
             <feather-icon
               icon="EditIcon"

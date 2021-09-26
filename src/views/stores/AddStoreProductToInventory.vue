@@ -55,15 +55,19 @@
                     label="Precio"
                     label-for="precio"
                   >
-                    <b-form-input
-                      id="precio"
-                      v-model="productFormData.unit_price"
-                      autofocus
-                      :state="getValidationState(validationContext)"
-                      trim
-                      placeholder=""
-                    />
-
+                    <b-input-group>
+                      <b-input-group-prepend is-text>
+                        $
+                      </b-input-group-prepend>
+                      <b-form-input
+                        id="precio"
+                        v-model="productFormData.unit_price"
+                        autofocus
+                        :state="getValidationState(validationContext)"
+                        trim
+                        placeholder=""
+                      />
+                    </b-input-group>
                     <b-form-invalid-feedback>
                       {{ validationContext.errors[0] }}
                     </b-form-invalid-feedback>
@@ -80,18 +84,59 @@
                     label="Costo"
                     label-for="cost"
                   >
-                    <b-form-input
-                      id="cost"
-                      v-model="productFormData.unit_cost"
-                      :state="getValidationState(validationContext)"
-                      trim
-                    />
+                    <b-input-group>
+                      <b-input-group-prepend is-text>
+                        $
+                      </b-input-group-prepend>
+                      <b-form-input
+                        id="cost"
+                        v-model="productFormData.unit_cost"
+                        :state="getValidationState(validationContext)"
+                        trim
+                      />
+                    </b-input-group>
 
                     <b-form-invalid-feedback>
                       {{ validationContext.errors[0] }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </validation-provider>
+
+                <!-- INVENTORY -->
+                <div>
+                  <b-form-checkbox
+                    v-model="productFormData.has_inventory"
+                    name="check-button"
+                    switch
+                    inline
+                    class="mb-1 mt-2"
+                  >
+                    Gestionar inventaro
+                  </b-form-checkbox>
+                  <validation-provider
+                    v-if="productFormData.has_inventory"
+                    #default="validationContext"
+                    name="unidades"
+                    rules=""
+                  >
+                    <b-form-group
+                      label="Unidades"
+                      label-for="unidades"
+                    >
+                      <b-form-input
+                        id="unidades"
+                        v-model="productFormData.inventory"
+                        type="number"
+                        :state="getValidationState(validationContext)"
+                        trim
+                      />
+
+                      <b-form-invalid-feedback>
+                        {{ validationContext.errors[0] }}
+                      </b-form-invalid-feedback>
+                    </b-form-group>
+                  </validation-provider>
+                </div>
 
                 <!-- Form Actions -->
                 <div class="d-flex mt-2">
@@ -129,7 +174,7 @@ import store from '@/store'
 import router from '@/router'
 import { ref } from '@vue/composition-api'
 import {
-  BRow, BCol, BAlert, BLink, BCard, BForm, BFormGroup, BFormInput, BFormInvalidFeedback, BButton,
+  BRow, BCol, BAlert, BLink, BCard, BForm, BFormGroup, BFormInput, BFormInvalidFeedback, BButton, BFormCheckbox, BInputGroupPrepend, BInputGroup,
 } from 'bootstrap-vue'
 import ProductInfoCard from '@/views/products/product-view/ProductInfoCard.vue'
 import formValidation from '@core/comp-functions/forms/form-validation'
@@ -151,6 +196,9 @@ export default {
     BFormInput,
     BFormInvalidFeedback,
     BButton,
+    BFormCheckbox,
+    BInputGroupPrepend,
+    BInputGroup,
     // Local Components
     ProductInfoCard,
     // Form Validation
@@ -173,7 +221,7 @@ export default {
       store_id: router.currentRoute.params.id,
       product_id: router.currentRoute.params.product_id,
       has_inventory: false,
-      inventory: 1,
+      inventory: 0,
     }
 
     const productFormData = ref(JSON.parse(JSON.stringify(blankProductData)))
@@ -205,6 +253,9 @@ export default {
       'addStoreProductToStore',
     ]),
     onSubmit() {
+      if (!this.productFormData.has_inventory) {
+        this.productData.inventory = 0
+      }
       this.addStoreProductToStore(this.productFormData)
         .then(() => {
           this.$router.push({ name: 'store-products', params: { id: this.$route.params.id } })
