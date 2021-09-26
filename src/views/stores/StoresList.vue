@@ -7,9 +7,10 @@
         v-for="store in establishment.stores_attributes"
         :key="store.id"
         cols="12"
-        sm="6"
-        md="4"
-        lg="3"
+        sm="12"
+        md="6"
+        lg="6"
+        xl="4"
       >
         <b-card
           class="mt-1 text-center"
@@ -119,9 +120,9 @@
       <b-col
         v-if="userData.role_name === 'admin' || userData.role_name === 'establishment_admin'"
         cols="12"
-        sm="6"
-        md="4"
-        lg="3"
+        sm="12"
+        md="6"
+        lg="4"
       >
         <b-card
           class="mt-1 text-center d-flex justify-content-center align-items-center p-2 cursor-pointer"

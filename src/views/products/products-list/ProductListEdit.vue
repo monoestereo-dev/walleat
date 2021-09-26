@@ -212,9 +212,8 @@
             </b-button>
             <b-button
               v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-              type="button"
               variant="outline-secondary"
-              @click="hide"
+              @click="$router.go(-1)"
             >
               Cancelar
             </b-button>
@@ -343,7 +342,7 @@ export default {
               text: 'Creado con éxito',
             },
           })
-          this.$router.push({ name: 'products-list' })
+          this.$router.go(-1)
         })
         .catch(error => {
           this.$toast({
