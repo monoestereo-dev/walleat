@@ -26,7 +26,7 @@
       <b-row class="match-height">
         <b-col
           cols="12"
-          md="6"
+          md="8"
         >
           <product-info-card :product="productData" />
         </b-col>
@@ -55,15 +55,19 @@
                     label="Precio"
                     label-for="precio"
                   >
-                    <b-form-input
-                      id="precio"
-                      v-model="productFormData.unit_price"
-                      autofocus
-                      :state="getValidationState(validationContext)"
-                      trim
-                      placeholder=""
-                    />
-
+                    <b-input-group>
+                      <b-input-group-prepend is-text>
+                        $
+                      </b-input-group-prepend>
+                      <b-form-input
+                        id="precio"
+                        v-model="productFormData.unit_price"
+                        autofocus
+                        :state="getValidationState(validationContext)"
+                        trim
+                        placeholder=""
+                      />
+                    </b-input-group>
                     <b-form-invalid-feedback>
                       {{ validationContext.errors[0] }}
                     </b-form-invalid-feedback>
@@ -80,18 +84,60 @@
                     label="Costo"
                     label-for="cost"
                   >
-                    <b-form-input
-                      id="cost"
-                      v-model="productFormData.unit_cost"
-                      :state="getValidationState(validationContext)"
-                      trim
-                    />
+                    <b-input-group>
+                      <b-input-group-prepend is-text>
+                        $
+                      </b-input-group-prepend>
+                      <b-form-input
+                        id="cost"
+                        v-model="productFormData.unit_cost"
+                        :state="getValidationState(validationContext)"
+                        trim
+                      />
+                    </b-input-group>
 
                     <b-form-invalid-feedback>
                       {{ validationContext.errors[0] }}
                     </b-form-invalid-feedback>
                   </b-form-group>
                 </validation-provider>
+
+                <!-- INVENTORY -->
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-1 mt-2">
+                    <label for="check-button">Gestionar inventaro</label>
+                    <b-form-checkbox
+                      v-model="productFormData.has_inventory"
+                      name="check-button"
+                      switch
+                      inline
+                      class="m-0"
+                    />
+                  </div>
+                  <validation-provider
+                    v-if="productFormData.has_inventory"
+                    #default="validationContext"
+                    name="unidades"
+                    rules=""
+                  >
+                    <b-form-group
+                      label="Unidades"
+                      label-for="unidades"
+                    >
+                      <b-form-input
+                        id="unidades"
+                        v-model="productFormData.inventory"
+                        type="number"
+                        :state="getValidationState(validationContext)"
+                        trim
+                      />
+
+                      <b-form-invalid-feedback>
+                        {{ validationContext.errors[0] }}
+                      </b-form-invalid-feedback>
+                    </b-form-group>
+                  </validation-provider>
+                </div>
 
                 <!-- Form Actions -->
                 <div class="d-flex mt-2">
@@ -107,7 +153,7 @@
                     v-ripple.400="'rgba(186, 191, 199, 0.15)'"
                     type="button"
                     variant="outline-secondary"
-                    :to="{ name: 'store-products', params: { id: $route.params.store_id } }"
+                    :to="{ name: 'store-products', params: { id: $route.params.id } }"
                   >
                     Cancelar
                   </b-button>
@@ -129,7 +175,7 @@ import store from '@/store'
 import router from '@/router'
 import { ref } from '@vue/composition-api'
 import {
-  BRow, BCol, BAlert, BLink, BCard, BForm, BFormGroup, BFormInput, BFormInvalidFeedback, BButton,
+  BRow, BCol, BAlert, BLink, BCard, BForm, BFormGroup, BFormInput, BFormInvalidFeedback, BButton, BFormCheckbox, BInputGroupPrepend, BInputGroup,
 } from 'bootstrap-vue'
 import ProductInfoCard from '@/views/products/product-view/ProductInfoCard.vue'
 import formValidation from '@core/comp-functions/forms/form-validation'
@@ -151,6 +197,9 @@ export default {
     BFormInput,
     BFormInvalidFeedback,
     BButton,
+    BFormCheckbox,
+    BInputGroupPrepend,
+    BInputGroup,
     // Local Components
     ProductInfoCard,
     // Form Validation
@@ -171,7 +220,8 @@ export default {
       id: router.currentRoute.params.store_product_id,
       unit_cost: router.currentRoute.params.unit_cost,
       unit_price: router.currentRoute.params.unit_price,
-      has_inventory: false,
+      has_inventory: router.currentRoute.params.has_inventory,
+      inventory: router.currentRoute.params.inventory,
     }
 
     const productFormData = ref(JSON.parse(JSON.stringify(blankProductData)))

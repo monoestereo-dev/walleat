@@ -28,7 +28,7 @@ export default [
     },
   },
   {
-    path: '/edit-store-product/:store_id/:store_product_id/:product_id/:unit_cost/:unit_price',
+    path: '/edit-store-product/:store_id/:store_product_id/:product_id/:unit_cost/:unit_price/:has_inventory/:inventory',
     name: 'edit-store-product',
     component: () => import('@/views/stores/EditStoreProduct.vue'),
     meta: {
