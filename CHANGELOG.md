@@ -1,5 +1,9 @@
 # App
 
+## [0.2.20] - 2021-09-28
+- [NEW] Gestion de inventario ( agregar existencias )
+- [FIX] GVer detalle de compra tipo cash ( agregar existencias ), ahora el ticket es # {auto_inc_folio}-{bracelet.order_count}
+
 ## [0.2.14] - 2021-07-31
 - [NEW] Se implementaron las nuevas imágenes de producto que están hosteadas en el `CDN`
 

@@ -42,7 +42,15 @@
               <div class="mt-md-0 mt-2">
                 <h4 class="invoice-title">
                   Ticket
-                  <span class="invoice-number">#{{ order.bracelet_attributes.orders_count }}</span>
+                  <span class="invoice-number">
+                    #{{ order.auto_inc_folio }}
+                  </span>
+                  <span
+                    v-if="order.bracelet_attributes"
+                    class="invoice-number"
+                  >
+                    -{{ order.bracelet_attributes.orders_count }}
+                  </span>
                 </h4>
                 <div class="invoice-date-wrapper">
                   <p class="invoice-date-title">

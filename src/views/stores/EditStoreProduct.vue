@@ -104,7 +104,7 @@
 
                 <!-- INVENTORY -->
                 <div>
-                  <div class="d-flex justify-content-between align-items-center mb-1 mt-2">
+                  <div class="d-flex justify-content-between align-items-center my-2">
                     <label for="check-button">Gestionar inventaro</label>
                     <b-form-checkbox
                       v-model="productFormData.has_inventory"
@@ -114,29 +114,52 @@
                       class="m-0"
                     />
                   </div>
-                  <validation-provider
+                  <b-row
                     v-if="productFormData.has_inventory"
-                    #default="validationContext"
-                    name="unidades"
-                    rules=""
+                    class="border-top pt-2 pb-2"
                   >
-                    <b-form-group
-                      label="Unidades"
-                      label-for="unidades"
-                    >
-                      <b-form-input
-                        id="unidades"
-                        v-model="productFormData.inventory"
-                        type="number"
-                        :state="getValidationState(validationContext)"
-                        trim
-                      />
-
-                      <b-form-invalid-feedback>
-                        {{ validationContext.errors[0] }}
-                      </b-form-invalid-feedback>
-                    </b-form-group>
-                  </validation-provider>
+                    <b-col class="d-flex justify-content-start">
+                      <div class="text-center">
+                        <h6 class="text-muted font-weight-bolder">
+                          Existencia
+                        </h6>
+                        <h3>
+                          {{ productFormData.inventory }}
+                        </h3>
+                      </div>
+                    </b-col>
+                    <b-col sm="auto">
+                      <b-button
+                        v-if="!addProducts"
+                        size="sm"
+                        class="mt-1"
+                        variant="outline-primary"
+                        @click="addProducts = true"
+                      >
+                        Agregar
+                      </b-button>
+                      <b-input-group
+                        v-else
+                        class="mt-1"
+                      >
+                        <b-form-input
+                          v-model="unitsToAdd"
+                          placeholder="Cantidad"
+                          type="number"
+                          size="sm"
+                        />
+                        <b-input-group-append>
+                          <b-button
+                            variant="outline-primary"
+                            size="sm"
+                            @click="addProducts = false"
+                          >
+                            <i class="fas fa-times" />
+                          </b-button>
+                        </b-input-group-append>
+                      </b-input-group>
+                    </b-col>
+                  </b-row>
                 </div>
 
                 <!-- Form Actions -->
@@ -147,7 +170,7 @@
                     class="mr-2"
                     type="submit"
                   >
-                    Agregar
+                    Aceptar
                   </b-button>
                   <b-button
                     v-ripple.400="'rgba(186, 191, 199, 0.15)'"
@@ -175,7 +198,7 @@ import store from '@/store'
 import router from '@/router'
 import { ref } from '@vue/composition-api'
 import {
-  BRow, BCol, BAlert, BLink, BCard, BForm, BFormGroup, BFormInput, BFormInvalidFeedback, BButton, BFormCheckbox, BInputGroupPrepend, BInputGroup,
+  BRow, BCol, BAlert, BLink, BCard, BForm, BFormGroup, BFormInput, BFormInvalidFeedback, BButton, BFormCheckbox, BInputGroupPrepend, BInputGroup, BInputGroupAppend,
 } from 'bootstrap-vue'
 import ProductInfoCard from '@/views/products/product-view/ProductInfoCard.vue'
 import formValidation from '@core/comp-functions/forms/form-validation'
@@ -199,6 +222,7 @@ export default {
     BButton,
     BFormCheckbox,
     BInputGroupPrepend,
+    BInputGroupAppend,
     BInputGroup,
     // Local Components
     ProductInfoCard,
@@ -246,6 +270,8 @@ export default {
     return {
       required,
       alphaNum,
+      addProducts: false,
+      unitsToAdd: 1,
     }
   },
   methods: {
@@ -255,23 +281,59 @@ export default {
     ...mapActions('products', [
       'fetchProduct',
     ]),
-    onSubmit() {
-      this.editStoreProduct(this.productFormData)
+    ...mapActions('orders', [
+      'addOrder',
+    ]),
+    handleAddInventory() {
+      this.addOrder({
+        order: {
+          order_type: 'buy',
+          payment_type: 'cash',
+          store_id: this.$route.params.store_id,
+          order_store_products_attributes: [
+            {
+              store_product_id: this.$route.params.store_product_id,
+              units: this.unitsToAdd,
+            },
+          ],
+        },
+        orderType: 'buy',
+      })
         .then(() => {
           this.$router.push({ name: 'store-products', params: { id: this.$route.params.store_id } })
         })
-        .catch(error => {
-          this.$toast({
-            component: ToastificationContent,
-            position: 'top-right',
-            props: {
-              title: 'Error',
-              icon: 'CoffeeIcon',
-              variant: 'danger',
-              text: error.response.data.messages.product[0],
-            },
+    },
+    onSubmit() {
+      // si cambio el precio o el costo... primero actualizamos el store product, despues agregamos el inventario si es necesario
+      if (this.productFormData.unit_cost !== this.$route.params.unit_cost || this.productFormData.unit_price !== this.$route.params.unit_price) {
+        this.editStoreProduct(this.productFormData)
+          .then(() => {
+            if (!this.addProducts) {
+              this.$router.push({ name: 'store-products', params: { id: this.$route.params.store_id } })
+            }
           })
-        })
+          .catch(error => {
+            this.$toast({
+              component: ToastificationContent,
+              position: 'top-right',
+              props: {
+                title: 'Error',
+                icon: 'CoffeeIcon',
+                variant: 'danger',
+                text: error.response.data.messages.product[0],
+              },
+            })
+          })
+          .then(() => {
+            if (this.addProducts && this.unitsToAdd > 0 && this.unitsToAdd !== '' && this.unitsToAdd !== null) {
+              // order type buy
+              this.handleAddInventory()
+            }
+          })
+      } else if (this.addProducts && this.unitsToAdd > 0 && this.unitsToAdd !== '' && this.unitsToAdd !== null) {
+        // order type buy
+        this.handleAddInventory()
+      }
     },
   },
 }
