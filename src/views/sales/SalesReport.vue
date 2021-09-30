@@ -84,14 +84,14 @@
                     <store-sales-per-hour :height="300" />
                   </div>
                 </swiper-slide>
-                <swiper-slide>
+                <!-- <swiper-slide>
                   <b-card-title>
                     Ventas diarias por categoría
                   </b-card-title>
                   <div class="px-5">
                     <sales-stores-category-date :height="300" />
                   </div>
-                </swiper-slide>
+                </swiper-slide> -->
                 <swiper-slide>
                   <chartjs-doughnut-chart
                     :graph-data="salesReport"
@@ -152,7 +152,7 @@ import ProfitStatistics from '@core/components/ProfitCard.vue'
 import ChartjsDoughnutChart from '@/@core/components/charts/chartjs/ChartjsDoughnutChart.vue'
 import SalesStoresDay from '@/views/sales/graph-reports/SalesStoresDay.vue'
 import SalesStoresDate from '@/views/sales/graph-reports/SalesStoresDate.vue'
-import SalesStoresCategoryDate from '@/views/sales/graph-reports/SalesStoresCategoryDate.vue'
+// import SalesStoresCategoryDate from '@/views/sales/graph-reports/SalesStoresCategoryDate.vue'
 import StoreSalesPerHour from '@/views/sales/graph-reports/StoreSalesPerHour.vue'
 import SalesTransactionsTable from './SalesTransactionsTable.vue'
 // you need to import the CSS manually
@@ -175,7 +175,7 @@ export default {
     BCardTitle,
     SalesStoresDay,
     SalesStoresDate,
-    SalesStoresCategoryDate,
+    // SalesStoresCategoryDate,
     StoreSalesPerHour,
   },
   data() {
