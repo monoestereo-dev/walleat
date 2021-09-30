@@ -1,11 +1,10 @@
 <template>
   <b-tabs
     pills
-    nav-wrapper-class="col-md-3 col-12"
     nav-class="nav-left"
   >
 
-    <!-- general tab -->
+    <!-- Puntos de venta tab -->
     <b-tab active>
 
       <!-- title -->
@@ -20,9 +19,8 @@
 
       <stores-list />
     </b-tab>
-    <!--/ general tab -->
 
-    <!-- change password tab -->
+    <!-- usuarios tab -->
     <b-tab>
 
       <!-- title -->
@@ -37,7 +35,21 @@
 
       <user-list />
     </b-tab>
-    <!--/ change password tab -->
+
+    <!-- General tab -->
+    <b-tab>
+      <!-- title -->
+      <template #title>
+        <feather-icon
+          icon="SettingsIcon"
+          size="18"
+          class="mr-50"
+        />
+        <span class="font-weight-bold">General</span>
+      </template>
+
+      <establishment-edit-tab />
+    </b-tab>
 
   </b-tabs>
 </template>
@@ -45,6 +57,7 @@
 <script>
 import { BTabs, BTab } from 'bootstrap-vue'
 import StoresList from '@/views/stores/StoresList.vue'
+import EstablishmentEditTab from '@/views/establishments/EstablishmentEditTab.vue'
 import UserList from '@/views/user/users-list/UsersList.vue'
 
 export default {
@@ -52,6 +65,7 @@ export default {
     BTabs,
     BTab,
     StoresList,
+    EstablishmentEditTab,
     UserList,
   },
   data() {
