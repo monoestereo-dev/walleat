@@ -10,7 +10,7 @@ export const useShopFiltersSortingAndPagination = () => {
     brands: [],
     ratings: null,
     page: 1,
-    perPage: 9,
+    perPage: 24,
   })
 
   const filterOptions = {
