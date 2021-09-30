@@ -24,16 +24,27 @@ export default [
     roles: ['admin'],
   },
   {
-    title: 'Administrar productos',
-    route: 'products-list',
+    title: 'Productos',
     icon: 'PackageIcon',
     roles: ['admin'],
+    children: [
+      {
+        title: 'Lista',
+        route: 'ecommerce',
+        roles: ['admin'],
+      },
+      {
+        title: 'Administrar',
+        route: 'products-list',
+        roles: ['admin'],
+      },
+    ],
   },
   {
     title: 'Productos',
     route: 'ecommerce',
     icon: 'PackageIcon',
-    roles: ['admin', 'customer'],
+    roles: ['customer'],
   },
   {
     title: 'Walleats',
