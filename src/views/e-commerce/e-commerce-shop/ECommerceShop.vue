@@ -76,7 +76,10 @@
         class="ecommerce-card"
         no-body
       >
-        <div class="item-img text-center d-flex justify-content-center px-1">
+        <div
+          class="mt-1 text-center d-flex justify-content-center px-1"
+          :class="{ 'mb-1' : itemView === 'list-view'}"
+        >
           <b-link :to="{ name: 'product-view', params: { id: product.id } }">
             <b-img
               :alt="`${product.name}-${product.id}`"
@@ -125,11 +128,7 @@
         <!-- Product Actions -->
         <div class="item-options text-center">
           <div class="item-wrapper">
-            <!-- <div class="item-cost">
-              <h4 class="item-price">
-                ${{ product.price }}
-              </h4>
-            </div> -->
+            <!-- 🐔 -->
           </div>
           <b-button
             v-if="$route.name === 'ban-products'"
