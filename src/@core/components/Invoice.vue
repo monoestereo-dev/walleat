@@ -385,6 +385,8 @@ export default {
   nav.header-navbar {
     display: none;
   }
+
+  .hide-print,
   .main-menu {
     display: none;
   }
