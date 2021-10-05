@@ -18,6 +18,10 @@
       <!-- Left Col -->
       <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
         <!-- Bookmarks Container -->
+        <i
+          class="fas fa-chevron-left mx-1 cursor-pointer"
+          @click="$router.go(-1)"
+        />
         <bookmarks v-if="userData.role_name === 'customer'" />
       </div>
     </div>

@@ -21,6 +21,7 @@
       next-button-text="Siguiente"
       back-button-text="Regresar"
       class="wizard-vertical mb-3"
+
       shape="square"
       step-size="sm"
       @on-complete="formSubmitted"
@@ -295,5 +296,8 @@ export default {
 .wizard-icon-container {
   border-radius: 6px !important;
   background: red;
+}
+.wizard-nav.wizard-nav-pills {
+  display: none;
 }
 </style>

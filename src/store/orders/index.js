@@ -2,9 +2,31 @@ import axios from '@axios'
 
 export default {
   namespaced: true,
-  state: {},
-  getters: {},
-  mutations: {},
+  state: {
+    orders: {
+      meta: {
+        pagination: {
+          page: 1,
+          per_page: 10,
+          total_objects: 0,
+        },
+      },
+      data: [],
+    },
+  },
+  getters: {
+    orders(state) {
+      return state.orders.data
+    },
+    pagination(state) {
+      return state.orders.meta.pagination
+    },
+  },
+  mutations: {
+    setOrders(state, payload) {
+      state.orders = payload
+    },
+  },
   actions: {
     fetchOrders(ctx, params) {
       return new Promise((resolve, reject) => {
@@ -13,6 +35,7 @@ export default {
             params,
           })
           .then(response => {
+            ctx.commit('setOrders', response.data)
             resolve(response.data)
           })
           .catch(error => {

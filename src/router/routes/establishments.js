@@ -15,4 +15,12 @@ export default [
       requiresAuth: true,
     },
   },
+  {
+    path: '/nuevo-establecimiento',
+    name: 'new-establishment',
+    component: () => import('@/views/establishments/EstablishmentNew.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]

@@ -1,0 +1,149 @@
+<template>
+  <b-card
+    class="earnings-card"
+  >
+    <b-row>
+      <b-col cols="6">
+        <b-card-title class="mb-1">
+          Movimientos
+          <span class="font-small-2">
+            Mes en curso
+          </span>
+        </b-card-title>
+        <h5>
+          $ 56,055.56
+        </h5>
+        <b-card-text class="text-muted font-small-2 mb-0">
+          <span class="font-weight-bolder">$26,785.50</span><span> efectivo.</span>
+        </b-card-text>
+        <b-card-text class="text-muted font-small-2 mb-0">
+          <span class="font-weight-bolder">$26,785.50</span><span> Walleats.</span>
+        </b-card-text>
+        <b-card-text class="text-muted font-small-2 mb-0">
+          <span class="font-weight-bolder">$2,785.50</span><span> TDC.</span>
+        </b-card-text>
+      </b-col>
+      <b-col cols="6">
+        <!-- chart -->
+        <vue-apex-charts
+          height="120"
+          :options="earningsChart.chartOptions"
+          :series="earningsChart.series"
+        />
+      </b-col>
+    </b-row>
+  </b-card>
+</template>
+
+<script>
+import {
+  BCard, BRow, BCol, BCardTitle, BCardText,
+} from 'bootstrap-vue'
+import VueApexCharts from 'vue-apexcharts'
+import { $themeColors } from '@themeConfig'
+
+const $earningsStrokeColor2 = '#28c76f66'
+const $earningsStrokeColor3 = '#28c76f33'
+export default {
+  components: {
+    BCard,
+    BRow,
+    BCol,
+    BCardTitle,
+    BCardText,
+    VueApexCharts,
+  },
+  data() {
+    return {
+      earningsChart: {
+        series: [53, 31, 16],
+        chartOptions: {
+          chart: {
+            type: 'donut',
+            toolbar: {
+              show: false,
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          legend: { show: false },
+          comparedResult: [2, -3, 8],
+          labels: ['Efectivo', 'TDC', 'Walleats'],
+          stroke: { width: 0 },
+          colors: [$earningsStrokeColor2, $earningsStrokeColor3, $themeColors.success],
+          grid: {
+            padding: {
+              right: -20,
+              bottom: -8,
+              left: -20,
+            },
+          },
+          plotOptions: {
+            pie: {
+              startAngle: -10,
+              donut: {
+                labels: {
+                  show: true,
+                  name: {
+                    offsetY: 15,
+                  },
+                  value: {
+                    offsetY: -15,
+                    formatter(val) {
+                      // eslint-disable-next-line radix
+                      return `${parseInt(val)}%`
+                    },
+                  },
+                  total: {
+                    show: true,
+                    offsetY: 15,
+                    label: 'Efectivo',
+                    formatter() {
+                      return '53%'
+                    },
+                  },
+                },
+              },
+            },
+          },
+          responsive: [
+            {
+              breakpoint: 1325,
+              options: {
+                chart: {
+                  height: 100,
+                },
+              },
+            },
+            {
+              breakpoint: 1200,
+              options: {
+                chart: {
+                  height: 120,
+                },
+              },
+            },
+            {
+              breakpoint: 1045,
+              options: {
+                chart: {
+                  height: 100,
+                },
+              },
+            },
+            {
+              breakpoint: 992,
+              options: {
+                chart: {
+                  height: 120,
+                },
+              },
+            },
+          ],
+        },
+      },
+    }
+  },
+}
+</script>

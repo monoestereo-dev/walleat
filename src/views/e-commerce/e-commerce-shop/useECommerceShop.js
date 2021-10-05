@@ -10,7 +10,7 @@ export const useShopFiltersSortingAndPagination = () => {
     brands: [],
     ratings: null,
     page: 1,
-    perPage: 9,
+    perPage: 24,
   })
 
   const filterOptions = {
@@ -22,15 +22,6 @@ export const useShopFiltersSortingAndPagination = () => {
       { text: '>= $500', value: '>=500' },
     ],
     categories: [],
-    brands: ['Insignia™', 'Samsung', 'Metra', 'HP', 'Apple', 'GE', 'Sony', 'Incipio', 'KitchenAid', 'Whirlpool'],
-    ratings: [
-      { rating: 5, count: 666 },
-      { rating: 4, count: 160 },
-      { rating: 3, count: 176 },
-      { rating: 2, count: 291 },
-      { rating: 1, count: 190 },
-      { rating: 0, count: 65551 },
-    ],
   }
 
   // Sorting

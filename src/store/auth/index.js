@@ -59,37 +59,28 @@ const actions = {
           if (redirect) {
             router.push('/login')
           }
-          // TODO: show toast with message 'You have recieved an email to change your password'
         })
         .catch(error => {
           reject(error)
-          // TODO: show toast with error messages
-          // *HERE IS AN EXAMPLE*
-          // let errors = Object.entries(error.response.data.messages)
-          // errors.forEach(x => {
-          //   this._vm.$notify({type: 'danger', verticalAlign: 'top', horizontalAlign: 'center', message: x[1]})
-          // })
         })
     })
   },
   resetPassword(context, { token, user }) {
-    axios
-      .post('/v1/reset_password', {
-        token,
-        password: user.password,
-        password_confirmation: user.password_confirmation,
-      })
-      .then(() => {
-        router.push('/')
-      })
-      .catch(() => {
-        // TODO: show toast with error messages
-        // *HERE IS AN EXAMPLE*
-        // let errors = Object.entries(error.response.data.messages)
-        // errors.forEach(x => {
-        //   this._vm.$notify({type: 'danger', verticalAlign: 'top', horizontalAlign: 'center', message: x[1]})
-        // })
-      })
+    return new Promise((resolve, reject) => {
+      axios
+        .post('/v1/reset_password', {
+          token,
+          password: user.password,
+          password_confirmation: user.password_confirmation,
+        })
+        .then(() => {
+          resolve()
+          router.push('/')
+        })
+        .catch(error => {
+          reject(error.response.data)
+        })
+    })
   },
   isLoggedIn(context) {
     if (localStorage.currentUser) {

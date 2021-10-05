@@ -136,7 +136,9 @@ export default {
           // eslint-disable-next-line
           const audio = new Audio(require('@/assets/sounds/Activate.wav'))
           audio.play()
-          navigator.vibrate(200)
+          if (navigator.vibrate) {
+            navigator.vibrate(200)
+          }
           const textDecoder = new TextDecoder()
           this.bracelet_id = textDecoder.decode(message.records[0].data).substring(textDecoder.decode(message.records[0].data).lastIndexOf('=') + 1)
           this.nfcStatus = null
@@ -191,7 +193,9 @@ export default {
           // eslint-disable-next-line
           const audio = new Audio(require('@/assets/sounds/Denied.wav'))
           audio.play()
-          navigator.vibrate(200)
+          if (navigator.vibrate) {
+            navigator.vibrate(200)
+          }
           this.bannedItems = error.response.data.banned_items
         })
     },

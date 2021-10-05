@@ -3,8 +3,9 @@
   <div>
 
     <user-list-add-new
+      v-if="userData.role_name === 'admin' || userData.role_name === 'establishment_admin'"
       :is-add-new-user-sidebar-active.sync="isAddNewUserSidebarActive"
-      :role-options="roleOptions"
+      :role-options="userData.role_name === 'admin' ? adminRoleOptions : establishmentRoleOptions"
       @new-users="setUsers($event)"
     />
 
@@ -49,6 +50,7 @@
                 placeholder="Buscar..."
               />
               <b-button
+                v-if="userData.role_name === 'admin' || userData.role_name === 'establishment_admin'"
                 variant="primary"
                 @click="isAddNewUserSidebarActive = true"
               >
@@ -165,7 +167,7 @@
             sm="6"
             class="d-flex align-items-center justify-content-center justify-content-sm-start"
           >
-            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ dataMeta.of }} entries</span>
+            <span class="text-muted">Showing {{ dataMeta.from }} to {{ dataMeta.to }} of {{ pagination.total_objects }} entries</span>
           </b-col>
           <!-- Pagination -->
           <b-col
@@ -255,11 +257,15 @@ export default {
 
     const isAddNewUserSidebarActive = ref(false)
 
-    const roleOptions = [
+    const adminRoleOptions = [
       { label: 'Admin', value: 'admin' },
       { label: 'Administrador de establecimiento', value: 'establishment_admin' },
       { label: 'Cajero', value: 'store_clerk' },
       { label: 'Cliente', value: 'customer' },
+    ]
+    const establishmentRoleOptions = [
+      { label: 'Administrador de establecimiento', value: 'establishment_admin' },
+      { label: 'Cajero', value: 'store_clerk' },
     ]
 
     const statusOptions = [
@@ -317,7 +323,8 @@ export default {
       resolveUserRoleIcon,
       resolveUserStatusVariant,
 
-      roleOptions,
+      adminRoleOptions,
+      establishmentRoleOptions,
       statusOptions,
 
       // Extra Filters
@@ -330,6 +337,7 @@ export default {
     return {
       users: [],
       pagination: {},
+      userData: JSON.parse(localStorage.getItem('userData')),
     }
   },
   watch: {
@@ -337,6 +345,8 @@ export default {
     searchQuery: _.debounce(function(query){
       this.fetchUsers({
         by_name: query || null,
+        by_resource_id: this.$route.params.id,
+        by_active_status: true,
         meta: {
           pagination: {
             per_page: this.pagination.per_page,
@@ -349,7 +359,10 @@ export default {
     }, 500),
   },
   beforeMount() {
-    this.fetchUsers()
+    this.fetchUsers({
+      by_resource_id: this.$route.params.id,
+      by_active_status: true,
+    })
       .then(response => {
         this.users = response.data.data
         this.pagination = response.data.meta.pagination
@@ -363,6 +376,8 @@ export default {
     },
     handlePagination({ page, per_page }) {
       this.fetchUsers({
+        by_resource_id: this.$route.params.id,
+        by_active_status: true,
         meta: {
           pagination: {
             page,

@@ -44,7 +44,7 @@ export default [
   {
     path: '/products/edit/:id',
     name: 'product-edit',
-    component: () => import('@/views/products/product-edit/ProductEdit.vue'),
+    component: () => import('@/views/products/products-list/ProductListEdit.vue'),
     meta: {
       requiresAuth: true,
     },

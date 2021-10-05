@@ -19,7 +19,10 @@
         lg="7"
         xl="8"
       >
-        <customer-transactions :transactions="transactions" />
+        <customer-transactions
+          v-if="transactions.length"
+          :transactions="transactions"
+        />
         <!-- <transactions-timeline :orders="orders" /> -->
       </b-col>
     </b-row>
@@ -32,16 +35,14 @@ import {
   BRow, BCol,
 } from 'bootstrap-vue'
 import { getUserData } from '@/auth/utils'
-// import TransactionsTimeline from '@/@core/components/TransactionsTimeline.vue'
 import AddYourFirstBracelet from '@/@core/components/BraceletWizzard.vue'
 import CustomerTransactions from '@/@core/components/CustomerTransactions.vue'
 import CurrentBalance from '@/@core/components/CurrentBalance.vue'
 
 export default {
   components: {
-    BRow,
     BCol,
-    // TransactionsTimeline,
+    BRow,
     AddYourFirstBracelet,
     CustomerTransactions,
     CurrentBalance,
@@ -55,6 +56,7 @@ export default {
   },
   created() {
     this.userData = getUserData()
+
     this.fetchOrders()
       .then(response => {
         this.orders = response.data
@@ -73,12 +75,12 @@ export default {
   methods: {
     ...mapActions('orders', ['fetchOrders']),
     ...mapActions('walleats', ['fetchTransactions']),
+    ...mapActions('dashboard', ['fetchDashboard']),
+
   },
 }
 </script>
 
-<style lang="scss">
-@import '@core/scss/vue/pages/dashboard-ecommerce.scss';
-@import '@core/scss/vue/libs/chart-apex.scss';
+<style lang="scss" scoped>
 
 </style>

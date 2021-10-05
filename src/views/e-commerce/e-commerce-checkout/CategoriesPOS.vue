@@ -10,14 +10,16 @@
     <b-badge
       v-for="category in categories"
       :key="category.id"
-      class="mr-1 mb-1"
+      class="mr-1 mb-1 cursor-pointer"
       pill
       variant="light-primary"
       @click="filterByCategory({by_category: category.id, by_store: $route.params.store_id})"
     >
       {{ category.name }}
     </b-badge>
-    <b-row>
+    <b-row
+      class="match-height"
+    >
       <b-col
         v-for="product in storeProducts"
         :key="product.id"
@@ -47,12 +49,14 @@
             </div>
             <div class="item-name d-flex flex-column justify-content-between">
               <div>
-                <h6 class="mb-0">
+                <h6 class="">
                   <b-link class="text-body">
                     {{ product.product_attributes.name }}
                   </b-link>
                 </h6>
-                <b-badge variant="light-primary">
+                <b-badge
+                  variant="light-primary"
+                >
                   {{ product.product_attributes.variant }}
                 </b-badge>
               </div>
@@ -135,7 +139,9 @@ export default {
       // eslint-disable-next-line
       const audio = new Audio(require('@/assets/sounds/Beep2.wav'))
       audio.play()
-      navigator.vibrate(200)
+      if (navigator.vibrate) {
+        navigator.vibrate(200)
+      }
       this.addProductToCart(data)
     },
   },

@@ -65,7 +65,7 @@
                   #default="{ errors }"
                   name="Password"
                   vid="Password"
-                  rules="required|password"
+                  rules="required"
                 >
                   <b-input-group
                     class="input-group-merge"
@@ -139,8 +139,8 @@
           </validation-observer>
 
           <p class="text-center mt-2">
-            <b-link :to="{name:'auth-login-v2'}">
-              <feather-icon icon="ChevronLeftIcon" /> Back to login
+            <b-link :to="{name: 'auth-login'}">
+              <feather-icon icon="ChevronLeftIcon" /> Regresar
             </b-link>
           </p>
         </b-col>
@@ -152,6 +152,7 @@
 
 <script>
 /* eslint-disable global-require */
+import { mapActions } from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
@@ -213,6 +214,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('auth', ['resetPassword']),
     togglePassword1Visibility() {
       this.password1FieldType = this.password1FieldType === 'password' ? 'text' : 'password'
     },
@@ -222,14 +224,34 @@ export default {
     validationForm() {
       this.$refs.simpleRules.validate().then(success => {
         if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Form Submitted',
-              icon: 'EditIcon',
-              variant: 'success',
+          this.resetPassword({
+            token: this.$route.params.token,
+            user: {
+              password: this.password,
+              password_confirmation: this.cPassword,
             },
           })
+            .then(() => {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: '¡Todo listo!',
+                  icon: 'EditIcon',
+                  variant: 'success',
+                },
+              })
+            })
+            .catch(error => {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: 'Error 💩',
+                  icon: 'EditIcon',
+                  variant: 'danger',
+                  text: error.messages[0],
+                },
+              })
+            })
         }
       })
     },

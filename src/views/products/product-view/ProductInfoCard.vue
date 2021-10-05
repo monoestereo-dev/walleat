@@ -59,19 +59,13 @@
 
             <!-- Product Brand -->
             <b-card-text class="item-company mb-0">
-              <b-link class="company-name">
+              <p class="mb-0">
                 {{ product.variant }}
-              </b-link>
+              </p>
             </b-card-text>
 
             <!-- Price And Ratings -->
             <div class="d-flex align-items-center my-1">
-              <h1
-                v-if="false"
-                class="item-price mr-1"
-              >
-                $ 500
-              </h1>
               <div class="ecommerce-details-price d-flex flex-wrap">
                 <nutri-score :nutritional-info="product.nutritional_info" />
               </div>
@@ -86,9 +80,9 @@
             <hr>
 
             <!-- Colors -->
-            <div class="product-color-options">
+            <div class="product-color-option pt-0">
               <h6>Categorias</h6>
-              <ul class="list-unstyled mb-0">
+              <ul class="list-unstyled m-0">
                 <li
                   v-for="category in product.categories_names"
                   :key="`category-${category.id}`"
@@ -101,7 +95,11 @@
 
             <hr>
 
-            <div class="d-flex flex-column flex-sm-row pt-1">
+            <div class="d-flex flex-column flex-sm-row">
+              <div class="d-flex align-items-center">
+                <i class="fas fa-barcode fa-2x mr-1" />
+                {{ product.sku }}
+              </div>
               <!-- <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="primary"
@@ -114,7 +112,7 @@
                 />
                 <span>{{ product.isInCart ? 'View In Cart' : 'Add to Cart' }}</span>
               </b-button> -->
-              <b-dropdown
+              <!-- <b-dropdown
                 variant="outline-secondary"
                 no-caret
                 toggle-class="btn-icon"
@@ -130,7 +128,7 @@
                 >
                   <feather-icon :icon="icon" />
                 </b-dropdown-item>
-              </b-dropdown>
+              </b-dropdown> -->
             </div>
           </b-col>
         </b-row>
@@ -148,7 +146,7 @@
 
 <script>
 import {
-  BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BDropdown, BDropdownItem, BAlert, BBadge,
+  BCard, BCardBody, BRow, BCol, BImg, BCardText, BLink, BAlert, BBadge,
 } from 'bootstrap-vue'
 
 import NutriScore from '@/@core/components/NutriScore.vue'
@@ -167,8 +165,6 @@ export default {
     BImg,
     BCardText,
     BLink,
-    BDropdown,
-    BDropdownItem,
     BAlert,
     BBadge,
 

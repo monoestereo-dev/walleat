@@ -1,18 +1,18 @@
 <template>
   <div>
     <b-row
-      class="mt-2"
+      class="mt-2 match-height"
     >
       <b-col
         v-for="establishment in establishments"
         :key="establishment.id"
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"
       >
         <b-card
-          class="mt-1 text-center"
+          class="mt-1 text-center cursor-pointer"
           @click="$router.push({ name: 'establishment-view', params: { id: establishment.id } })"
         >
           <div class="d-flex justify-content-center mt--5 mb-1">
@@ -39,14 +39,14 @@
       </b-col>
       <b-col
         v-if="userData.role_name === 'admin'"
-        cols="6"
+        cols="12"
         sm="6"
         md="4"
         lg="3"
       >
         <b-card
-          class="mt-1 text-center"
-          @click="$router.push({ name: 'establishment-new' })"
+          class="mt-1 text-center cursor-pointer"
+          @click="$router.push({ name: 'new-establishment' })"
         >
           <div
             class="d-flex justify-content-center mt--5 mb-1"

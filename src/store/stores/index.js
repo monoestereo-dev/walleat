@@ -32,10 +32,22 @@ export default {
           })
       })
     },
-    addStore(ctx, { id, store }) {
+    fetchStoreProducts(ctx, params) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`/v1/stores/${id}`, {
+          .get('/v1/store_products', { params })
+          .then(response => {
+            resolve(response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+    addStore(ctx, store) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/v1/stores/', {
             store,
           })
           .then(response => {

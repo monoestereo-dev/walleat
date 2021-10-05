@@ -2,10 +2,14 @@
   <div class="list-view product-checkout mt-0">
     <div>
       <b-row>
-        <b-col>
+        <b-col
+          order="2"
+          order-sm="1"
+        >
           <!-- Buscador 🔍-->
           <e-commerce-checkout-step-cart-products
             :barcode-scanned="barcode"
+            class="z-index-top"
             @toggle="toggleCameraScanner($event)"
           />
           <!-- carrito 🛒 -->
@@ -15,6 +19,8 @@
           v-if="isCameraScannerActive"
           sm="12"
           md="auto"
+          order="1"
+          order-sm="2"
         >
           <!-- Camera Barcode Scanner 🎥 -->
           <div class="d-flex justify-content-center mb-1">
@@ -29,9 +35,12 @@
     </div>
 
     <div class="checkout-options">
-      <e-commerce-checkout-cart-products v-if="settings.showCategories" />
+
       <!-- Detalles de la compra 🛍️ -->
-      <b-card title="Detalles de la compra">
+      <b-card
+        title="Detalles de la compra"
+        class="sticky-top sticky-offset border-primary"
+      >
         <div class="price-details">
           <ul class="list-unstyled">
             <li class="price-detail">
@@ -70,17 +79,36 @@
               </div>
             </li>
           </ul>
-          <b-button
-            variant="primary"
-            block
-            :disabled="cart.length === 0"
-            @click="$emit('next-step')"
-          >
-            Continuar
-          </b-button>
+          <b-row>
+            <b-col
+              cols="auto"
+            >
+              <b-button
+                variant="outline-secondary"
+                block
+                :disabled="cart.length === 0"
+                @click="emptyCart()"
+              >
+                <feather-icon icon="TrashIcon" />
+              </b-button>
+            </b-col>
+            <b-col>
+              <b-button
+                variant="primary"
+                block
+                :disabled="cart.length === 0"
+                @click="$emit('next-step')"
+              >
+                Continuar
+                <feather-icon icon="ChevronsRightIcon" />
+              </b-button>
+            </b-col>
+          </b-row>
         </div>
 
       </b-card>
+
+      <e-commerce-checkout-cart-products v-if="settings.showCategories" />
     </div>
   </div>
 </template>
@@ -135,6 +163,9 @@ export default {
     ...mapMutations('verticalMenu', [
       'UPDATE_VERTICAL_MENU_COLLAPSED',
     ]),
+    ...mapMutations('pos', [
+      'emptyCart',
+    ]),
     playSound() {
       /* eslint-disable-next-line */
       const audio = new Audio(require('@/assets/sounds/Beep.wav'))
@@ -156,4 +187,9 @@ export default {
   overflow: hidden;
   border-radius: 8px;
 }
+.sticky-offset {
+    top: 95px;
+    z-index: 99;
+}
+
 </style>

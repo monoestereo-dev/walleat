@@ -2,9 +2,29 @@ import axios from '@axios'
 
 export default {
   namespaced: true,
-  state: {},
-  getters: {},
-  mutations: {},
+  state: {
+    products: {
+      data: [],
+      meta: {
+        pagination: {
+
+        },
+      },
+    },
+  },
+  getters: {
+    products(state) {
+      return state.products.data
+    },
+    pagination(state) {
+      return state.products.meta.pagination
+    },
+  },
+  mutations: {
+    setProducts(state, payload) {
+      state.products = payload
+    },
+  },
   actions: {
     fetchProducts(ctx, params) {
       return new Promise((resolve, reject) => {
@@ -13,7 +33,8 @@ export default {
             params,
           })
           .then(response => {
-            resolve(response.data)
+            ctx.commit('setProducts', response.data)
+            resolve(response)
           })
           .catch(error => {
             reject(error)
@@ -32,10 +53,10 @@ export default {
           })
       })
     },
-    addProduct(ctx, { id, product }) {
+    addProduct(ctx, product) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`/v1/products/${id}`, {
+          .post('/v1/products/', {
             product,
           })
           .then(response => {

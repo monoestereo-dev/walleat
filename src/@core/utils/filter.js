@@ -11,6 +11,7 @@ Vue.filter('fullDate', value => dayjs(value).format('DD MMM YYYY'))
 Vue.filter('date', value => dayjs(value).format('DD MMM'))
 Vue.filter('dateNtime', value => dayjs(value).format('DD MMM - HH:mm'))
 Vue.filter('time', value => dayjs(value).format('HH:mm'))
+Vue.filter('hour', value => dayjs(value).format('HH'))
 /* eslint-disable-next-line */
 Vue.filter('hideMail', value => value.replace(/(.{3})(.*)(?=@)/, (gp1, gp2, gp3) => { for (let i = 0; i < gp3.length; i += 1) { gp2 += '*' } return gp2 }))
 

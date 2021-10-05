@@ -2,21 +2,6 @@ const path = require('path')
 
 module.exports = {
   publicPath: '/',
-  pwa: {
-    themeColor: '#7367f0',
-    appleMobileWebAppCapable: true,
-    msTileColor: '#7367f0',
-    appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: '#7367f0',
-    shorcuts: [
-      {
-        name: 'Mis wWlleats',
-        short_name: 'walleats',
-        description: 'Mis Walleats',
-        utl: '/walleats/list',
-      }
-    ]
-  },
   css: {
     loaderOptions: {
       sass: {
@@ -59,9 +44,29 @@ module.exports = {
       })
   },
   transpileDependencies: ['vue-echarts', 'resize-detector'],
+  pwa: {
+    name: 'Walleat',
+    themeColor: '#7367f0',
+    msTileColor: '#7367f0',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
+    manifestOptions: {
+      description: 'Tu nueva forma de pago',
+      background_color: '#7367f0',
+      start_url: '/',
+      shortcuts: [
+        {
+          name: 'Mis Walleats',
+          short_name: 'Walleats',
+          description: 'Todos mis Walleats',
+          url: '/walleats/list',
+        },
+      ],
+    },
+  },
   devServer: {
-    https: true,
-    key: './ssl/192.168.15.10-key.pem',
-    cert: './ssl/192.168.15.10.pem',
+    https: false,
+    key: './ssl/localhost-key.pem',
+    cert: './ssl/localhost.pem',
   },
 }

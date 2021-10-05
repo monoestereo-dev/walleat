@@ -11,7 +11,7 @@
           {{ userData.name || userData.email }}
         </p>
         <span
-          v-if="userData.customer"
+          v-if="userData.customer && isBalanceVisible"
           class="user-status text-success"
         >
           $ {{ userData.customer.current_balance | money }}
@@ -95,6 +95,7 @@ import {
 // import { initialAbility } from '@/libs/acl/config'
 import useJwt from '@/auth/jwt/useJwt'
 import { avatarText } from '@core/utils/filter'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -108,6 +109,11 @@ export default {
       userData: JSON.parse(localStorage.getItem('userData')),
       avatarText,
     }
+  },
+  computed: {
+    ...mapGetters('appConfig', [
+      'isBalanceVisible',
+    ]),
   },
   methods: {
     logout() {

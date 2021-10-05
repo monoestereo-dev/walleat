@@ -4,6 +4,7 @@
     <div class="mb-2">
       <b-input-group>
         <b-form-input
+          id="sku"
           v-model="searchQuery"
           variant="outline-primary"
           placeholder="Nombre o Código de barras"
@@ -14,6 +15,7 @@
             no-caret
             right
             variant="outline-primary"
+            class="z-index-top"
           >
             <template #button-content>
               🔧<span class="sr-only">settings</span>
@@ -206,6 +208,9 @@ export default {
     },
   },
   mounted() {
+    document.addEventListener('keydown', () => {
+      document.getElementById('sku').focus()
+    })
   },
   methods: {
     ...mapMutations('pos', [
@@ -218,11 +223,15 @@ export default {
         const barcodeWithOutLastDigit = query.substring(0, query.length - 1)
         this.getStoreProductsStore({
           by_store: this.$route.params.store_id,
-          by_sku: barcodeWithOutLastDigit,
+          by_sku: Number(barcodeWithOutLastDigit),
         }).then(response => {
-          navigator.vibrate(200)
-          this.addProductToCart(response)
-          this.searchQuery = null
+          if (response.data.length === 1) {
+            if (navigator.vibrate) {
+              navigator.vibrate(200)
+            }
+            this.addProductToCart(response)
+            this.searchQuery = null
+          }
         })
       } else if (query != null && query !== '') {
         this.getStoreProductsStore({
@@ -234,12 +243,14 @@ export default {
           by_store: this.$route.params.store_id,
         })
       }
-    }, 100),
+    }, 250),
     addProductAndClearQuery(product) {
       // eslint-disable-next-line
       const audio = new Audio(require('@/assets/sounds/Beep2.wav'))
       audio.play()
-      navigator.vibrate(200)
+      if (navigator.vibrate) {
+        navigator.vibrate(200)
+      }
       this.addProductToCart({ data: [{ ...product }] })
       this.searchQuery = null
     },
@@ -259,6 +270,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.z-index-top {
+  z-index: 1000;
+}
 </style>

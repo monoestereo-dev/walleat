@@ -24,7 +24,6 @@
         icon="feather icon-credit-card"
       >
         <e-commerce-checkout-step-payment
-          :payment-details="checkoutDetails.payment"
           @next-step="formWizardNextStep"
           @prev-step="formWizardPrevStep"
         />
@@ -39,6 +38,7 @@ import {
 } from 'bootstrap-vue'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
+import { mapMutations } from 'vuex'
 import ECommerceCheckoutStepPayment from './ECommerceCheckoutStepPayment.vue'
 import ECommerceCheckoutStepCart from './ECommerceCheckoutStepCart.vue'
 
@@ -64,31 +64,15 @@ export default {
       refFormWizard.value.prevTab()
     }
 
-    // ? This is just dummy details
-    const checkoutDetails = ref({
-      address: {
-        fullName: '',
-        mobile: '',
-        houseNo: '',
-        landmark: '',
-        city: '',
-        pincode: '',
-        state: '',
-        addressType: null,
-      },
-      payment: {
-        cvv: '',
-      },
-    })
-
     return {
       refFormWizard,
       formWizardNextStep,
       formWizardPrevStep,
 
-      // Dummy Details
-      checkoutDetails,
     }
+  },
+  destroyed() {
+    this.emptyCart()
   },
   methods: {
     onDecode() {
@@ -97,6 +81,9 @@ export default {
     onLoaded() {
 
     },
+    ...mapMutations('pos', [
+      'emptyCart',
+    ]),
   },
 }
 </script>

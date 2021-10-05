@@ -15,7 +15,7 @@
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
         <h5 class="mb-0">
-          Add New User
+          Agregar nuevo usuario
         </h5>
 
         <feather-icon
@@ -25,6 +25,12 @@
           @click="hide"
         />
 
+      </div>
+      <div>
+        <base-cropper
+          :model="userData"
+          @cropped-image="userData.logo"
+        />
       </div>
 
       <!-- BODY -->
@@ -193,7 +199,7 @@
               class="mr-2"
               type="submit"
             >
-              Add
+              Agregar
             </b-button>
             <b-button
               v-ripple.400="'rgba(186, 191, 199, 0.15)'"
@@ -201,7 +207,7 @@
               variant="outline-secondary"
               @click="hide"
             >
-              Cancel
+              Cancelar
             </b-button>
           </div>
 
@@ -224,6 +230,7 @@ import Ripple from 'vue-ripple-directive'
 import vSelect from 'vue-select'
 import store from '@/store'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import BaseCropper from '@/@core/components/BaseCropper.vue'
 
 export default {
   components: {
@@ -234,10 +241,12 @@ export default {
     BFormInvalidFeedback,
     BButton,
     vSelect,
+    BaseCropper,
 
     // Form Validation
     ValidationProvider,
     ValidationObserver,
+
   },
   directives: {
     Ripple,
@@ -270,7 +279,7 @@ export default {
     const blankUserData = {
       name: '',
       email: '',
-      role_name: 'customer',
+      role_name: '',
       role_resource_id: '',
       logo: null,
       cel_number: '',
@@ -297,16 +306,28 @@ export default {
   },
   beforeMount() {
     // fetch establishments: this is needed when you want to add a user with establishment_admin or store_clerk role
-    this.fetchEstablishments({
-      meta: {
-        pagination: {
-          per_page: 1000,
+    const currentUser = JSON.parse(localStorage.getItem('userData'))
+    if (currentUser.role_name === 'admin') {
+      this.fetchEstablishments({
+        meta: {
+          pagination: {
+            per_page: 1000,
+          },
         },
-      },
-    })
-      .then(response => {
-        this.establishments = response.data
       })
+        .then(response => {
+          this.establishments = response.data
+        })
+    } else {
+      const currentEstablishment = currentUser.scoped_roles[0]
+      this.selectedEstablishment = currentEstablishment.id
+      this.establishments = [
+        {
+          id: currentEstablishment.role_resource_id,
+          name: currentEstablishment.role_resource_name,
+        },
+      ]
+    }
   },
   methods: {
     ...mapActions('app-user', ['fetchUsers']),
@@ -326,7 +347,9 @@ export default {
     onSubmit() {
       store.dispatch('app-user/addUser', this.userData)
         .then(() => {
-          this.fetchUsers()
+          this.fetchUsers({
+            by_resource_id: this.$route.params.id,
+          })
             .then(response => {
               this.$emit('new-users', response.data)
             })
@@ -339,6 +362,18 @@ export default {
               icon: 'CoffeeIcon',
               variant: 'success',
               text: `Se ha enviado un correo a ${this.userData.email} con las intrucciones para establecer su contraseña.`,
+            },
+          })
+        })
+        .catch(error => {
+          this.$toast({
+            component: ToastificationContent,
+            position: 'top-right',
+            props: {
+              title: 'Error',
+              icon: 'CoffeeIcon',
+              variant: 'danger',
+              text: error.response.data.messages[0],
             },
           })
         })

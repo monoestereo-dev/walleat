@@ -76,14 +76,17 @@
         class="ecommerce-card"
         no-body
       >
-        <div class="item-img text-center d-flex justify-content-center">
+        <div
+          class="mt-1 text-center d-flex justify-content-center px-1"
+          :class="{ 'mb-1' : itemView === 'list-view'}"
+        >
           <b-link :to="{ name: 'product-view', params: { id: product.id } }">
             <b-img
               :alt="`${product.name}-${product.id}`"
               fluid
-              class="card-img-top"
               rounded
               :src="`${product.logo}`"
+              :width="itemView === 'list-view' ? 110 : 150"
             />
           </b-link>
         </div>
@@ -107,11 +110,9 @@
             >
               {{ product.name }}
             </b-link>
-            <b-card-text class="item-company">
-              <b-link class="ml-25">
-                {{ product.variant }}
-              </b-link>
-            </b-card-text>
+            <b-link class="text-muted">
+              {{ product.variant }}
+            </b-link>
           </h6>
           <b-card-text class="item-description mt-1">
             <b-badge
@@ -127,11 +128,7 @@
         <!-- Product Actions -->
         <div class="item-options text-center">
           <div class="item-wrapper">
-            <!-- <div class="item-cost">
-              <h4 class="item-price">
-                ${{ product.price }}
-              </h4>
-            </div> -->
+            <!-- 🐔 -->
           </div>
           <b-button
             v-if="$route.name === 'ban-products'"
@@ -272,7 +269,7 @@ export default {
     const fetchShopProducts = _.debounce(function() {
       if (/^\d*$/.test(filters.value.q) && filters.value.q !== null && filters.value.q !== '') {
         fetchProducts({
-          by_sku: filters.value.q || null,
+          by_sku: Number(filters.value.q) || null,
           by_category: filters.value.categories || null,
           by_active_status: true,
           by_bracelet: ctx.root.$route.params.id || null,
@@ -285,8 +282,8 @@ export default {
           },
         })
           .then(response => {
-            products.value = response.data
-            totalProducts.value = response.meta.pagination.total_objects
+            products.value = response.data.data
+            totalProducts.value = response.data.meta.pagination.total_objects
           })
       } else if (filters.value.q !== null && filters.value.q !== '') {
         fetchProducts({
@@ -303,8 +300,8 @@ export default {
           },
         })
           .then(response => {
-            products.value = response.data
-            totalProducts.value = response.meta.pagination.total_objects
+            products.value = response.data.data
+            totalProducts.value = response.data.meta.pagination.total_objects
           })
       } else if (filters.value.q === null || filters.value.q === '') {
         fetchProducts({
@@ -320,8 +317,8 @@ export default {
           },
         })
           .then(response => {
-            products.value = response.data
-            totalProducts.value = response.meta.pagination.total_objects
+            products.value = response.data.data
+            totalProducts.value = response.data.meta.pagination.total_objects
           })
       }
     }, 500)

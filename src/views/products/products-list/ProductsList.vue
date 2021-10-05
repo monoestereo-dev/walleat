@@ -4,7 +4,7 @@
 
     <product-list-add-new
       :is-add-new-product-sidebar-active.sync="isAddNewProductSidebarActive"
-      @new-products="setUsers($event)"
+      @new-products="fetchProducts({})"
     />
 
     <!-- Table Container Card -->
@@ -127,18 +127,14 @@
             </template>
             <b-dropdown-item :to="{ name: 'product-view', params: { id: data.item.id } }">
               <feather-icon icon="FileTextIcon" />
-              <span class="align-middle ml-50">Details</span>
+              <span class="align-middle ml-50">Ver detalles</span>
             </b-dropdown-item>
 
-            <b-dropdown-item :to="{ name: 'apps-products-edit', params: { id: data.item.id } }">
+            <b-dropdown-item :to="{ name: 'product-edit', params: { id: data.item.id } }">
               <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
+              <span class="align-middle ml-50">Editar</span>
             </b-dropdown-item>
 
-            <b-dropdown-item>
-              <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
-            </b-dropdown-item>
           </b-dropdown>
         </template>
 
@@ -300,7 +296,7 @@ export default {
     searchQuery: _.debounce(function(query){
       if (/^\d*$/.test(query) && query !== null && query !== '') {
         this.fetchProducts({
-          by_sku: query || null,
+          by_sku: Number(query) || null,
           by_active_status: true,
           meta: {
             pagination: {
@@ -309,8 +305,8 @@ export default {
           },
         })
           .then(response => {
-            this.products = response.data
-            this.pagination = response.meta.pagination
+            this.products = response.data.data
+            this.pagination = response.data.meta.pagination
           })
       } else if (query !== null && query !== '') {
         this.fetchProducts({
@@ -323,8 +319,8 @@ export default {
           },
         })
           .then(response => {
-            this.products = response.data
-            this.pagination = response.meta.pagination
+            this.products = response.data.data
+            this.pagination = response.data.meta.pagination
           })
       } else if (query === null || query === '') {
         this.fetchProducts({
@@ -336,8 +332,8 @@ export default {
           },
         })
           .then(response => {
-            this.products = response.data
-            this.pagination = response.meta.pagination
+            this.products = response.data.data
+            this.pagination = response.data.meta.pagination
           })
       }
     }, 500),
@@ -345,19 +341,20 @@ export default {
   beforeMount() {
     this.fetchProducts({ by_active_status: true })
       .then(response => {
-        this.products = response.data
-        this.pagination = response.meta.pagination
+        this.products = response.data.data
+        this.pagination = response.data.meta.pagination
       })
   },
   methods: {
     ...mapActions('products', ['fetchProducts']),
     setProducts(products) {
-      this.products = products.data
-      this.pagination = products.meta.pagination
+      this.products = products.data.data
+      this.pagination = products.data.meta.pagination
     },
     handlePagination({ page, per_page }) {
       this.fetchProducts({
         by_active_status: true,
+        by_name: this.searchQuery,
         meta: {
           pagination: {
             page,
@@ -366,8 +363,8 @@ export default {
         },
       })
         .then(response => {
-          this.products = response.data
-          this.pagination = response.meta.pagination
+          this.products = response.data.data
+          this.pagination = response.data.meta.pagination
         })
     },
   },

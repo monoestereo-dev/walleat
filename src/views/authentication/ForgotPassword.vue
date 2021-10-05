@@ -2,15 +2,9 @@
   <div class="auth-wrapper auth-v2">
     <b-row class="auth-inner m-0">
 
-      <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
-
-        <h2 class="brand-text text-primary ml-1">
-          Walleat
-        </h2>
+        <!-- Brand logo-->
       </b-link>
-      <!-- /Brand logo-->
 
       <!-- Left Text-->
       <b-col
@@ -39,10 +33,10 @@
           class="px-xl-2 mx-auto"
         >
           <b-card-title class="mb-1">
-            Forgot Password? 🔒
+            ¿Olvidaste tu contraseña? 🔒
           </b-card-title>
           <b-card-text class="mb-2">
-            Enter your email and we'll send you instructions to reset your password
+            Ingresa tu email y te enviaremos las instrucciones para restablecer tu contraseña.
           </b-card-text>
 
           <!-- form -->
@@ -95,8 +89,9 @@
 
 <script>
 /* eslint-disable global-require */
+import { mapActions } from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
+// import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow, BCol, BLink, BCardTitle, BCardText, BImg, BForm, BFormGroup, BFormInput, BButton,
 } from 'bootstrap-vue'
@@ -106,7 +101,7 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 
 export default {
   components: {
-    VuexyLogo,
+    // VuexyLogo,
     BRow,
     BCol,
     BLink,
@@ -140,17 +135,32 @@ export default {
     },
   },
   methods: {
+    ...mapActions('auth', ['requestPassword']),
     validationForm() {
       this.$refs.simpleRules.validate().then(success => {
         if (success) {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'This is for UI purpose only.',
-              icon: 'EditIcon',
-              variant: 'success',
-            },
-          })
+          this.requestPassword({ email: this.userEmail })
+            .then(() => {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: '👽 Email enviado',
+                  icon: 'EditIcon',
+                  variant: 'success',
+                },
+              })
+            })
+            .catch(error => {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: 'Error 🐜',
+                  icon: 'EditIcon',
+                  variant: 'danger',
+                  text: error.response.data.messages[0],
+                },
+              })
+            })
         }
       })
     },
