@@ -1,7 +1,6 @@
 <template>
   <b-card>
-    <b-form class="">
-
+    <b-form @submit.prevent="editEstablishmentPrompt()">
       <div class="d-flex">
         <feather-icon
           icon="ShoppingBagIcon"
@@ -27,9 +26,9 @@
         >
           <b-form-group
             label="Nombre"
-            label-for="birth-date"
+            label-for="name"
           >
-            <flat-pickr
+            <b-form-input
               v-model="establishment.name"
               class="form-control"
               placeholder=""
@@ -60,9 +59,9 @@
         >
           <b-form-group
             label="Nombre"
-            label-for="birth-date"
+            label-for="contact-name"
           >
-            <flat-pickr
+            <b-form-input
               v-model="establishment.contact_name"
               class="form-control"
             />
@@ -125,12 +124,12 @@
           lg="4"
         >
           <b-form-group
-            label="Address Line 1"
+            label="Calle"
             label-for="address-line-1"
           >
             <b-form-input
               id="address-line-1"
-              v-model="userDataInfo.addressLine1"
+              v-model="establishment.address_attributes.street"
             />
           </b-form-group>
         </b-col>
@@ -139,16 +138,16 @@
         <b-col
           cols="12"
           md="6"
-          lg="4"
+          lg="2"
         >
           <b-form-group
-            label="Address Line 2"
-            label-for="address-line-2"
+            label="# exterior"
+            label-for="address-ext-number"
           >
             <b-form-input
-              id="address-line-2"
-              v-model="userDataInfo.addressLine2"
-              placeholder="Los Santos"
+              id="address-ext-number"
+              v-model="establishment.address_attributes.ext_number"
+              placeholder=""
             />
           </b-form-group>
         </b-col>
@@ -157,17 +156,35 @@
         <b-col
           cols="12"
           md="6"
+          lg="2"
+        >
+          <b-form-group
+            label="# interior"
+            label-for="address-int-number"
+          >
+            <b-form-input
+              id="address-int-number"
+              v-model="establishment.address_attributes.int_number"
+              type="number"
+              placeholder=""
+            />
+          </b-form-group>
+        </b-col>
+        <!-- Field: Postcode -->
+        <b-col
+          cols="12"
+          md="6"
           lg="4"
         >
           <b-form-group
-            label="Postcode"
-            label-for="postcode"
+            label="Código postal"
+            label-for="address-postal-code"
           >
             <b-form-input
-              id="postcode"
-              v-model="userDataInfo.postcode"
+              id="address-postal-code"
+              v-model="establishment.address_attributes.postal_code"
               type="number"
-              placeholder="597626"
+              placeholder=""
             />
           </b-form-group>
         </b-col>
@@ -184,7 +201,7 @@
           >
             <b-form-input
               id="city"
-              v-model="userDataInfo.city"
+              v-model="establishment.address_attributes.city"
             />
           </b-form-group>
         </b-col>
@@ -201,7 +218,7 @@
           >
             <b-form-input
               id="state"
-              v-model="userDataInfo.state"
+              v-model="establishment.address_attributes.state"
               placeholder="Manhattan"
             />
           </b-form-group>
@@ -219,7 +236,7 @@
           >
             <b-form-input
               id="country"
-              v-model="userDataInfo.country"
+              v-model="establishment.address_attributes.country"
               placeholder="United States"
             />
           </b-form-group>
@@ -232,14 +249,9 @@
             variant="primary"
             class="mb-1 mb-sm-0 mr-0 mr-sm-1"
             :block="$store.getters['app/currentBreakPoint'] === 'xs'"
+            type="submit"
           >
-            Save Changes
-          </b-button>
-          <b-button
-            variant="outline-secondary"
-            :block="$store.getters['app/currentBreakPoint'] === 'xs'"
-          >
-            Reset
+            Guardar
           </b-button>
         </b-col>
       </b-row>
@@ -252,52 +264,11 @@ import {
   BRow, BCol, BForm, BFormGroup, BFormInput, BButton, BCard,
 } from 'bootstrap-vue'
 import BaseCropper from '@/@core/components/BaseCropper.vue'
-import flatPickr from 'vue-flatpickr-component'
-import { ref } from '@vue/composition-api'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
-    BRow, BCol, BForm, BFormGroup, flatPickr, BFormInput, BButton, BCard, BaseCropper,
-  },
-  setup() {
-    const userDataInfo = ref({
-      dob: null,
-      mobile: '+6595895857',
-      website: 'https://rowboat.com/insititious/Angelo',
-      language: 'French',
-      gender: 'female',
-      contactOptions: ['Email', 'Message'],
-      addressLine1: 'A-65, Belvedere Streets',
-      addressLine2: '',
-      postcode: '',
-      city: 'New York',
-      state: '',
-      country: '',
-    })
-
-    const languageOptions = [
-      'English',
-      'Spanish',
-      'French',
-      'Russian',
-      'German',
-      'Arabic',
-      'Sanskrit',
-    ]
-
-    const genderOptions = [
-      { text: 'Male', value: 'male' },
-      { text: 'Female', value: 'female' },
-    ]
-
-    const contactOptionsOptions = ['Email', 'Message', 'Phone']
-
-    return {
-      userDataInfo,
-      languageOptions,
-      genderOptions,
-      contactOptionsOptions,
-    }
+    BRow, BCol, BForm, BFormGroup, BFormInput, BButton, BCard, BaseCropper,
   },
   data() {
     return {
@@ -306,9 +277,46 @@ export default {
       },
     }
   },
+  mounted() {
+    this.fetchEstablishment(this.$route.params.id)
+      .then(response => {
+        this.establishment = response
+      })
+  },
+  methods: {
+    ...mapActions('establishments', ['fetchEstablishment', 'editEstablishment']),
+    editEstablishmentPrompt() {
+      this.$swal({
+        title: '¿Estás seguro?',
+        text: 'Estás apunto de editar la información de el establecimiento',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, ¡Quiero editar!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          this.editEstablishment({ id: this.$route.params.id, establishment: this.establishment })
+            .then(() => {
+              this.$swal({
+                icon: 'success',
+                title: '¡Establecimiento editado!',
+                text: '😎',
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                },
+              })
+            })
+        }
+      })
+    },
+  },
 }
 </script>
 
 <style lang="scss">
-@import '@core/scss/vue/libs/vue-flatpicker.scss';
+
 </style>
