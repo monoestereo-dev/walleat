@@ -269,7 +269,7 @@ export default {
     const fetchShopProducts = _.debounce(function() {
       if (/^\d*$/.test(filters.value.q) && filters.value.q !== null && filters.value.q !== '') {
         fetchProducts({
-          by_sku: filters.value.q || null,
+          by_sku: Number(filters.value.q) || null,
           by_category: filters.value.categories || null,
           by_active_status: true,
           by_bracelet: ctx.root.$route.params.id || null,

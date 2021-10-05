@@ -296,7 +296,7 @@ export default {
     searchQuery: _.debounce(function(query){
       if (/^\d*$/.test(query) && query !== null && query !== '') {
         this.fetchProducts({
-          by_sku: query || null,
+          by_sku: Number(query) || null,
           by_active_status: true,
           meta: {
             pagination: {

@@ -223,7 +223,7 @@ export default {
         const barcodeWithOutLastDigit = query.substring(0, query.length - 1)
         this.getStoreProductsStore({
           by_store: this.$route.params.store_id,
-          by_sku: barcodeWithOutLastDigit,
+          by_sku: Number(barcodeWithOutLastDigit),
         }).then(response => {
           if (response.data.length === 1) {
             if (navigator.vibrate) {

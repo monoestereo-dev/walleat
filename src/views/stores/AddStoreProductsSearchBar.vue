@@ -236,7 +236,7 @@ export default {
       if (/^\d*$/.test(query) && query != null && query !== '') {
         const barcodeWithOutLastDigit = query.substring(0, query.length - 1)
         this.fetchProducts({
-          by_sku: barcodeWithOutLastDigit,
+          by_sku: Number(barcodeWithOutLastDigit),
         }).then(response => {
           if (response.data.length === 1) {
             if (navigator.vibrate) {
@@ -262,6 +262,9 @@ export default {
           },
         },
       })
+    },
+    clearSearchbarAndResetSearch() {
+      this.searchQuery = ''
     },
   },
 }
