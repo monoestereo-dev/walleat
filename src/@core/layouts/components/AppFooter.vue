@@ -11,11 +11,10 @@
         <span class="d-none d-sm-inline-block">, All rights Reserved</span>
       </span>
 
-      <span class="float-md-right d-none d-md-block">Hand-crafted &amp; Made with
-        <feather-icon
-          icon="HeartIcon"
-          size="21"
-          class="text-danger stroke-current"
+      <span class="float-md-right d-none d-md-block">powered by
+        <b-img
+          :src="require('@/assets/images/logo/logoMonoestereo.svg')"
+          width="20px"
         />
       </span>
     </p>
@@ -28,7 +27,7 @@
 
 <script>
 import { $themeConfig } from '@themeConfig'
-import { BLink } from 'bootstrap-vue'
+import { BLink, BImg } from 'bootstrap-vue'
 import MenuBottomMobile from '@core/components/MenuBottomMobile.vue'
 
 export default {
@@ -40,6 +39,7 @@ export default {
   },
   components: {
     BLink,
+    BImg,
     MenuBottomMobile,
   },
   data() {
