@@ -272,6 +272,6 @@ export default {
 
 <style lang="scss" scoped>
 .z-index-top {
-  z-index: 1000;
+  z-index: 10;
 }
 </style>

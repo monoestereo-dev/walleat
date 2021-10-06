@@ -189,7 +189,7 @@ export default {
 }
 .sticky-offset {
     top: 95px;
-    z-index: 99;
+    z-index: 9;
 }
 
 </style>
