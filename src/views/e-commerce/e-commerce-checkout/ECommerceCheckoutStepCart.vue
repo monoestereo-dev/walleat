@@ -38,19 +38,15 @@
 
       <!-- Detalles de la compra 🛍️ -->
       <b-card
-        title="Detalles de la compra"
         class="sticky-top sticky-offset border-primary"
       >
-        <div class="price-details">
-          <ul class="list-unstyled">
-            <li class="price-detail">
-              <div class="detail-title">
-                Productos
-              </div>
-              <div class="detail-amt discount-amt text-success">
-                {{ cartTotalProducts }}
-              </div>
-            </li>
+        <b-card-header>
+          <h4>
+            Detalles de la compra
+          </h4>
+        </b-card-header>
+        <div class="price-details mt-1">
+          <ul class="list-unstyled text-small">
             <li class="price-detail">
               <div class="detail-title">
                 Subtotal
@@ -191,5 +187,10 @@ export default {
     top: 95px;
     z-index: 9;
 }
-
+.text-small {
+  font-size: 11px;
+  li {
+    margin: 0px;
+  }
+}
 </style>
