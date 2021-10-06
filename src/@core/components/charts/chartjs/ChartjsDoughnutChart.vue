@@ -1,6 +1,6 @@
 <template>
   <b-card
-    title="Resumen por categorías"
+    title="Ganancias por categoría"
   >
     <!-- chart -->
     <chartjs-component-doughnut-chart
