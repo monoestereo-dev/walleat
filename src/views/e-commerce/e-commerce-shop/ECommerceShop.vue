@@ -211,6 +211,7 @@ import {
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { watch } from '@vue/composition-api'
+import { useWindowScroll } from '@vueuse/core'
 import { mapActions } from 'vuex'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
 import NutriScore from '@/@core/components/NutriScore.vue'
@@ -248,6 +249,16 @@ export default {
 
   },
   setup(x, ctx) {
+    const { y } = useWindowScroll()
+
+    const scrollToTop = () => {
+      const rootEle = document.documentElement
+      rootEle.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+    }
+
     const {
       filters, filterOptions, sortBy, sortByOptions,
     } = useShopFiltersSortingAndPagination()
@@ -365,7 +376,15 @@ export default {
       categories,
       // mqShallShowLeftSidebar
       mqShallShowLeftSidebar,
+      y,
+      scrollToTop,
     }
+  },
+  watch: {
+    // eslint-disable-next-line
+    'filters.page': function () {
+      this.scrollToTop()
+    },
   },
   methods: {
     ...mapActions('walleats', ['banItem']),
