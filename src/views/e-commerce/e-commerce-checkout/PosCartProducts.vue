@@ -168,21 +168,17 @@ export default {
       this.deleteProductFromCarts(product)
     },
     weightProductAndSetUnits(product) {
-      try {
-        debugger
-        this.getWeight()
-          .then(() => {
-            this.isWeighted = true
-            const x = this.weight.replace(/[^\d.-]/g, '')
-            this.setProductQuantity({
-              cartItem: product,
-              units: Number(x),
-            })
+
+      this.getWeight()
+        .then(() => {
+          this.isWeighted = true
+          const x = this.weight.replace(/[^\d.-]/g, '')
+          this.setProductQuantity({
+            cartItem: product,
+            units: Number(x),
           })
-      } catch (err) {
-        debugger
-        console.log(err)
-      }
+        })
+
     },
   },
 }
