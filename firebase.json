@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "mywalleat",
     "public": "dist",
     "rewrites": [
       {

@@ -1,8 +1,11 @@
 # App
 
 
-## [0.2.21] - 2021-09-28
-- [NEW] Se puede editar la infomtacion de los establishments.
+## [0.2.21] - 2021-10-06
+- [FIX] Se cambiaron los labes de Walleat Pay y Walleat Pay (terminal externa)
+- [FIX] Cambnio de titulo en gráfica de ganancias por categoría.
+- [NEW] Se pueden editar los establecimientos
+- [FIX] Z-index fix en botones de configuracion en POS
 ## [0.2.20] - 2021-09-28
 - [NEW] Gestion de inventario ( agregar existencias )
 - [FIX] Ver detalle de compra tipo cash ( agregar existencias ), ahora el ticket es # {auto_inc_folio}-{bracelet.order_count}
