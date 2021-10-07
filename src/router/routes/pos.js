@@ -2,7 +2,7 @@ export default [
   {
     path: '/POS/:store_id',
     name: 'POS',
-    component: () => import('@/views/e-commerce/e-commerce-checkout/ECommerceCheckout.vue'),
+    component: () => import('@/views/e-commerce/e-commerce-checkout/Pos.vue'),
     meta: {
       requiresAuth: true,
       contentClass: 'ecommerce-application',
