@@ -24,7 +24,7 @@ export default [
     roles: ['admin'],
   },
   {
-    title: 'Productos',
+    title: 'Productos ',
     icon: 'PackageIcon',
     roles: ['admin'],
     children: [
