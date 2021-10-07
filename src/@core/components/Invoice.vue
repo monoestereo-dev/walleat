@@ -245,7 +245,7 @@
         <b-card>
 
           <!-- Button: Send Invoice -->
-          <b-button
+          <!-- <b-button
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             v-b-toggle.sidebar-send-invoice
             variant="primary"
@@ -253,17 +253,17 @@
             block
           >
             Enviar por correo
-          </b-button>
+          </b-button> -->
 
           <!-- Button: DOwnload -->
-          <b-button
+          <!-- <b-button
             v-ripple.400="'rgba(186, 191, 199, 0.15)'"
             variant="outline-secondary"
             class="mb-75"
             block
           >
             Descargar
-          </b-button>
+          </b-button> -->
 
           <!-- Button: Print -->
           <b-button
