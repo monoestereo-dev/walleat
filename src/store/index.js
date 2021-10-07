@@ -17,6 +17,7 @@ import storeProducts from './storeProducts'
 import pos from './pos'
 import reports from './reports'
 import dashboard from './dashboard'
+import weight from './weight'
 
 Vue.use(Vuex)
 
@@ -37,6 +38,7 @@ export default new Vuex.Store({
     pos,
     reports,
     dashboard,
+    weight,
   },
   state: {
     apiURL: 'https://api.mywalleat.com',
