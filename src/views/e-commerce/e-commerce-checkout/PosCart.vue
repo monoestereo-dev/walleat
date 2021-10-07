@@ -7,13 +7,13 @@
           order-sm="1"
         >
           <!-- Buscador 🔍-->
-          <e-commerce-checkout-step-cart-products
+          <checkout-step-cart-products
             :barcode-scanned="barcode"
             class="z-index-top"
             @toggle="toggleCameraScanner($event)"
           />
           <!-- carrito 🛒 -->
-          <e-commerce-checkout-cart-products v-if="!settings.showCategories" />
+          <checkout-cart-products v-if="!settings.showCategories" />
         </b-col>
         <b-col
           v-if="isCameraScannerActive"
@@ -40,7 +40,7 @@
       <b-card
         class="sticky-top sticky-offset border-primary"
       >
-        <b-card-header>
+        <b-card-header class="p-0">
           <h4>
             Detalles de la compra
           </h4>
@@ -104,7 +104,7 @@
 
       </b-card>
 
-      <e-commerce-checkout-cart-products v-if="settings.showCategories" />
+      <checkout-cart-products v-if="settings.showCategories" />
     </div>
   </div>
 </template>
@@ -116,11 +116,12 @@ import {
   BCard,
   BRow,
   BCol,
+  BCardHeader,
   // BFormInput,
 } from 'bootstrap-vue'
 import { StreamBarcodeReader } from 'vue-barcode-reader'
-import ECommerceCheckoutStepCartProducts from './ECommerceCheckoutStepCartProducts.vue'
-import ECommerceCheckoutCartProducts from './ECommerceCheckoutCartProducts.vue'
+import CheckoutStepCartProducts from './ECommerceCheckoutStepCartProducts.vue'
+import CheckoutCartProducts from './PosCartProducts.vue'
 
 export default {
   components: {
@@ -129,11 +130,12 @@ export default {
     BCard,
     BRow,
     BCol,
+    BCardHeader,
     // BFormInput,
 
     // SFC
-    ECommerceCheckoutStepCartProducts,
-    ECommerceCheckoutCartProducts,
+    CheckoutStepCartProducts,
+    CheckoutCartProducts,
     StreamBarcodeReader,
   },
   data() {

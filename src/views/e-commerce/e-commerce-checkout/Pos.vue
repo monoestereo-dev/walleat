@@ -15,7 +15,7 @@
         title="Carrito"
         icon="feather icon-shopping-cart"
       >
-        <e-commerce-checkout-step-cart @next-step="formWizardNextStep" />
+        <checkout-step-cart @next-step="formWizardNextStep" />
       </tab-content>
 
       <!-- social link -->
@@ -23,7 +23,7 @@
         title="Cobro"
         icon="feather icon-credit-card"
       >
-        <e-commerce-checkout-step-payment
+        <checkout-step-payment
           @next-step="formWizardNextStep"
           @prev-step="formWizardPrevStep"
         />
@@ -38,9 +38,9 @@ import {
 } from 'bootstrap-vue'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
-import { mapMutations } from 'vuex'
-import ECommerceCheckoutStepPayment from './ECommerceCheckoutStepPayment.vue'
-import ECommerceCheckoutStepCart from './ECommerceCheckoutStepCart.vue'
+import { mapMutations, mapActions } from 'vuex'
+import CheckoutStepPayment from './PosPayment.vue'
+import CheckoutStepCart from './PosCart.vue'
 
 export default {
   components: {
@@ -52,8 +52,8 @@ export default {
     TabContent,
 
     // SFC
-    ECommerceCheckoutStepCart,
-    ECommerceCheckoutStepPayment,
+    CheckoutStepCart,
+    CheckoutStepPayment,
   },
   setup() {
     const refFormWizard = ref(null)
@@ -74,7 +74,11 @@ export default {
   destroyed() {
     this.emptyCart()
   },
+  mounted() {
+
+  },
   methods: {
+    ...mapActions('weight', ['startSerial']),
     onDecode() {
       // this.lookupStoreProducts(result)
     },

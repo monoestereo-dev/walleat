@@ -26,6 +26,9 @@
             <b-dropdown-item @click="toggleCategories()">
               {{ isCategoriesActive ? '🛍️ Ocultar categorías' : '🛍️ Mostrar categorías' }}
             </b-dropdown-item>
+            <b-dropdown-item @click="startSerial()">
+              🏋️‍♀️ Conectar Bascula
+            </b-dropdown-item>
           </b-dropdown>
         </b-input-group-append>
         <b-input-group-append v-else>
@@ -194,7 +197,7 @@ export default {
     return {
       searchQuery: '',
       isCameraScannerActive: false,
-      isCategoriesActive: false,
+      isCategoriesActive: true,
     }
   },
   computed: {
@@ -218,6 +221,7 @@ export default {
     ]),
     ...mapActions('storeProducts', ['getStoreProductsStore']),
     ...mapActions('pos', ['addProductToCart']),
+    ...mapActions('weight', ['startSerial']),
     lookupStoreProducts: debounce(function searchQuery(query) {
       if (/^\d*$/.test(query) && query != null && query !== '') {
         const barcodeWithOutLastDigit = query.substring(0, query.length - 1)

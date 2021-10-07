@@ -67,7 +67,7 @@
                 class="mt-1"
                 value="chromeNFC"
               >
-                Android NFC
+                Walleat Pay
               </b-form-radio>
               <b-form-radio
                 v-if="isDeviceAndroid"
@@ -76,7 +76,7 @@
                 class="mt-1"
                 value="androidAppNfc"
               >
-                Android APP Reader
+                Walleat Pay (terminal externa)
               </b-form-radio>
             </b-form-group>
           </b-card-body>
@@ -165,7 +165,10 @@
     </div>
 
     <!-- TICKET ✌️🐔 -->
-    <div class="ticket checkout-options pb-5">
+    <div
+      v-if="cart[0]"
+      class="ticket checkout-options pb-5"
+    >
       <div class="d-flex justify-content-center p-1">
         <b-img
           :src="require('@/assets/images/logo/walleat_logo.svg')"

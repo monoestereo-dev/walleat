@@ -34,11 +34,28 @@
           <span class="text-success mb-1">${{ product.unit_price | money }}</span>
           <div class="item-quantity">
             <span class="quantity-title">Qty:</span>
-            <b-form-spinbutton
-              v-model="product.units"
+            <b-input-group
+              class="mx-1"
               size="sm"
-              class="ml-75"
-              inline
+            >
+              <b-input-group-prepend>
+                <b-button variant="outline-secondary">
+                  <i class="fas fa-minus" />
+                </b-button>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model="product.units"
+                class="text-center"
+              />
+              <b-input-group-append>
+                <b-button variant="outline-secondary">
+                  <i class="fas fa-plus" />
+                </b-button>
+              </b-input-group-append>
+            </b-input-group>
+            <i
+              class="fas fa-weight fa-2x cursor-pointer"
+              @click="weightProductAndSetUnits(product)"
             />
           </div>
         </b-card-body>
@@ -83,17 +100,17 @@
 
 <script>
 import {
-  BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormSpinbutton,
+  BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput, BInputGroup, BInputGroupAppend, BInputGroupPrepend,
 } from 'bootstrap-vue'
 import store from '@/store'
 import { ref } from '@vue/composition-api'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { formatDate } from '@core/utils/filter'
 import { useEcommerce, useEcommerceUi } from '../useEcommerce'
 
 export default {
   components: {
-    BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormSpinbutton,
+    BCard, BCardBody, BLink, BImg, BButton, BBadge, BFormInput, BInputGroup, BInputGroupAppend, BInputGroupPrepend,
   },
   setup() {
     const products = ref([])
@@ -129,20 +146,43 @@ export default {
       formatDate,
     }
   },
+  data() {
+    return {
+      isWeighted: false,
+    }
+  },
   computed: {
     ...mapGetters('pos', ['cart']),
+    ...mapGetters('weight', ['weight']),
   },
   methods: {
+    ...mapActions('weight', ['getWeight']),
     ...mapMutations('pos', [
-      'incrementProductQuantity',
-      'decrementProductQuantity',
       'deleteProductFromCarts',
+      'setProductQuantity',
     ]),
     handleDeleteProductFromCarts(product) {
       // eslint-disable-next-line
       const audio = new Audio(require('@/assets/sounds/Removed.wav'))
       audio.play()
       this.deleteProductFromCarts(product)
+    },
+    weightProductAndSetUnits(product) {
+      try {
+        debugger
+        this.getWeight()
+          .then(() => {
+            this.isWeighted = true
+            const x = this.weight.replace(/[^\d.-]/g, '')
+            this.setProductQuantity({
+              cartItem: product,
+              units: Number(x),
+            })
+          })
+      } catch (err) {
+        debugger
+        console.log(err)
+      }
     },
   },
 }
