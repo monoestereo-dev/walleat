@@ -11,10 +11,11 @@
         <span class="d-none d-sm-inline-block">, All rights Reserved</span>
       </span>
 
-      <span class="float-md-right d-none d-md-block">powered by
+      <span class="float-md-right d-none d-md-block text-muted">powered by
         <b-img
           :src="require('@/assets/images/logo/logoMonoestereo.svg')"
           width="20px"
+          style="margin-left: 5px; opacity: 0.5"
         />
       </span>
     </p>
