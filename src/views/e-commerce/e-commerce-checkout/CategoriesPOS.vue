@@ -24,8 +24,8 @@
         v-for="product in storeProducts"
         :key="product.id"
         md="6"
-        lg="6"
-        xl="4"
+        lg="12"
+        xl="6"
       >
         <b-card
           v-ripple.400="'rgba(40, 199, 111, 0.15)'"
