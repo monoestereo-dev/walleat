@@ -8,7 +8,7 @@ const state = () => ({
   sales: [],
   isInventoryMode: false,
   settings:{
-    showCategories: false,
+    showCategories: true,
   }
 })
 
@@ -63,6 +63,10 @@ const mutations = {
   },
   decrementProductQuantity: (state, cartItem) =>{
     cartItem.units--;
+  },
+  setProductQuantity: (state, {cartItem, units}) =>{
+    const index = state.cart.indexOf(cartItem);
+    state.cart[index].units = units;
   },
   deleteProductFromCarts: (state, cartItem) => {
     const index = state.cart.indexOf(cartItem);
