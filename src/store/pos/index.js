@@ -59,10 +59,12 @@ const mutations = {
     state.cart.unshift(payload.data[0])
   },
   incrementProductQuantity: (state, cartItem) =>{
-    cartItem.units++;
+    const index = state.cart.indexOf(cartItem);
+    state.cart[index].units++;
   },
   decrementProductQuantity: (state, cartItem) =>{
-    cartItem.units--;
+    const index = state.cart.indexOf(cartItem);
+    state.cart[index].units--;
   },
   setProductQuantity: (state, {cartItem, units}) =>{
     const index = state.cart.indexOf(cartItem);
@@ -73,9 +75,6 @@ const mutations = {
     if (index > -1) {
       state.cart.splice(index, 1);
     }
-  },
-  decrementProductInventory(state, payload){
-    payload.inventory--
   },
   emptyCart(state){
     state.cart = [];

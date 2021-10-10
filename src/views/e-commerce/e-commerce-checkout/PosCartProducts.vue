@@ -35,11 +35,13 @@
           <div class="item-quantity">
             <span class="quantity-title">Qty:</span>
             <b-input-group
-              class="mx-1"
+              class="mx-1 d-flex unitsField"
               size="sm"
             >
               <b-input-group-prepend>
-                <b-button variant="outline-secondary">
+                <b-button variant="outline-secondary"
+                  @click="decrementProductQuantity(product)"
+                >
                   <i class="fas fa-minus" />
                 </b-button>
               </b-input-group-prepend>
@@ -48,7 +50,9 @@
                 class="text-center"
               />
               <b-input-group-append>
-                <b-button variant="outline-secondary">
+                <b-button variant="outline-secondary"
+                  @click="incrementProductQuantity(product)"
+                >
                   <i class="fas fa-plus" />
                 </b-button>
               </b-input-group-append>
@@ -147,9 +151,7 @@ export default {
     }
   },
   data() {
-    return {
-      isWeighted: false,
-    }
+    return {}
   },
   computed: {
     ...mapGetters('pos', ['cart']),
@@ -159,31 +161,37 @@ export default {
     ...mapActions('weight', ['getWeight']),
     ...mapMutations('pos', [
       'deleteProductFromCarts',
+      'incrementProductQuantity',
+      'decrementProductQuantity',
       'setProductQuantity',
     ]),
     handleDeleteProductFromCarts(product) {
       // eslint-disable-next-line
-      const audio = new Audio(require('@/assets/sounds/Removed.wav'))
+      const audio = new Audio(require('@/assets/sounds/Remove.mp3'))
       audio.play()
       this.deleteProductFromCarts(product)
     },
     weightProductAndSetUnits(product) {
-
       this.getWeight()
         .then(() => {
-          this.isWeighted = true
-          const x = this.weight.replace(/[^\d.-]/g, '')
-          this.setProductQuantity({
-            cartItem: product,
-            units: Number(x),
-          })
+          // eslint-disable-next-line
+          const audio = new Audio(require('@/assets/sounds/Pop.wav'))
+          audio.play()
+          setTimeout(() => {
+            const x = this.weight.replace(/[^\d.-]/g, '')
+            this.setProductQuantity({
+              cartItem: product,
+              units: Number(x),
+            })
+          }, 250)
         })
-
     },
   },
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.unitsField{
+  width: 140px;
+}
 </style>
