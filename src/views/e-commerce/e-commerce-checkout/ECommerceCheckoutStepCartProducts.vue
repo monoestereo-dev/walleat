@@ -27,7 +27,7 @@
               {{ isCategoriesActive ? '🛍️ Ocultar categorías' : '🛍️ Mostrar categorías' }}
             </b-dropdown-item>
             <b-dropdown-item @click="startSerial()">
-              🏋️‍♀️ Conectar Bascula
+              ⚖️ Conectar Bascula
             </b-dropdown-item>
           </b-dropdown>
         </b-input-group-append>

@@ -17,6 +17,14 @@ export default {
   },
   actions: {
     async startSerial(ctx) {
+      navigator.serial.addEventListener('connect', () => {
+        // Add |e.port| to the UI or automatically connect.
+      })
+
+      navigator.serial.addEventListener('disconnect', () => {
+        // Remove |e.port| from the UI. If the device was open the
+        // disconnection can also be observed as a stream error.
+      })
       port = await navigator.serial.requestPort()
       await port.open({
         baudRate: 9600,
@@ -25,20 +33,27 @@ export default {
         stopBits: 1,
         flowControl: 'none',
       })
-      const reader = port.readable.getReader()
-      // eslint-disable-next-line
-      while (true) {
-        // eslint-disable-next-line
-        const { value, done } = await reader.read()
-        if (done) {
-          // Allow the serial port to be closed later.
-          reader.releaseLock()
-          break
+      while (port.readable) {
+        const reader = port.readable.getReader()
+        try {
+          /* eslint no-constant-condition: ["error", { "checkLoops": false }] */
+          while (true) {
+            /* eslint-disable-next-line */
+            const { value, done } = await reader.read()
+            if (done) {
+              // Allow the serial port to be closed later.
+              reader.releaseLock()
+              break
+            }
+            if (value) {
+              const string = new TextDecoder().decode(value)
+              console.log(string)
+              ctx.commit('setWeight', string)
+            }
+          }
+        } catch (error) {
+          // TODO: Handle non-fatal read error.
         }
-        // value is a Uint8Array.
-        const string = new TextDecoder().decode(value)
-        console.log(string)
-        ctx.commit('setWeight', string)
       }
     },
     async stopSerial() {

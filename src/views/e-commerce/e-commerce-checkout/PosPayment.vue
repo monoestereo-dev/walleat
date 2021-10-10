@@ -167,7 +167,7 @@
     <!-- TICKET ✌️🐔 -->
     <div
       v-if="cart[0]"
-      class="ticket checkout-options pb-5"
+      class="ticket checkout-options pb-1"
     >
       <div class="d-flex justify-content-center p-1">
         <b-img
@@ -251,16 +251,25 @@
             </div>
             <div
               class="detail-amt font-weight-bolder"
-              :class="[cash - cartTotal > 1 ? 'text-primary' : 'text-danger']"
             >
               ${{ cash - cartTotal| money }} MXN
             </div>
           </li>
         </ul>
-        <div class="text-center text-black h6 pb-1">
+        <div class="text-center">
+          <qriously
+            value="https://mywalleat.com"
+            :size="80"
+          />
+        </div>
+        <div class="text-center">
+          https://mywalleat.com
+        </div>
+        <div class="text-center text-black h6 py-1">
           Gracias ✌️
         </div>
       </div>
+      <hr class="mt-5">
     </div>
 
   </div>
