@@ -61,7 +61,7 @@ const actions = {
         context.commit('loading', false)
       })
   },
-  getStoreProductsStore( context, { by_store, by_category, per_page = 18, page = 1, by_name = null, by_sku = null } ) {
+  getStoreProductsStore( context, { by_store, by_category, per_page = 10, page = 1, by_name = null, by_sku = null } ) {
     return new Promise((resolve, reject) => {
       context.commit('loading', true)
       axios

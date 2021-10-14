@@ -47,7 +47,6 @@ export default {
             }
             if (value) {
               const string = new TextDecoder().decode(value)
-              console.log(string)
               ctx.commit('setWeight', string)
             }
           }
