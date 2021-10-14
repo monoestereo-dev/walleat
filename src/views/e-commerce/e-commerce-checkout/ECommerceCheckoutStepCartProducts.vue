@@ -112,6 +112,30 @@
         </div>
       </b-card>
     </div>
+    <b-pagination
+      v-model="pagination.page"
+      :total-rows="pagination.total_objects"
+      :per-page="pagination.per_page"
+      first-number
+      last-number
+      class="mb-0 mt-1 mt-sm-0"
+      prev-class="prev-item"
+      next-class="next-item"
+      @change="(value)=>{handlePagination({ page: value, per_page: pagination.per_page })}"
+    >
+      <template #prev-text>
+        <feather-icon
+          icon="ChevronLeftIcon"
+          size="18"
+        />
+      </template>
+      <template #next-text>
+        <feather-icon
+          icon="ChevronRightIcon"
+          size="18"
+        />
+      </template>
+    </b-pagination>
   </div>
 
 </template>
@@ -129,6 +153,7 @@ import {
   BInputGroupAppend,
   BDropdown,
   BDropdownItem,
+  BPagination,
 } from 'bootstrap-vue'
 import store from '@/store'
 import CategoriesPos from '@/views/e-commerce/e-commerce-checkout/CategoriesPOS.vue'
@@ -151,6 +176,7 @@ export default {
     BInputGroupAppend,
     BDropdown,
     BDropdownItem,
+    BPagination,
     CategoriesPos,
   },
   setup() {
@@ -201,7 +227,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('storeProducts', ['storeProducts']),
+    ...mapGetters('storeProducts', ['storeProducts', 'pagination']),
     ...mapGetters('pos', ['settings']),
   },
   watch: {
@@ -269,6 +295,19 @@ export default {
     clearSearchbarAndResetSearch() {
       this.searchQuery = null
       this.lookupStoreProducts(null)
+    },
+    handlePagination({ page, per_page }) {
+      this.getStoreProductsStore({
+        by_store: this.$route.params.store_id,
+        by_name: this.searchQuery || null,
+        by_active_status: true,
+        meta: {
+          pagination: {
+            page,
+            per_page,
+          },
+        },
+      })
     },
   },
 }
