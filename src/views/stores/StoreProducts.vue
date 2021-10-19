@@ -82,6 +82,7 @@
           <div class="item-wrapper">
             <div class="item-rating">
               <nutri-score
+                v-if="product.product_attributes.nutritional_info"
                 :nutritional-info="product.product_attributes.nutritional_info"
                 :class="{ 'mt-1' : itemView === 'list-view'}"
               />

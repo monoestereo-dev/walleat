@@ -97,7 +97,10 @@
 
         <!-- Column: Nutritional info -->
         <template #cell(nutritional_info)="data">
-          <nutri-score :nutritional-info="data.item.nutritional_info" />
+          <nutri-score
+            v-if="data.item.nutritional_info"
+            :nutritional-info="data.item.nutritional_info"
+          />
         </template>
         <!-- Column: Status -->
         <template #cell(status)="data">

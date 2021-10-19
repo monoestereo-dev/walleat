@@ -67,7 +67,10 @@
             <!-- Price And Ratings -->
             <div class="d-flex align-items-center my-1">
               <div class="ecommerce-details-price d-flex flex-wrap">
-                <nutri-score :nutritional-info="product.nutritional_info" />
+                <nutri-score
+                  v-if="product.nutritional_info"
+                  :nutritional-info="product.nutritional_info"
+                />
               </div>
             </div>
 
