@@ -103,8 +103,16 @@
         </div>
 
       </b-card>
-
-      <checkout-cart-products v-if="settings.showCategories" />
+      <div
+        v-if="settings.showCategories"
+        class="checkout-items"
+      >
+        <checkout-cart-products
+          v-for="product in cart"
+          :key="product.id"
+          :product="product"
+        />
+      </div>
     </div>
   </div>
 </template>
