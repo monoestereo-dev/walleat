@@ -95,7 +95,10 @@
         <b-card-body>
           <div class="item-wrapper">
             <div class="item-rating">
-              <nutri-score :nutritional-info="product.nutritional_info" />
+              <nutri-score
+                v-if="product.nutritional_info"
+                :nutritional-info="product.nutritional_info"
+              />
             </div>
             <!-- <div>
               <h6 class="item-price">
