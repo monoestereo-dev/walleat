@@ -5,7 +5,9 @@
     class="card-statistics"
   >
     <b-card-header>
-      <b-card-title>Reporte de ventas</b-card-title>
+      <b-card-title>
+        Resumen diario
+      </b-card-title>
       <b-card-text class="font-small-2 mr-25 mb-0">
         Última actualización {{ Date.now() | date }}
       </b-card-text>
@@ -15,7 +17,6 @@
         <b-col
           v-for="item in data"
           :key="item.icon"
-          xl="3"
           sm="6"
           :class="item.customClass"
         >

@@ -125,7 +125,14 @@
 
       <!-- Column: Total -->
       <template #cell(total)="data">
-        ${{ data.value | money }}
+        <div>
+          <feather-icon
+            :icon="data.item.order_type === 'sell' ? 'TrendingUpIcon':'TrendingDownIcon'"
+            :class="data.item.order_type === 'sell' ? 'text-success':'text-danger'"
+            class="mr-1"
+          />
+          ${{ data.value | money }}
+        </div>
       </template>
 
       <!-- Column: Payment type -->

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row class="match-height">
+    <b-row class="">
       <b-col
         cols="12"
         md="6"
@@ -194,36 +194,22 @@ export default {
         startDate: Date.now(),
         endDate: Date.now(),
       },
-      storeStats: [
-        {
-          title: '100',
+      storeStats: {
+        ventas: {
+          title: '0',
           subtitle: 'Ventas',
           icon: 'TrendingUpIcon',
           color: 'light-success',
           customClass: 'mb-1',
         },
-        {
-          title: '250',
-          subtitle: 'Productos vendidos',
+        utilidades: {
+          title: '0',
+          subtitle: 'Utilidades',
           icon: 'ShoppingBagIcon',
           color: 'light-info',
           customClass: 'mb-1',
         },
-        {
-          title: '$1,100.00',
-          subtitle: 'Efectivo',
-          icon: 'DollarSignIcon',
-          color: 'light-warning',
-          customClass: 'mb-1',
-        },
-        {
-          title: '$1,800.00',
-          subtitle: 'Crédito',
-          icon: 'CreditCardIcon',
-          color: 'light-primary',
-          customClass: 'mb-1',
-        },
-      ],
+      },
       swiperOptions: {
         navigation: {
           nextEl: '.swiper-button-next',
@@ -239,6 +225,16 @@ export default {
     ...mapGetters('orders', [
       'orders',
     ]),
+    ...mapGetters('reports', [
+      'salesCurrentDate',
+      'marginCurrentDate',
+    ]),
+  },
+  watch: {
+    salesCurrentDate(val) {
+      debugger
+      this.storeStats.ventas.title = `$${val}`
+    },
   },
   mounted() {
     // this.rangePicker = [this.formatFirstDate(this.dateRange.startDate), this.formatDate(this.dateRange.endDate)]
@@ -297,6 +293,8 @@ export default {
         })
         this.salesReport = graphData
       })
+    this.fetchMarginStoresCategoryDate({ by_store_id: this.$route.params.id })
+    this.fetchInventoryTurnover({ by_store_id: this.$route.params.id })
   },
   methods: {
     ...mapActions('orders', [
@@ -309,6 +307,7 @@ export default {
       'fetchMarginStoresCategoryDate',
       'fetchSalesStoresCategoryDate',
       'fetchSalesStoresDate',
+      'fetchInventoryTurnover',
     ]),
     updateRanges() {
       this.fetchOrders({
