@@ -248,7 +248,6 @@ export default {
     typeNum(val) {
       if (this.scaleValue.includes('.')) {
         const dotPosition = this.scaleValue.split('.')
-        console.log(dotPosition)
         if (dotPosition[1].length <= 2) {
           this.scaleValue += val
         }

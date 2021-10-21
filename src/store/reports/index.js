@@ -190,7 +190,6 @@ export default {
             params,
           })
           .then(response => {
-            debugger
             ctx.commit('setInventoryTurnover', response.data)
             resolve(response.data)
           })

@@ -232,7 +232,6 @@ export default {
   },
   watch: {
     salesCurrentDate(val) {
-      debugger
       this.storeStats.ventas.title = `$${val}`
     },
   },
