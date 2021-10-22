@@ -100,7 +100,6 @@
               label-for="sku"
             >
               <b-form-input
-                id="sku"
                 v-model="productData.sku"
                 autofocus
                 :state="getValidationState(validationContext)"
