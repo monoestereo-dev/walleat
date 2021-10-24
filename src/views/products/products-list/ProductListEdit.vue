@@ -117,7 +117,6 @@
           <validation-provider
             #default="validationContext"
             name="Información nutrimental"
-            rules="required"
           >
             <b-form-group
               label="Información nutimental"
