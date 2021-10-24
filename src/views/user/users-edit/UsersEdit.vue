@@ -21,59 +21,21 @@
       </div>
     </b-alert>
 
-    <b-tabs
-      v-if="userData"
-      pills
-    >
+    <b-card-title>
+      Editar usuario
+    </b-card-title>
 
-      <!-- Tab: Account -->
-      <b-tab active>
-        <template #title>
-          <feather-icon
-            icon="UserIcon"
-            size="16"
-            class="mr-0 mr-sm-50"
-          />
-          <span class="d-none d-sm-inline">Account</span>
-        </template>
-        <user-edit-tab-account
-          :user-data="userData"
-          class="mt-2 pt-75"
-        />
-      </b-tab>
-
-      <!-- Tab: Information -->
-      <b-tab>
-        <template #title>
-          <feather-icon
-            icon="InfoIcon"
-            size="16"
-            class="mr-0 mr-sm-50"
-          />
-          <span class="d-none d-sm-inline">Information</span>
-        </template>
-        <user-edit-tab-information class="mt-2 pt-75" />
-      </b-tab>
-
-      <!-- Tab: Social -->
-      <b-tab>
-        <template #title>
-          <feather-icon
-            icon="Share2Icon"
-            size="16"
-            class="mr-0 mr-sm-50"
-          />
-          <span class="d-none d-sm-inline">Social</span>
-        </template>
-        <user-edit-tab-social class="mt-2 pt-75" />
-      </b-tab>
-    </b-tabs>
+    <user-edit-tab-account
+      v-if="userData !== undefined"
+      :user-data="userData"
+    />
   </component>
 </template>
 
 <script>
 import {
   BTab, BTabs, BCard, BAlert, BLink,
+  BCardHeader, BCardTitle,
 } from 'bootstrap-vue'
 import { ref, onUnmounted } from '@vue/composition-api'
 import router from '@/router'
@@ -90,6 +52,8 @@ export default {
     BCard,
     BAlert,
     BLink,
+    BCardHeader,
+    BCardTitle,
 
     UserEditTabAccount,
     UserEditTabInformation,
