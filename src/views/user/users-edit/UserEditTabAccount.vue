@@ -133,8 +133,8 @@
         </b-button>
         <b-button
           variant="outline-secondary"
-          @click="$router.go(-1)"
           :block="$store.getters['app/currentBreakPoint'] === 'xs'"
+          @click="$router.go(-1)"
         >
           Cancelar
         </b-button>
