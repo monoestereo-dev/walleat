@@ -1,5 +1,8 @@
 # App
-
+## [0.2.21] - 2021-10-26
+- [FIX] Se cambiaron headers de columnas reportes de venta de inglés a español
+- [FIX] Se cambió logo walleat con round edges
+- [FIX] Se corrigió título de gráfica de ganancias en reporte de ventas
 
 ## [0.2.21] - 2021-10-06
 - [FIX] Se cambiaron los labes de Walleat Pay y Walleat Pay (terminal externa)
