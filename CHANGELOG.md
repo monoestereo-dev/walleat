@@ -1,5 +1,10 @@
 # App
-## [0.2.21] - 2021-10-26
+
+## [0.2.23] - 2021-10-28
+- [ADD] Se añadió current_loan_balance to customer view
+- [FIX] Se corrigieron errores ortográficos
+
+## [0.2.22] - 2021-10-26
 - [FIX] Se cambiaron headers de columnas reportes de venta de inglés a español
 - [FIX] Se cambió logo walleat con round edges
 - [FIX] Se corrigió título de gráfica de ganancias en reporte de ventas

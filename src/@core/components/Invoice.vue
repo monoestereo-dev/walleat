@@ -132,6 +132,12 @@
                         </td>
                         <td>{{ order.payment_type === 'credit' ? 'Walleat':'Efectivo' }}</td>
                       </tr>
+                      <tr>
+                        <td class="pr-1">
+                          Fiado:
+                        </td>
+                        <td>{{ order.is_loan === true ? 'Si':'No' }}</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>

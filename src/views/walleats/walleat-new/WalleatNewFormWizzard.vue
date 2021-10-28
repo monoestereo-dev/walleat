@@ -16,7 +16,7 @@
 
       <!-- general info tab -->
       <tab-content
-        title="Informacion general"
+        title="Información general"
         :before-change="validationForm"
       >
         <validation-observer
@@ -26,12 +26,15 @@
           <b-row>
             <b-col
               cols="12"
-              class="mb-2"
+              class="mb-2 text-center"
             >
               <base-cropper
                 :model="walleat"
                 @cropped-image="walleat.logo"
               />
+              <small>
+                Toca la imagen para cambiarla
+              </small>
             </b-col>
             <b-col
               cols="12"
