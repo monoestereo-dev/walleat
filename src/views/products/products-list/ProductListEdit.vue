@@ -141,14 +141,6 @@
                     </b-form-group>
                   </validation-provider>
                 </b-col>
-                <b-col>
-                  <b-form-checkbox
-                    v-model="productData.is_weighted"
-                    class="custom-control-primary"
-                    name="check-button"
-                    switch
-                  />
-                </b-col>
               </b-row>
 
               <!-- Categories -->
@@ -211,6 +203,15 @@
                   {{ validationContext.errors[0] }}
                 </b-form-invalid-feedback>
               </validation-provider>
+              <b-row class="d-flex">
+                <b-form-checkbox
+                  v-model="productData.is_weighted"
+                  class="custom-control-primary"
+                  name="check-button"
+                  switch
+                />
+                ¿Se vende por peso?
+              </b-row>
 
               <!-- Form Actions -->
               <div class="d-flex mt-2">

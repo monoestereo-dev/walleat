@@ -215,6 +215,15 @@
                   {{ validationContext.errors[0] }}
                 </b-form-invalid-feedback>
               </validation-provider>
+              <b-row class="d-flex">
+                <b-form-checkbox
+                  v-model="productData.is_weighted"
+                  class="custom-control-primary"
+                  name="check-button"
+                  switch
+                />
+                ¿Se vende por peso?
+              </b-row>
               <b-row class="mt-2">
                 <b-col>
                   <!-- Product price -->
@@ -314,6 +323,7 @@ import {
   BCol,
   BContainer,
   BImg,
+  BFormCheckbox,
 } from 'bootstrap-vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { ref } from '@vue/composition-api'
@@ -339,6 +349,7 @@ export default {
     BCol,
     BImg,
     BContainer,
+    BFormCheckbox,
     // Form Validation
     ValidationProvider,
     ValidationObserver,
