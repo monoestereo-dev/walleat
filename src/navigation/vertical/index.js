@@ -68,6 +68,6 @@ export default [
     title: 'Ventas',
     route: 'select-store',
     icon: 'ShoppingCartIcon',
-    roles: ['store_clerk'],
+    roles: ['admin'],
   },
 ]
