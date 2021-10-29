@@ -4,7 +4,7 @@
     body-class="pb-50"
   >
     <b-card-title>
-      Historial de ventas
+      Historial de ganancias
     </b-card-title>
     <!-- chart -->
     <vue-apex-charts

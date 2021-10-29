@@ -10,8 +10,11 @@
         :size="200"
       />
     </b-card>
-    <b-card title="WalleatPay">
-      <b-card-text>Muestra el codigo al cajero para que lo escanee</b-card-text>
+    <b-card
+      title="WalleatPay"
+      class="mb-2 text-center"
+    >
+      <b-card-text>Permite al cajero escanear el código</b-card-text>
     </b-card>
   </div>
 </template>

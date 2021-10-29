@@ -297,11 +297,23 @@ export default {
       ],
       tableColumns: [
         'folio',
-        'store_clerk',
-        'created_at',
+        {
+          key: 'store_clerk',
+          label: 'Cajero',
+        },
+        {
+          key: 'created_at',
+          label: 'Fecha',
+        },
         'total',
-        'payment_type',
-        'tools',
+        {
+          key: 'payment_type',
+          label: 'Tipo de pago',
+        },
+        {
+          key: 'tools',
+          label: 'Herramientas',
+        },
       ],
       perPage: ['10', '20', '50', '100'],
     }

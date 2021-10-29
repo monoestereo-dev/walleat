@@ -43,7 +43,7 @@
             ¡Bienvenido! 👋
           </b-card-title>
           <b-card-text class="mb-2">
-            Walleat, Tu nueva forma de pago.
+            Walleat, tu nueva forma de pagar y cobrar.
           </b-card-text>
 
           <!-- form -->

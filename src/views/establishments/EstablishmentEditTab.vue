@@ -196,7 +196,7 @@
           lg="4"
         >
           <b-form-group
-            label="City"
+            label="Ciudad"
             label-for="city"
           >
             <b-form-input
@@ -213,7 +213,7 @@
           lg="4"
         >
           <b-form-group
-            label="State"
+            label="Estado"
             label-for="state"
           >
             <b-form-input
@@ -231,7 +231,7 @@
           lg="4"
         >
           <b-form-group
-            label="Country"
+            label="País"
             label-for="country"
           >
             <b-form-input
