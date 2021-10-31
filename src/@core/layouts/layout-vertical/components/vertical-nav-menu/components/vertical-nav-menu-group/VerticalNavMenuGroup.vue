@@ -1,6 +1,6 @@
 <template>
   <li
-    v-if="canViewVerticalNavMenuGroup(item)"
+    v-if="canViewVerticalNavMenuGroup(item) && item.roles.includes(userData.role_name)"
     class="nav-item has-sub"
     :class="{
       'open': isOpen,
@@ -44,6 +44,7 @@ import { BLink, BBadge, BCollapse } from 'bootstrap-vue'
 import { resolveVerticalNavMenuItemComponent as resolveNavItemComponent } from '@core/layouts/utils'
 import { useUtils as useI18nUtils } from '@core/libs/i18n'
 import { useUtils as useAclUtils } from '@core/libs/acl'
+import { getUserData } from '@/auth/utils'
 import VerticalNavMenuHeader from '../vertical-nav-menu-header'
 import VerticalNavMenuLink from '../vertical-nav-menu-link/VerticalNavMenuLink.vue'
 
@@ -66,6 +67,11 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      userData: {},
+    }
   },
   setup(props) {
     const {
@@ -91,6 +97,9 @@ export default {
       // i18n
       t,
     }
+  },
+  created() {
+    this.userData = getUserData()
   },
 }
 </script>

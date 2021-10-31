@@ -26,9 +26,6 @@
           <h5 class="mb-0">
             ¿No tienes NFC?
           </h5>
-          <small>
-            no te preocupes, puedes continuar agregándolo manualmente
-          </small>
           <div>
             <b-button
               size="sm"

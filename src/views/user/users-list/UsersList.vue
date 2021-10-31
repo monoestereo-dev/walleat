@@ -84,11 +84,9 @@
                 :src="`${data.item.logo}`"
                 :text="avatarText(data.item.name)"
                 :variant="`light-${resolveUserRoleVariant(data.item.role_name)}`"
-                :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
               />
             </template>
             <b-link
-              :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
               class="font-weight-bold d-block text-nowrap"
             >
               {{ data.item.name }}
@@ -141,17 +139,14 @@
                 class="align-middle text-body"
               />
             </template>
-            <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
-              <feather-icon icon="FileTextIcon" />
-              <span class="align-middle ml-50">Details</span>
-            </b-dropdown-item>
-
             <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
               <feather-icon icon="EditIcon" />
               <span class="align-middle ml-50">Edit</span>
             </b-dropdown-item>
 
-            <b-dropdown-item>
+            <b-dropdown-item
+              @click="disableUser(data.item)"
+            >
               <feather-icon icon="TrashIcon" />
               <span class="align-middle ml-50">Delete</span>
             </b-dropdown-item>
@@ -370,6 +365,7 @@ export default {
   },
   methods: {
     ...mapActions('app-user', ['fetchUsers']),
+    ...mapActions('users', ['editUser']),
     setUsers(users) {
       this.users = users.data
       this.pagination = users.meta.pagination
@@ -389,6 +385,37 @@ export default {
           this.users = response.data.data
           this.pagination = response.data.meta.pagination
         })
+    },
+    disableUser(user) {
+      this.$swal({
+        title: '¿Estás seguro?',
+        text: user.active_status ? 'El usuario perdera el acceso a su cuenta, puedes revertir esta operacion cuando tu quieras' : 'El usuario podra acceder de nuevo a su cuenta',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: user.active_status ? 'seee, borralo!' : 'si, reactivar usuario',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          this.editUser({
+            id: user.id,
+            user: {
+              active_status: !user.active_status,
+            },
+          })
+          this.$swal({
+            icon: 'success',
+            title: user.active_status ? 'Borrado!' : 'Reactivado!',
+            text: user.active_status ? 'el usuario ya no está activo!' : 'El usuario esta activo de nuevo',
+            customClass: {
+              confirmButton: 'btn btn-success',
+            },
+          })
+        }
+      })
     },
   },
 }

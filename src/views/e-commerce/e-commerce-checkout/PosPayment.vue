@@ -47,7 +47,7 @@
               <b-form-radio
                 v-model="paymentMethod"
                 name="payment-method"
-                value="cash"
+                value="bankcard"
                 class="mt-1"
               >
                 Tarjeta bancaria
@@ -142,7 +142,7 @@
               </li>
             </ul>
             <b-button
-              v-if="paymentMethod === 'cash'"
+              v-if="paymentMethod === 'cash' || paymentMethod === 'bankcard'"
               :variant="cash < cartTotal ? 'warning' : 'success'"
               block
               :disabled="cash < cartTotal"
@@ -347,6 +347,13 @@ export default {
       'cart',
     ]),
   },
+  watch: {
+    paymentMethod(newValue) {
+      if (newValue === 'bankcard') {
+        this.cash = this.cartTotal
+      }
+    },
+  },
   mounted() {
     const ua = navigator.userAgent.toLowerCase()
     const isAndroid = ua.indexOf('android') > -1
@@ -365,6 +372,18 @@ export default {
     prevStep() {
       this.$emit('prev-step')
     },
+    getPaymentType(method) {
+      if (method === 'cash') {
+        return 'cash'
+      }
+      if (method === 'chromeNFC' || method === 'androidAppNfc') {
+        return 'credit'
+      }
+      if (method === 'bankcard') {
+        return 'bankcard'
+      }
+      return '😭'
+    },
     completeSale() {
       const tempCart = []
       this.cart.forEach(product => {
@@ -376,12 +395,12 @@ export default {
       })
       const orderReady = {
         store_id: this.$route.params.store_id,
-        payment_type: this.paymentMethod === 'cash' ? 'cash' : 'credit',
+        payment_type: this.getPaymentType(this.paymentMethod),
         order_store_products_attributes: tempCart,
       }
       this.addOrder({ order: orderReady, orderType: 'sell' })
         .then(() => {
-          window.print()
+          // window.print()
           this.bracelet_id = null
           // eslint-disable-next-line
           const audio = new Audio(require('@/assets/sounds/Success.wav'))

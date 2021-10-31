@@ -1,84 +1,112 @@
 <template>
   <b-container>
-    <b-card>
-      <!-- Header -->
-      <div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
-        <h5 class="mb-0">
-          Editar producto
-        </h5>
+    <b-row>
+      <b-col>
+        <b-card>
+          <!-- Header -->
+          <div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
+            <h5 class="mb-0">
+              Editar producto
+            </h5>
 
-        <feather-icon
-          class="ml-1 cursor-pointer"
-          icon="XIcon"
-          size="16"
-          @click="hide"
-        />
+            <feather-icon
+              class="ml-1 cursor-pointer"
+              icon="XIcon"
+              size="16"
+              @click="hide"
+            />
 
-      </div>
+          </div>
 
-      <!-- BODY -->
-      <validation-observer
-        #default="{ handleSubmit }"
-        ref="refFormObserver"
-      >
-        <!-- Form -->
-        <b-form
-          class="p-2"
-          @submit.prevent="handleSubmit(onSubmit)"
-          @reset.prevent="resetForm"
-        >
-          <b-row>
-            <b-col sm="auto">
-              <div class="d-flex align-items-center h-100">
-                <base-cropper
-                  :model="productData"
-                  @cropped-image="productData.logo"
-                />
-              </div>
-            </b-col>
-            <b-col>
-              <!-- Product Name -->
+          <!-- BODY -->
+          <validation-observer
+            #default="{ handleSubmit }"
+            ref="refFormObserver"
+          >
+            <!-- Form -->
+            <b-form
+              class="p-2"
+              @submit.prevent="handleSubmit(onSubmit)"
+              @reset.prevent="resetForm"
+            >
+              <b-row>
+                <b-col sm="auto">
+                  <div class="d-flex align-items-center h-100">
+                    <base-cropper
+                      :model="productData"
+                      @cropped-image="productData.logo"
+                    />
+                  </div>
+                </b-col>
+                <b-col>
+                  <!-- Product Name -->
+                  <validation-provider
+                    #default="validationContext"
+                    name="Nombre"
+                    rules="required"
+                  >
+                    <b-form-group
+                      label="Nombre"
+                      label-for="full-name"
+                    >
+                      <b-form-input
+                        id="full-name"
+                        v-model="productData.name"
+                        autofocus
+                        :state="getValidationState(validationContext)"
+                        trim
+                        placeholder="Galletas"
+                      />
+
+                      <b-form-invalid-feedback>
+                        {{ validationContext.errors[0] }}
+                      </b-form-invalid-feedback>
+                    </b-form-group>
+                  </validation-provider>
+
+                  <!-- Variant -->
+                  <validation-provider
+                    #default="validationContext"
+                    name="Variedad"
+                    rules=""
+                  >
+                    <b-form-group
+                      label="Variedad"
+                      label-for="variant"
+                    >
+                      <b-form-input
+                        id="variant"
+                        v-model="productData.variant"
+                        autofocus
+                        :state="getValidationState(validationContext)"
+                        trim
+                        placeholder="300gr"
+                      />
+
+                      <b-form-invalid-feedback>
+                        {{ validationContext.errors[0] }}
+                      </b-form-invalid-feedback>
+                    </b-form-group>
+                  </validation-provider>
+                </b-col>
+              </b-row>
+
+              <!-- SKU -->
               <validation-provider
                 #default="validationContext"
-                name="Nombre"
-                rules="required"
-              >
-                <b-form-group
-                  label="Nombre"
-                  label-for="full-name"
-                >
-                  <b-form-input
-                    id="full-name"
-                    v-model="productData.name"
-                    autofocus
-                    :state="getValidationState(validationContext)"
-                    trim
-                    placeholder="Galletas"
-                  />
-
-                  <b-form-invalid-feedback>
-                    {{ validationContext.errors[0] }}
-                  </b-form-invalid-feedback>
-                </b-form-group>
-              </validation-provider>
-
-              <!-- Variant -->
-              <validation-provider
-                #default="validationContext"
-                name="Variedad"
+                name="Código de barras"
                 rules=""
               >
                 <b-form-group
-                  label="Variedad"
-                  label-for="variant"
+                  label="Código de barras"
+                  label-for="sku"
                 >
                   <b-form-input
-                    id="variant"
-                    v-model="productData.variant"
+                    v-model="productData.sku"
                     autofocus
                     :state="getValidationState(validationContext)"
                     trim
-                    placeholder="300gr"
+                    placeholder=""
                   />
 
                   <b-form-invalid-feedback>
@@ -86,141 +114,132 @@
                   </b-form-invalid-feedback>
                 </b-form-group>
               </validation-provider>
-            </b-col>
-          </b-row>
 
-          <!-- SKU -->
-          <validation-provider
-            #default="validationContext"
-            name="Código de barras"
-            rules=""
-          >
-            <b-form-group
-              label="Código de barras"
-              label-for="sku"
-            >
-              <b-form-input
-                v-model="productData.sku"
-                autofocus
-                :state="getValidationState(validationContext)"
-                trim
-                placeholder=""
-              />
-
-              <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <!-- Nutritional info -->
-          <validation-provider
-            #default="validationContext"
-            name="Información nutrimental"
-            rules="required"
-          >
-            <b-form-group
-              label="Información nutimental"
-              label-for="nutritional-info"
-            >
-              <b-form-input
-                id="nutritional-info"
-                v-model="productData.nutritional_info"
-                autofocus
-                :state="getValidationState(validationContext)"
-                trim
-                placeholder="0"
-              />
-
-              <b-form-invalid-feedback>
-                {{ validationContext.errors[0] }}
-              </b-form-invalid-feedback>
-            </b-form-group>
-          </validation-provider>
-
-          <!-- Categories -->
-          <validation-provider
-            #default="validationContext"
-            name="Full Name"
-            rules="required"
-          >
-            <b-form-group label="Categorías">
-              <!-- prop `add-on - change` is needed to enable adding tags vie the `change` event -->
-              <b-form-tags
-                v-model="productData.categories_ids"
-                size="lg"
-                add-on-change
-                no-outer-focus
-              >
-                <template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
-                  <ul
-                    v-if="tags.length > 0"
-                    class="list-inline d-inline-block mb-1"
+              <!-- Nutritional info -->
+              <b-row>
+                <b-col>
+                  <validation-provider
+                    #default="validationContext"
+                    name="Información nutrimental"
                   >
-                    <li
-                      v-for="tag in tags"
-                      :key="tag"
-                      class="list-inline-item"
+                    <b-form-group
+                      label="Información nutimental"
+                      label-for="nutritional-info"
                     >
-                      <b-form-tag
-                        :title="tag"
-                        :disabled="disabled"
-                        variant="primary"
-                        class="my-50 mr-25"
-                        @remove="removeTag(tag)"
-                      >
-                        {{ getTagNameById(tag) }}
-                      </b-form-tag>
-                    </li>
-                  </ul>
-                  <b-form-select
-                    v-bind="inputAttrs"
-                    :disabled="disabled || availableOptions.length === 0"
-                    :options="availableOptions"
-                    text-field="name"
-                    value-field="id"
-                    v-on="inputHandlers"
+                      <b-form-input
+                        id="nutritional-info"
+                        v-model="productData.nutritional_info"
+                        autofocus
+                        :state="getValidationState(validationContext)"
+                        trim
+                        placeholder="0"
+                      />
+
+                      <b-form-invalid-feedback>
+                        {{ validationContext.errors[0] }}
+                      </b-form-invalid-feedback>
+                    </b-form-group>
+                  </validation-provider>
+                </b-col>
+              </b-row>
+
+              <!-- Categories -->
+              <validation-provider
+                #default="validationContext"
+                name="Full Name"
+                rules="required"
+              >
+                <b-form-group label="Categorías">
+                  <!-- prop `add-on - change` is needed to enable adding tags vie the `change` event -->
+                  <b-form-tags
+                    v-model="productData.categories_ids"
+                    size="lg"
+                    add-on-change
+                    no-outer-focus
                   >
-                    <template v-slot:first>
-                      <!-- This is required to prevent bugs with Safari -->
-                      <option
-                        disabled
-                        value=""
+                    <template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
+                      <ul
+                        v-if="tags.length > 0"
+                        class="list-inline d-inline-block mb-1"
                       >
-                        Selecciona una categoría...
-                      </option>
+                        <li
+                          v-for="tag in tags"
+                          :key="tag"
+                          class="list-inline-item"
+                        >
+                          <b-form-tag
+                            :title="tag"
+                            :disabled="disabled"
+                            variant="primary"
+                            class="my-50 mr-25"
+                            @remove="removeTag(tag)"
+                          >
+                            {{ getTagNameById(tag) }}
+                          </b-form-tag>
+                        </li>
+                      </ul>
+                      <b-form-select
+                        v-bind="inputAttrs"
+                        :disabled="disabled || availableOptions.length === 0"
+                        :options="availableOptions"
+                        text-field="name"
+                        value-field="id"
+                        v-on="inputHandlers"
+                      >
+                        <template v-slot:first>
+                          <!-- This is required to prevent bugs with Safari -->
+                          <option
+                            disabled
+                            value=""
+                          >
+                            Selecciona una categoría...
+                          </option>
+                        </template>
+                      </b-form-select>
                     </template>
-                  </b-form-select>
-                </template>
-              </b-form-tags>
-            </b-form-group>
-            <b-form-invalid-feedback>
-              {{ validationContext.errors[0] }}
-            </b-form-invalid-feedback>
-          </validation-provider>
+                  </b-form-tags>
+                </b-form-group>
+                <b-form-invalid-feedback>
+                  {{ validationContext.errors[0] }}
+                </b-form-invalid-feedback>
+              </validation-provider>
+              <b-row class="d-flex">
+                <b-form-checkbox
+                  v-model="productData.is_weighted"
+                  class="custom-control-primary"
+                  name="check-button"
+                  switch
+                />
+                ¿Se vende por peso?
+              </b-row>
 
-          <!-- Form Actions -->
-          <div class="d-flex mt-2">
-            <b-button
-              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-              variant="primary"
-              class="mr-2"
-              type="submit"
-            >
-              Agregar
-            </b-button>
-            <b-button
-              v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-              variant="outline-secondary"
-              @click="$router.go(-1)"
-            >
-              Cancelar
-            </b-button>
-          </div>
+              <!-- Form Actions -->
+              <div class="d-flex mt-2">
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="primary"
+                  class="mr-2"
+                  type="submit"
+                >
+                  Agregar
+                </b-button>
+                <b-button
+                  v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                  variant="outline-secondary"
+                  @click="$router.go(-1)"
+                >
+                  Cancelar
+                </b-button>
+              </div>
 
-        </b-form>
-      </validation-observer>
-    </b-card>
+            </b-form>
+          </validation-observer>
+        </b-card>
+      </b-col>
+      <b-col>
+        <!--TODO agregar una fotillo -->
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -228,6 +247,7 @@
 import {
   BForm, BFormGroup, BFormInput, BFormInvalidFeedback, BButton,
   BFormTags, BFormTag, BFormSelect, BCard, BContainer, BRow, BCol,
+  BFormCheckbox,
 } from 'bootstrap-vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { ref } from '@vue/composition-api'
@@ -250,6 +270,7 @@ export default {
     BFormTag,
     BFormSelect,
     BContainer,
+    BFormCheckbox,
     BRow,
     BCol,
     // Form Validation

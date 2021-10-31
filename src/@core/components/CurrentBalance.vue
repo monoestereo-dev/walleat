@@ -4,28 +4,51 @@
       class="balance"
       bg-variant="transparent"
     >
-      <div class="d-flex align-items-center mb-1">
-        Balance total
+      <b-row class="d-flex">
         <feather-icon
           class="ml-1"
           :icon=" isBalanceVisible ? 'EyeIcon' : 'EyeOffIcon'"
           @click="toggleBalanceVisible(isBalanceVisible = !isBalanceVisible)"
         />
-      </div>
+      </b-row>
       <div class="d-flex">
-        <h1
-          v-if="isBalanceVisible"
-          class="display-5"
-        >
-          $ {{ userData.customer.current_balance | money }}
-        </h1>
-        <h1
-          v-else
-          class="display-5"
-        >
-          $ *****
-        </h1>
+        <b-col>
+          Saldo a favor
+        </b-col>
+        <b-col>
+          Saldo por pagar
+        </b-col>
       </div>
+      <b-row class="d-flex justify-content-around mt-1">
+        <b-col>
+          <h1
+            v-if="isBalanceVisible"
+            class="display-5"
+          >
+            $ {{ userData.customer.current_balance | money }}
+          </h1>
+          <h1
+            v-else
+            class="display-5"
+          >
+            $ *****
+          </h1>
+        </b-col>
+        <b-col>
+          <h1
+            v-if="isBalanceVisible"
+            class="display-6"
+          >
+            $ {{ userData.customer.current_loan_balance | money }}
+          </h1>
+          <h1
+            v-else
+            class="display-6"
+          >
+            $ *****
+          </h1>
+        </b-col>
+      </b-row>
       <b-row class="d-flex justify-content-around mt-1">
         <b-col>
           <b-button
@@ -84,6 +107,10 @@ export default {
 
 <style lang="scss" scoped>
 .display-5 {
-  font-size: 2.9rem;
+  font-size: 2.4rem;
+}
+.display-6 {
+  font-size: 2.4rem;
+  color:brown;
 }
 </style>

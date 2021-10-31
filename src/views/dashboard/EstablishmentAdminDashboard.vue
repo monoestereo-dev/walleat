@@ -123,6 +123,9 @@ export default {
           daily: 'Hoy',
           weekly: 'Semana en curso',
           monthly: 'Mes en curso',
+          total_loans: 'Total de ventas a crédito',
+          monthly_loans: 'Ventas a crédito del día',
+          monthly_avg_orders: 'Ticket promedio',
         }
         Object.keys(response.order_totals).forEach(x => {
           const stat = {
