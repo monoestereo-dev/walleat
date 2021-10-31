@@ -65,6 +65,8 @@
                         autofocus
                         :state="getValidationState(validationContext)"
                         trim
+                        type="number"
+                        step="0.01"
                         placeholder=""
                       />
                     </b-input-group>
@@ -93,6 +95,8 @@
                         v-model="productFormData.unit_cost"
                         :state="getValidationState(validationContext)"
                         trim
+                        type="number"
+                        step="0.01"
                       />
                     </b-input-group>
 
@@ -305,7 +309,9 @@ export default {
     },
     onSubmit() {
       // si cambio el precio o el costo... primero actualizamos el store product, despues agregamos el inventario si es necesario
-      if (this.productFormData.unit_cost !== this.$route.params.unit_cost || this.productFormData.unit_price !== this.$route.params.unit_price) {
+      if (this.productFormData.unit_cost !== this.$route.params.unit_cost
+      || this.productFormData.unit_price !== this.$route.params.unit_price
+      || this.productFormData.has_inventory !== this.$route.params.has_inventory) {
         this.editStoreProduct(this.productFormData)
           .then(() => {
             if (!this.addProducts) {

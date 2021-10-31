@@ -9,7 +9,7 @@
         Resumen diario
       </b-card-title>
       <b-card-text class="font-small-2 mr-25 mb-0">
-        Última actualización {{ Date.now() | date }}
+        Última actualización {{ Date.now() | dateNtime }}
       </b-card-text>
     </b-card-header>
     <b-card-body class="statistics-body">

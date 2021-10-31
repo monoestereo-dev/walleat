@@ -42,8 +42,11 @@
             />
           </div>
 
-          <!-- Ratings -->
-          <div class="ratings">
+          <!-- ToDo agregar funcionalidad a el reporte de score nutrimentales -->
+          <div
+            v-if="false"
+            class="ratings"
+          >
             <h6 class="filter-title">
               Score nutrimental
             </h6>
