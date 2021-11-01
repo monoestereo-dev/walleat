@@ -36,7 +36,7 @@
           size="18"
           class="mr-50"
         />
-        <span class="font-weight-bold">Change Password</span>
+        <span class="font-weight-bold">Cambiar contraseña</span>
       </template>
 
       <account-setting-password />

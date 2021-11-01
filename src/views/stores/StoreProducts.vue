@@ -46,6 +46,14 @@
               placeholder="Buscar producto"
               class="search-product"
             />
+            <b-input-group-append v-if="filters.q">
+              <b-button
+                variant="outline-warning"
+                @click="clearSearchbarAndResetSearch()"
+              >
+                Borrar
+              </b-button>
+            </b-input-group-append>
             <b-input-group-append is-text>
               <feather-icon
                 icon="SearchIcon"
@@ -379,6 +387,9 @@ export default {
   },
   methods: {
     ...mapActions('stores', ['fetchStoreProducts']),
+    clearSearchbarAndResetSearch() {
+      this.filters.q = ''
+    },
   },
 }
 </script>

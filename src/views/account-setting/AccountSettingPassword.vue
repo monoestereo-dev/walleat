@@ -6,7 +6,7 @@
         <!-- buttons -->
         <b-col cols="12">
           <h2>Cambiar contraseña</h2>
-          <p>Para cambiar tu contraseña has click en el boton de abajo y te enviaremos un correo electronico con las instrucciones.</p>
+          <p>Para cambiar tu contraseña has click en el botón de abajo y te enviaremos un correo electrónico con las instrucciones.</p>
         </b-col>
         <b-col cols="12">
           <b-button

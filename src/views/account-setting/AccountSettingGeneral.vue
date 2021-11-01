@@ -26,7 +26,7 @@
         <b-row>
           <b-col sm="6">
             <b-form-group
-              label="Username"
+              label="Nombre de usuario"
               label-for="account-username"
             >
               <validation-provider
@@ -37,7 +37,7 @@
                 <b-form-input
                   v-model="optionsLocal.name"
                   :state="errors.length > 0 ? false:null"
-                  placeholder="Username"
+                  placeholder="Nombre"
                   name="username"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -88,7 +88,7 @@
               type="submit"
               :disabled="invalid"
             >
-              Save changes
+              Guardar cambios
             </b-button>
             <b-button
               v-ripple.400="'rgba(186, 191, 199, 0.15)'"
@@ -97,7 +97,7 @@
               class="mt-2"
               @click.prevent="resetForm"
             >
-              Reset
+              Restablecer
             </b-button>
           </b-col>
         </b-row>

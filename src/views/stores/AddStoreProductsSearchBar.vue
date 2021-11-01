@@ -5,7 +5,7 @@
       <h5 class="display-4">
         Agregar productos
       </h5>
-      <p>Buscar productos por nombre o codigo de barras</p>
+      <p>Buscar productos por nombre o código de barras</p>
       <b-input-group>
         <b-form-input
           id="sku"
@@ -149,7 +149,7 @@
           <h3 class="display-5">
             ¿No encontraste el producto deseado? 😲
           </h3>
-          <p>Da click en el boton de abajo para registrar un producto nuevo</p>
+          <p>Da click en el botón de abajo para registrar un producto nuevo</p>
           <b-button
             :to="{ name: 'new-store-product', params: { id: $route.params.id } }"
           >Registrar producto nuevo</b-button>
