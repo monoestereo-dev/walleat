@@ -1,5 +1,13 @@
 # App
 
+## [1.0.0.1] - 2021-11-01
+- [FIX] la paginacion en las categorias del pos ahora es de per_page: 1000
+- [FIX] se campbio el orden del escaner de camara en el pos, ahora se despliega antes del buscador
+- [FIX] Paginación en store products
+
+## [1.0.0] - 2021-10-30 👑
+- [FIX] Se corrigio un problema con editar productos ( cuando se queria agrega inventario a uno que no tenia )
+
 ## [0.2.23] - 2021-10-28
 - [ADD] Se añadió current_loan_balance to customer view
 - [FIX] Se corrigieron errores ortográficos
