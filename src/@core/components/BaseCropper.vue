@@ -28,7 +28,7 @@
       @change="croppie"
     />
     <b-modal
-      id="croppieModal"
+      :id="`croppieModal-${model.id}`"
       @ok="handleEmit()"
     >
       <vue-croppie
@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     croppie(e) {
-      this.$bvModal.show('croppieModal')
+      this.$bvModal.show(`croppieModal-${this.model.id}`)
       const files = e.target.files || e.dataTransfer.files
       if (!files.length) return
 
@@ -85,7 +85,7 @@ export default {
     },
     crop() {
       const options = {
-        format: 'jpeg',
+        format: 'png',
         square: true,
       }
       this.$refs.cropRef.result(options, output => {
