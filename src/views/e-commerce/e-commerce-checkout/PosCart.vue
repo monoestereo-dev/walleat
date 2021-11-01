@@ -4,7 +4,7 @@
       <b-row>
         <b-col
           order="2"
-          order-sm="1"
+          order-sm="2"
         >
           <!-- Buscador 🔍-->
           <checkout-step-cart-products
@@ -18,9 +18,8 @@
         <b-col
           v-if="isCameraScannerActive"
           sm="12"
-          md="auto"
           order="1"
-          order-sm="2"
+          order-sm="1"
         >
           <!-- Camera Barcode Scanner 🎥 -->
           <div class="d-flex justify-content-center mb-1">
