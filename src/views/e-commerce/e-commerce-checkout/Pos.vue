@@ -10,7 +10,7 @@
       hide-buttons
       class="checkout-form-wizard steps-transparent"
     >
-      <!-- account detail tab -->
+      <!-- Order -->
       <tab-content
         title="Carrito"
         icon="feather icon-shopping-cart"
@@ -18,7 +18,7 @@
         <checkout-step-cart @next-step="formWizardNextStep" />
       </tab-content>
 
-      <!-- social link -->
+      <!-- Payment -->
       <tab-content
         title="Cobro"
         icon="feather icon-credit-card"
