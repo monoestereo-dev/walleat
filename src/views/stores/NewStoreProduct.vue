@@ -404,7 +404,7 @@ export default {
   },
   beforeMount() {},
   mounted() {
-    this.fetchCategories({ by_active_status: true, meta: { pagination: { per_page: 100 } } })
+    this.fetchCategories({ by_active_status: true, meta: { pagination: { per_page: 10000 } } })
       .then(response => {
         this.categories = response.data
       })
