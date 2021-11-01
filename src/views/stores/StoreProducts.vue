@@ -279,8 +279,9 @@ export default {
     // eslint-disable-next-line
     const fetchShopProducts = _.debounce(function() {
       if (/^\d*$/.test(filters.value.q) && filters.value.q !== null && filters.value.q !== '') {
+        const barcodeWithOutLastDigit = filters.value.q.substring(0, filters.value.q.length - 1)
         fetchStoreProducts({
-          by_sku: filters.value.q || null,
+          by_sku: Number(barcodeWithOutLastDigit) || null,
           by_category: filters.value.categories || null,
           by_active_status: true,
           by_store: ctx.root.$route.params.id || null,
