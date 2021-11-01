@@ -14,6 +14,7 @@
         <b-col cols="12">
           <div class="d-flex mb-1">
             <base-cropper
+              v-if="establishment"
               :model="establishment"
               @cropped-image="establishment.logo"
             />
@@ -273,7 +274,8 @@ export default {
   data() {
     return {
       establishment: {
-        logo: null,
+        address_attributes: {},
+        logo: 'https://api.mywalleat.com/default.jpg',
       },
     }
   },
