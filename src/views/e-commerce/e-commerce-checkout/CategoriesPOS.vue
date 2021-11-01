@@ -113,7 +113,14 @@ export default {
     ]),
   },
   mounted() {
-    this.fetchCategories({ by_store: this.$route.params.store_id })
+    this.fetchCategories({
+      by_store: this.$route.params.store_id,
+      meta: {
+        pagination: {
+          per_page: 1000,
+        },
+      },
+    })
       .then(response => {
         this.categories = response.data
       })
