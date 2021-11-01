@@ -3,7 +3,9 @@
 ## [1.0.0.1] - 2021-11-01
 - [FIX] la paginacion en las categorias del pos ahora es de per_page: 1000
 - [FIX] se campbio el orden del escaner de camara en el pos, ahora se despliega antes del buscador
-- [FIX] Paginación en store products
+- [FIX] Paginación en store products ya funciona y le agregue un margen par que se vea mejor
+- [FIX] Ya funciona ocultando las categorías
+- [FIX] El icono de la bascula en el pos solo le aparece s los productos que tienen is_weighted
 
 ## [1.0.0] - 2021-10-30 👑
 - [FIX] Se corrigio un problema con editar productos ( cuando se queria agrega inventario a uno que no tenia )
