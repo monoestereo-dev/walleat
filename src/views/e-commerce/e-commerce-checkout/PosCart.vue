@@ -12,8 +12,7 @@
             class="z-index-top"
             @toggle="toggleCameraScanner($event)"
           />
-          <!-- carrito 🛒 -->
-          <checkout-cart-products v-if="!settings.showCategories" />
+
         </b-col>
         <b-col
           v-if="isCameraScannerActive"
@@ -103,7 +102,6 @@
 
       </b-card>
       <div
-        v-if="settings.showCategories"
         class="checkout-items"
       >
         <checkout-cart-products

@@ -113,12 +113,13 @@
       </b-card>
     </div>
     <b-pagination
+      v-if="settings.showCategories"
       v-model="pagination.page"
       :total-rows="pagination.total_objects"
       :per-page="pagination.per_page"
       first-number
       last-number
-      class="mb-0 mt-1 mt-sm-0"
+      class="mb-0 mb-sm-4 mb-lg-0 mt-1 mt-sm-0"
       prev-class="prev-item"
       next-class="next-item"
       @change="(value)=>{handlePagination({ page: value, per_page: pagination.per_page })}"
