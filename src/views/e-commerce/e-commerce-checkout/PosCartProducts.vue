@@ -55,6 +55,7 @@
           </b-input-group-append>
         </b-input-group>
         <i
+          v-if="product.product_attributes.is_weighted"
           class="fas fa-weight fa-2x cursor-pointer"
           @click="weightProductAndSetUnits(product)"
         />
