@@ -6,7 +6,8 @@ const state = () => ({
     data: [],
     meta: {
       pagination: {
-        total_items: null,
+        page: 1,
+        total_items: 0,
       },
     },
   },
@@ -61,27 +62,15 @@ const actions = {
         context.commit('loading', false)
       })
   },
-  getStoreProductsStore( context, { by_store, by_category, per_page = 10, page = 1, by_name = null, by_sku = null } ) {
+  getStoreProductsStore( context, params = { by_sku: true } ) {
     return new Promise((resolve, reject) => {
       context.commit('loading', true)
       axios
         .get(`/v1/store_products`, {
-          params: {
-            by_name: by_name,
-            by_store: by_store,
-            by_sku: by_sku,
-            by_category: by_category,
-            meta: {
-              per_page: per_page,
-              pagination: {
-                page: page,
-                per_page: per_page,
-              },
-            },
-          },
+          params
         })
         .then((response) => {
-          if (!by_sku) {
+          if (!params.by_sku) {
             context.commit('setStoreProducts', response.data)
           }
           if (response.data.data[0]) {
